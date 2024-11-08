@@ -74,198 +74,74 @@ Leveraging the distinction between Level 1 and Level 2 perspective-taking <d-cit
 
 ---
 
-## Interactive Plots
+## Methods
 
-You can add interative plots using plotly + iframes :framed_picture:
+Our study utilized GPT-4o (“gpt-4o-2024-05-13” via OpenAI’s API) to conduct a series of perspective-taking experiments designed to capture the system's spatial reasoning abilities. The top_p parameter was set to 0.5 to restrict the model from choosing from the top 50% of words that could come next in its response.
+
+Our experimental design was inspired by previous studies that evaluated viewpoint dependence using targets like toy photographers [2] and avatars with blocks [12]. In our study, we used an avatar as a target and different stimuli, either cubes with numbers and letters or cubes and spheres, to investigate the influence of visual and spatial judgments on model performance. Each task consisted of 16 trial types, featuring images at 8 different angles (0°, 45°, 90°, 135°, 180°, 225°, 270°, 315°) with 2 response options for each task (e.g., cube in front or behind, 6/9 or M/W on the cube, and cube left or right). Examples of the stimuli are shown below.
+
+![Level 1: "IN FRONT" 45°](/../assets/img/infront_behind_ex.jpeg)
+![Level 2 Spatial: "RIGHT" 225°](/blog/assets/img/left_right_ex.jpeg)
+![Level 2 Visual: "6" 90°](/blog/assets/img/number_ex.jpeg)
+
+Ten iterations of each image were passed through the model to calculate the percentage of correct responses. The images were accompanied by the prompt below which varied slightly by task:
+
+“For the following images respond with (in front | left | 6 | M) or (behind | right | 9 | W) to indicate if the (number/letter on the) cube is (in front | to the left | a 6 | an M) or (behind | to the right | a 9 | a W) from the perspective of the person."
+
+
+---
+
+### Chain of Thought Prompting
+
+To further examine how language might be used to solve spatial tasks, we included chain-of-thought prompting to the Level 2 spatial task with the prompt:
+
+"Analyze this image step by step to determine if the cube is to the person's left or right, from the person's perspective. First, identify the direction the person is looking relative to the camera. Second, determine if the cube is to the left or right, relative to the camera. Third, if the person is facing the camera, then from their perspective, the cube is to the inverse of the camera's left or right. If the person is facing away from the camera, then the cube is on the same side as seen from the camera. Respond with whether the cube is to the person's left or right."
+
+
+---
+
+## Results
+
+### Level 1
+
+GPT-4o performed with near-perfect accuracy on 6 out of the 8 image angles (Figure 2). Its poor performance on 0° images is likely due to an accidental viewpoint where the avatar blocked one of the shapes. However, poor performance on 315° image types is less interpretable, especially in contrast to GPT-4o's impressive performance on 45° images, which have the same angular perspective.
 
 <div class="l-page">
-  <iframe src="{{ '/assets/plotly/demo.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px dashed grey;"></iframe>
+  <iframe src="{{ '/assets/plotly/infront_behind.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px dashed grey;"></iframe>
 </div>
 
-The plot must be generated separately and saved into an HTML file.
-To generate the plot that you see above, you can use the following code snippet:
+### Level 2 Spatial and Visual Judgments
 
-{% highlight python %}
-import pandas as pd
-import plotly.express as px
-df = pd.read_csv(
-'https://raw.githubusercontent.com/plotly/datasets/master/earthquakes-23k.csv'
-)
-fig = px.density_mapbox(
-df,
-lat='Latitude',
-lon='Longitude',
-z='Magnitude',
-radius=10,
-center=dict(lat=0, lon=180),
-zoom=0,
-mapbox_style="stamen-terrain",
-)
-fig.show()
-fig.write_html('assets/plotly/demo.html')
-{% endhighlight %}
+As previously mentioned, human response times increase on perspective-taking tasks as the angular difference between the target and observer increases <d-cite key="surtees2013similarities"></d-cite>. We administered the task to a small number of human participants—part of a larger, IRB-approved study—and replicated this effect with both our stimuli types, finding a bell-shaped curve in the relationship between response time and angle. Response times peaked when the target required a full mental rotation (180°), as seen in the green line in Figure 3. Error bars were calculated by taking the standard error of all trials from each participant. As expected, GPT-4o struggled with the task when mental rotation was involved, beginning around a 90° angular difference. Interestingly, in both tasks, GPT-4o exhibited a response bias toward either "left" or "6" or "W" when the angular difference of the avatar is 90° or 135° in either direction. This likely reflects uncertainty from an egocentric perspective, and thus, a default to one response over another.
 
----
-
-## Details boxes
-
-Details boxes are collapsible boxes which hide additional information from the user. They can be added with the `details` liquid tag:
-
-{% details Click here to know more %}
-Additional details, where math $$ 2x - 1 $$ and `code` is rendered correctly.
-{% enddetails %}
-
----
-
-## Layouts
-
-The main text column is referred to as the body.
-It is the assumed layout of any direct descendants of the `d-article` element.
-
-<div class="fake-img l-body">
-  <p>.l-body</p>
+<div class="l-page">
+  <div class="plotly-iframe-container">
+    <iframe src="{{ '/assets/plotly/left_right.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px dashed grey;"></iframe>
+  </div>
+  <div class="plotly-iframe-container">
+    <iframe src="{{ '/assets/plotly/9_6.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px dashed grey;"></iframe>
+  </div>
+  <div class="plotly-iframe-container">
+    <iframe src="{{ '/assets/plotly/M_W.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px dashed grey;"></iframe>
+  </div>
 </div>
 
-For images you want to display a little larger, try `.l-page`:
+### Chain of Thought
 
-<div class="fake-img l-page">
-  <p>.l-page</p>
-</div>
+GPT-4o performance significantly improved with chain-of-thought prompting on 180° stimuli (Figure 4). However, this linguistic strategy did not improve the model's ability to handle intermediate rotations between 90° and 180°. This suggests that while language can convey some level of spatial information, it lacks the precision required for human-level spatial cognition. This demonstration of surface-level perspective-taking abilities can partially explain how multimodal models achieve high performance on certain spatial benchmarks.
 
-All of these have an outset variant if you want to poke out from the body text a little bit.
-For instance:
-
-<div class="fake-img l-body-outset">
-  <p>.l-body-outset</p>
-</div>
-
-<div class="fake-img l-page-outset">
-  <p>.l-page-outset</p>
-</div>
-
-Occasionally you’ll want to use the full browser width.
-For this, use `.l-screen`.
-You can also inset the element a little from the edge of the browser by using the inset variant.
-
-<div class="fake-img l-screen">
-  <p>.l-screen</p>
-</div>
-<div class="fake-img l-screen-inset">
-  <p>.l-screen-inset</p>
-</div>
-
-The final layout is for marginalia, asides, and footnotes.
-It does not interrupt the normal flow of `.l-body` sized text except on mobile screen sizes.
-
-<div class="fake-img l-gutter">
-  <p>.l-gutter</p>
+<div class="l-page">
+  <iframe src="{{ '/assets/plotly/cot.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px dashed grey;"></iframe>
 </div>
 
 ---
 
-## Other Typography?
+## Conclusion
 
-Emphasis, aka italics, with _asterisks_ (`*asterisks*`) or _underscores_ (`_underscores_`).
+This study highlights the value of applying cognitive science techniques to explore AI capabilities in spatial cognition. Specifically, we investigated GPT-4o's perspective-taking abilities, finding it fails when there is a large difference between image-based and avatar-based perspectives. We developed a targeted set of three tasks to assess multimodal model performance on Level 1 and Level 2 perspective-taking, with spatial and visual judgments. While GPT-4o can do Level 1, an ability that aligns with the spatial reasoning abilities of a human infant or toddler, it fails on Level 2 tasks when mental rotation is required (i.e., the avatar's perspective is not aligned with image perspective). We further investigated if chain-of-thought prompting could elicit more spatial reasoning through language. Although this technique enabled GPT-4o to succeed on 180° tasks, it continued to fail at intermediate angles, underscoring its limitations in performing true mental rotation. 
 
-Strong emphasis, aka bold, with **asterisks** or **underscores**.
+While GPT-4o's performance decreases on tasks that humans typically solve using mental rotation, this does not necessarily indicate that GPT-4o struggles with or cannot perform mental rotation. Instead, it suggests that GPT-4o likely employs a fundamentally different strategy to approach these tasks. Rather than engaging in mental rotation, GPT-4o appears to rely primarily on image-based information processing. We found more support for this when testing an open prompt for Level 2 visual images that did not specify which letters or numbers to respond with. GPT-4o often responded with "E" and "0" for images around a 90° angular difference, where from the image view, an M/W would look like an E, and a 9/6 would look like a 0.
 
-Combined emphasis with **asterisks and _underscores_**.
+One might suggest that current multimodal models aren’t trained on the appropriate data to achieve the reasoning necessary for Level 2 perspective-taking. However, considering the developmental trajectory of humans, it becomes evident that this issue may not be solely data-related. Level 2 perspective-taking typically develops between the ages of 6 and 10 <d-cite key="frick2014picturing"></d-cite><d-cite key="frick2018measuring"></d-cite>, even after children have had exposure to extensive amounts of “data” through experience. This late development suggests that the challenge may be more computational than data-driven. Specifically, this ability likely relies on computations occurring outside of the visual and language networks, perhaps in areas responsible for cognitive processes like mental rotation or spatial transformation or even theory of mind <d-cite key="gunia2021brain"></d-cite><d-cite key="schurz2013common"></d-cite><d-cite key="surtees2013use"></d-cite><d-cite key="surtees2013similarities"></d-cite>. While the argument that better or more focused training data could improve model performance remains valid, it is also possible that entirely new computational strategies are needed to mirror the complex, integrative processes that enable Level 2 reasoning in humans.
 
-Strikethrough uses two tildes. ~~Scratch this.~~
-
-1. First ordered list item
-2. Another item
-   ⋅⋅\* Unordered sub-list.
-3. Actual numbers don't matter, just that it's a number
-   ⋅⋅1. Ordered sub-list
-4. And another item.
-
-⋅⋅⋅You can have properly indented paragraphs within list items. Notice the blank line above, and the leading spaces (at least one, but we'll use three here to also align the raw Markdown).
-
-⋅⋅⋅To have a line break without a paragraph, you will need to use two trailing spaces.⋅⋅
-⋅⋅⋅Note that this line is separate, but within the same paragraph.⋅⋅
-⋅⋅⋅(This is contrary to the typical GFM line break behaviour, where trailing spaces are not required.)
-
-- Unordered list can use asterisks
-
-* Or minuses
-
-- Or pluses
-
-[I'm an inline-style link](https://www.google.com)
-
-[I'm an inline-style link with title](https://www.google.com "Google's Homepage")
-
-[I'm a reference-style link][Arbitrary case-insensitive reference text]
-
-[You can use numbers for reference-style link definitions][1]
-
-Or leave it empty and use the [link text itself].
-
-URLs and URLs in angle brackets will automatically get turned into links.
-http://www.example.com or <http://www.example.com> and sometimes
-example.com (but not on Github, for example).
-
-Some text to show that the reference links can follow later.
-
-[arbitrary case-insensitive reference text]: https://www.mozilla.org
-[1]: http://slashdot.org
-[link text itself]: http://www.reddit.com
-
-Here's our logo (hover to see the title text):
-
-Inline-style:
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
-
-Reference-style:
-![alt text][logo]
-
-[logo]: https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 2"
-
-Inline `code` has `back-ticks around` it.
-
-```javascript
-var s = "JavaScript syntax highlighting";
-alert(s);
-```
-
-```python
-s = "Python syntax highlighting"
-print s
-```
-
-```
-No language indicated, so no syntax highlighting.
-But let's throw in a <b>tag</b>.
-```
-
-Colons can be used to align columns.
-
-| Tables        |      Are      |  Cool |
-| ------------- | :-----------: | ----: |
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      |   centered    |   $12 |
-| zebra stripes |   are neat    |    $1 |
-
-There must be at least 3 dashes separating each header cell.
-The outer pipes (|) are optional, and you don't need to make the
-raw Markdown line up prettily. You can also use inline Markdown.
-
-| Markdown | Less      | Pretty     |
-| -------- | --------- | ---------- |
-| _Still_  | `renders` | **nicely** |
-| 1        | 2         | 3          |
-
-> Blockquotes are very handy in email to emulate reply text.
-> This line is part of the same quote.
-
-Quote break.
-
-> This is a very long line that will still be quoted properly when it wraps. Oh boy let's keep writing to make sure this is long enough to actually wrap for everyone. Oh, you can _put_ **Markdown** into a blockquote.
-
-Here's a line for us to start with.
-
-This line is separated from the one above by two newlines, so it will be a _separate paragraph_.
-
-This line is also a separate paragraph, but...
-This line is only separated by a single newline, so it's a separate line in the _same paragraph_.
+This study demonstrates the potential of cognitive science methods to establish baselines for AI assessment. Using these well-established techniques, we achieve clear, interpretable measures that are less susceptible to bias. Additionally, these measures can be directly compared to human performance and developmental trajectories, providing a robust framework for understanding AI's strengths and weaknesses in relation to well-researched human cognitive processes.
