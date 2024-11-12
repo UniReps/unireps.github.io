@@ -65,7 +65,12 @@ A more specific cognitive process, mental rotation, where one imagines an object
 
 ### Limitations of Spatial Assessment in Current Multimodal AI
 
-Two primary limitations appear within AI spatial cognition literature: 1) linguistic reasoning can inflate performance on spatial benchmarks, and 2) benchmark scores can be hard to interpret when models perform poorly. For example, text-only GPT-4 achieves a score of 31.4, while multimodal GPT-4v achieves a score of 42.6 on the spatial understanding category of Meta's openEQA episodic memory task <d-cite key="majumdar2024openeqa"></d-cite>. The strong baseline score achieved by the text-only GPT-4 suggests that many "real-world" questions based on visual scenes can be deduced linguistically. Additionally, the limited improvement when moving from a blind LLM to a multimodal one suggests that vision models do not gain a significant understanding of space beyond what can be inferred through language.
+Two primary limitations appear within AI spatial cognition literature:
+
+1. Linguistic reasoning can inflate performance on spatial benchmarks
+2. Benchmark scores can be hard to interpret when models perform poorly
+
+For example, text-only GPT-4 achieves a score of 31.4, while multimodal GPT-4v achieves a score of 42.6 on the spatial understanding category of Meta's openEQA episodic memory task <d-cite key="majumdar2024openeqa"></d-cite>. The strong baseline score achieved by the text-only GPT-4 suggests that many "real-world" questions based on visual scenes can be deduced linguistically. Additionally, the limited improvement when moving from a blind LLM to a multimodal one suggests that vision models do not gain a significant understanding of space beyond what can be inferred through language.
 
 Additionally, BLINK <d-cite key="fu2024blink"></d-cite>, a benchmark more specifically focused on visual perception capabilities, contains categories related to spatial cognition, such as relative depth and multi-view reasoning. On this benchmark, GPT-4v achieved an accuracy of 51.26\%, only 13.17\% higher than random guessing and 44.44\% lower than human performance. When benchmarks are highly focused on visuospatial tasks, the significant shortcomings of multimodal models suggest that further advancements are needed before these models can reliably perform in real-world scenarios. Even within specific categories, it is often difficult to determine {\it why} models fail on certain tasks while succeeding on others, as these failures cannot be easily linked to the absence of a particular cognitive process.
 
@@ -85,8 +90,16 @@ Our study utilized GPT-4o (“gpt-4o-2024-05-13” via OpenAI’s API) to conduc
 
 Our experimental design was inspired by previous studies that evaluated viewpoint dependence using targets like toy photographers [2] and avatars with blocks [12]. In our study, we used an avatar as a target and different stimuli, either cubes with numbers and letters or cubes and spheres, to investigate the influence of visual and spatial judgments on model performance. Each task consisted of 16 trial types, featuring images at 8 different angles (0°, 45°, 90°, 135°, 180°, 225°, 270°, 315°) with 2 response options for each task (e.g., cube in front or behind, 6/9 or M/W on the cube, and cube left or right). Examples of the stimuli are shown below.
 
+| Image                                                           | Description            |
+| --------------------------------------------------------------- | ---------------------- |
+| ![Level 1: "IN FRONT" 45°](/assets/img/infront_behind_ex.jpg)   | Description of Image 1 |
+| ![Level 2 Spatial: "RIGHT" 225°](/assets/img/left_right_ex.jpg) | Description of Image 2 |
+| ![Level 2 Visual: "6" 90°](/assets/img/number_ex.jpg)           | Description of Image 3 |
+
 ![Level 1: "IN FRONT" 45°](/assets/img/infront_behind_ex.jpeg)
+
 ![Level 2 Spatial: "RIGHT" 225°](/assets/img/left_right_ex.jpeg)
+
 ![Level 2 Visual: "6" 90°](/assets/img/number_ex.jpeg)
 
 Ten iterations of each image were passed through the model to calculate the percentage of correct responses. The images were accompanied by the prompt below which varied slightly by task:
@@ -109,32 +122,24 @@ To further examine how language might be used to solve spatial tasks, we include
 
 GPT-4o performed with near-perfect accuracy on 6 out of the 8 image angles (Figure 2). Its poor performance on 0° images is likely due to an accidental viewpoint where the avatar blocked one of the shapes. However, poor performance on 315° image types is less interpretable, especially in contrast to GPT-4o's impressive performance on 45° images, which have the same angular perspective.
 
-<div class="l-page">
-  <iframe src="{{ '/assets/plotly/infront_behind.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px dashed grey;"></iframe>
+<div class="l-body-outlet">
+  <iframe src="{{ '/assets/plotly/infront_behind.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%"></iframe>
 </div>
 
 ### Level 2 Spatial and Visual Judgments
 
 As previously mentioned, human response times increase on perspective-taking tasks as the angular difference between the target and observer increases <d-cite key="surtees2013similarities"></d-cite>. We administered the task to a small number of human participants—part of a larger, IRB-approved study—and replicated this effect with both our stimuli types, finding a bell-shaped curve in the relationship between response time and angle. Response times peaked when the target required a full mental rotation (180°), as seen in the green line in Figure 3. Error bars were calculated by taking the standard error of all trials from each participant. As expected, GPT-4o struggled with the task when mental rotation was involved, beginning around a 90° angular difference. Interestingly, in both tasks, GPT-4o exhibited a response bias toward either "left" or "6" or "W" when the angular difference of the avatar is 90° or 135° in either direction. This likely reflects uncertainty from an egocentric perspective, and thus, a default to one response over another.
 
-<div class="l-page">
-  <div class="plotly-iframe-container">
-    <iframe src="{{ '/assets/plotly/left_right.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px dashed grey;"></iframe>
-  </div>
-  <div class="plotly-iframe-container">
-    <iframe src="{{ '/assets/plotly/9_6.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px dashed grey;"></iframe>
-  </div>
-  <div class="plotly-iframe-container">
-    <iframe src="{{ '/assets/plotly/M_W.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px dashed grey;"></iframe>
-  </div>
+<div class="l-page-outlet">
+  <iframe src="{{ '/assets/plotly/subplots.html' | relative_url }}" frameborder='0' scrolling='no' height="550px" width="100%"></iframe>
 </div>
 
 ### Chain of Thought
 
 GPT-4o performance significantly improved with chain-of-thought prompting on 180° stimuli (Figure 4). However, this linguistic strategy did not improve the model's ability to handle intermediate rotations between 90° and 180°. This suggests that while language can convey some level of spatial information, it lacks the precision required for human-level spatial cognition. This demonstration of surface-level perspective-taking abilities can partially explain how multimodal models achieve high performance on certain spatial benchmarks.
 
-<div class="l-page">
-  <iframe src="{{ '/assets/plotly/cot.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px dashed grey;"></iframe>
+<div class="l-body-outset">
+  <iframe src="{{ '/assets/plotly/cot.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%"></iframe>
 </div>
 
 ---
