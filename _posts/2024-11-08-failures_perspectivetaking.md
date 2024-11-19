@@ -32,7 +32,7 @@ bibliography: 2024-11-08-failures_perspectivetaking.bib
 toc:
   - name: Introduction
     subsections:
-      - name: Defintions & Terminology
+      - name: Definitions and Terminology
       - name: Creating a New Benchmark
   - name: Methods
     subsections:
@@ -45,7 +45,7 @@ toc:
   - name: Conclusion
 ---
 
-Listen to the AI-generated podcast based on our preprint or check out the benchmark paper and GitHub:
+Listen to the AI-generated podcast based on our preprint or check out the benchmark paper and project GitHub:
 
 <div style="display: flex; align-items: center;">
   <audio controls style="margin-right: 50px; display: inline-block;">
@@ -61,6 +61,11 @@ Listen to the AI-generated podcast based on our preprint or check out the benchm
 </div
 >
 
+<audio controls>
+  <source src="/assets/audio/podcast.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
 ## Introduction
 
 In recent AI research, a large spotlight has appeared on current model's inability to do spatial reasoning tasks. Despite their robust visual perception skills, understanding space and making inferences about it seems completely lacking. Although this past research has examined spatial cognition, it lacks the specificity found in human spatial cognition studies where processes are broken down into sub-components for more precise measurement and interpretation. In cognitive psychology, established tasks have already been controlled to isolate specific variables, reducing bias and alternative strategies for task performance. In an effort to merge the fields of neuroscience and artificial intelligence, we sought to investigate a cornerstone of human spatial reasoning, visual perspective-taking.
@@ -71,7 +76,7 @@ By applying established methods, we can evaluate AI spatial cognition more rigor
 
 Our goal was to design a specific perspective-taking benchmark for multimodal AI systems, querying different levels and aspects of the cognitive process.
 
-### Definitions & Terminology
+### Definitions and Terminology
 
 - **Level 1 Perspective-taking** refers to knowing that a person may be able to see something another person does not
 
@@ -138,7 +143,7 @@ To further examine how language might be used to solve spatial tasks, we include
 
 ### Level 1
 
-GPT-4o performed with near-perfect accuracy on 6 out of the 8 image angles (Figure 2). Its poor performance on 0° images is likely due to an accidental viewpoint where the avatar blocked one of the shapes. However, poor performance on 315° image types is less interpretable, especially in contrast to GPT-4o's impressive performance on 45° images, which have the same angular perspective.
+GPT-4o performed with near-perfect accuracy on 6 out of the 8 image angles as seen below. Its poor performance on 0° images is likely due to an accidental viewpoint where the avatar blocked one of the shapes. However, poor performance on 315° image types is less interpretable, especially in contrast to GPT-4o's impressive performance on 45° images, which have the same angular perspective.
 
 <div class="l-body">
   <iframe src="{{ '/assets/plotly/infront_behind.html' | relative_url }}" frameborder='0' scrolling='no' height="450px" width="100%"></iframe>
@@ -146,7 +151,7 @@ GPT-4o performed with near-perfect accuracy on 6 out of the 8 image angles (Figu
 
 ### Level 2 Spatial and Visual Judgments
 
-As previously mentioned, human response times increase on perspective-taking tasks as the angular difference between the target and observer increases <d-cite key="surtees2013similarities"></d-cite>. We administered the task to a small number of human participants—part of a larger, IRB-approved study—and replicated this effect with both our stimuli types, finding a bell-shaped curve in the relationship between response time and angle. Response times peaked when the target required a full mental rotation (180°), as seen in the green line in Figure 3. Error bars were calculated by taking the standard error of all trials from each participant. As expected, GPT-4o struggled with the task when mental rotation was involved, beginning around a 90° angular difference. Interestingly, in both tasks, GPT-4o exhibited a response bias toward either "left" or "6" or "W" when the angular difference of the avatar is 90° or 135° in either direction. This likely reflects uncertainty from an egocentric perspective, and thus, a default to one response over another.
+As previously mentioned, human response times increase on perspective-taking tasks as the angular difference between the target and observer increases <d-cite key="surtees2013similarities"></d-cite>. We administered the task to a small number of human participants and replicated this effect with both our stimuli types, finding a bell-shaped curve in the relationship between response time and angle. Response times peaked when the target required a full mental rotation (180°), as seen in the green line in the figure below. As expected, GPT-4o struggled with the task when mental rotation was involved, beginning around a 90° angular difference. Interestingly, in both tasks, GPT-4o exhibited a response bias toward either "left" or "6" or "W" when the angular difference of the avatar is 90° or 135° in either direction. This likely reflects uncertainty from an egocentric perspective, and thus, a default to one response over another.
 
 <div class="l-page-outset">
   <iframe src="{{ '/assets/plotly/subplots.html' | relative_url }}" frameborder='0' scrolling='no' height="550px" width="100%"></iframe>
@@ -154,7 +159,7 @@ As previously mentioned, human response times increase on perspective-taking tas
 
 ### Chain of Thought
 
-GPT-4o performance significantly improved with chain-of-thought prompting on 180° stimuli (Figure 4). However, this linguistic strategy did not improve the model's ability to handle intermediate rotations between 90° and 180°. This suggests that while language can convey some level of spatial information, it lacks the precision required for human-level spatial cognition. This demonstration of surface-level perspective-taking abilities can partially explain how multimodal models achieve high performance on certain spatial benchmarks.
+GPT-4o performance significantly improved with chain-of-thought prompting on 180° stimuli. However, this linguistic strategy did not improve the model's ability to handle intermediate rotations between 90° and 180°. This suggests that while language can convey some level of spatial information, it lacks the precision required for human-level spatial cognition. This demonstration of surface-level perspective-taking abilities can partially explain how multimodal models achieve high performance on certain spatial benchmarks.
 
 <div class="l-body">
   <iframe src="{{ '/assets/plotly/cot.html' | relative_url }}" frameborder='0' scrolling='no' height="450px" width="100%"></iframe>
@@ -164,10 +169,22 @@ GPT-4o performance significantly improved with chain-of-thought prompting on 180
 
 ## Conclusion
 
-This study highlights the value of applying cognitive science techniques to explore AI capabilities in spatial cognition. Specifically, we investigated GPT-4o's perspective-taking abilities, finding it fails when there is a large difference between image-based and avatar-based perspectives. We developed a targeted set of three tasks to assess multimodal model performance on Level 1 and Level 2 perspective-taking, with spatial and visual judgments. While GPT-4o can do Level 1, an ability that aligns with the spatial reasoning abilities of a human infant or toddler, it fails on Level 2 tasks when mental rotation is required (i.e., the avatar's perspective is not aligned with image perspective). We further investigated if chain-of-thought prompting could elicit more spatial reasoning through language. Although this technique enabled GPT-4o to succeed on 180° tasks, it continued to fail at intermediate angles, underscoring its limitations in performing true mental rotation.
+With this project, we highlight the value of applying cognitive science techniques to explore AI capabilities in spatial cognition.
+
+1. We investigated GPT-4o's perspective-taking abilities, finding it fails when there is a large difference between image-based and avatar-based perspectives
+
+2. We developed a targeted set of three tasks to assess multimodal model performance on Level 1 and Level 2 perspective-taking, with spatial and visual judgments
+
+   - GPT-4o can do Level 1, aligning with the spatial reasoning abilities of a human infant/toddler
+
+   - GPT-4o fails on Level 2 tasks when mental rotation is required—the avatar's perspective is not aligned with image perspective
+
+3. We investigated if chain-of-thought prompting could elicit more spatial reasoning through language
+
+   - This enabled GPT-4o to succeed on 180° tasks, but it continued to fail at intermediate angles, underscoring its limitations in performing true mental rotation
 
 While GPT-4o's performance decreases on tasks that humans typically solve using mental rotation, this does not necessarily indicate that GPT-4o struggles with or cannot perform mental rotation. Instead, it suggests that GPT-4o likely employs a fundamentally different strategy to approach these tasks. Rather than engaging in mental rotation, GPT-4o appears to rely primarily on image-based information processing. We found more support for this when testing an open prompt for Level 2 visual images that did not specify which letters or numbers to respond with. GPT-4o often responded with "E" and "0" for images around a 90° angular difference, where from the image view, an M/W would look like an E, and a 9/6 would look like a 0.
 
-One might suggest that current multimodal models aren’t trained on the appropriate data to achieve the reasoning necessary for Level 2 perspective-taking. However, considering the developmental trajectory of humans, it becomes evident that this issue may not be solely data-related. Level 2 perspective-taking typically develops between the ages of 6 and 10 <d-cite key="frick2014picturing"></d-cite><d-cite key="frick2018measuring"></d-cite>, even after children have had exposure to extensive amounts of “data” through experience. This late development suggests that the challenge may be more computational than data-driven. Specifically, this ability likely relies on computations occurring outside of the visual and language networks, perhaps in areas responsible for cognitive processes like mental rotation or spatial transformation or even theory of mind <d-cite key="gunia2021brain"></d-cite><d-cite key="schurz2013common"></d-cite><d-cite key="surtees2013use"></d-cite><d-cite key="surtees2013similarities"></d-cite>. While the argument that better or more focused training data could improve model performance remains valid, it is also possible that entirely new computational strategies are needed to mirror the complex, integrative processes that enable Level 2 reasoning in humans.
+It could be that current multimodal models aren’t trained on the appropriate data to achieve the reasoning necessary for Level 2 perspective-taking. However, considering the developmental trajectory of humans, it becomes evident that this issue may not be solely data-related. Level 2 perspective-taking typically develops between the ages of 6 and 10 <d-cite key="frick2014picturing"></d-cite><d-cite key="frick2018measuring"></d-cite>, even after children have had exposure to extensive amounts of “data” through experience. This late development suggests that the challenge may be more computational than data-driven. Specifically, this ability likely relies on computations occurring outside of the visual and language networks, perhaps in areas responsible for cognitive processes like mental rotation or spatial transformation or even theory of mind <d-cite key="gunia2021brain"></d-cite><d-cite key="schurz2013common"></d-cite><d-cite key="surtees2013use"></d-cite><d-cite key="surtees2013similarities"></d-cite>. While the argument that better or more focused training data could improve model performance remains valid, it is possible that entirely new computational strategies are needed to mirror the complex, integrative processes that enable Level 2 reasoning in humans.
 
-This study demonstrates the potential of cognitive science methods to establish baselines for AI assessment. Using these well-established techniques, we achieve clear, interpretable measures that are less susceptible to bias. Additionally, these measures can be directly compared to human performance and developmental trajectories, providing a robust framework for understanding AI's strengths and weaknesses in relation to well-researched human cognitive processes.
+This project demonstrates the potential of cognitive science methods to establish baselines for AI assessment. Using these well-established techniques, we achieve clear, interpretable measures that are less susceptible to bias. Additionally, these measures can be directly compared to human performance and developmental trajectories, providing a robust framework for understanding AI's strengths and weaknesses in relation to well-researched human cognitive processes.
