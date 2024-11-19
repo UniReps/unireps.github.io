@@ -47,12 +47,13 @@ toc:
 
 Listen to the AI-generated podcast based on our preprint or check out the benchmark paper and project GitHub:
 
+<audio controls preload="auto">
+  <source src="/assets/audio/podcast.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
 <div style="display: flex; align-items: center;">
-  <audio controls style="margin-right: 50px; display: inline-block;">
-      <source src="/assets/audio/podcast.mp3" type="audio/mpeg">
-      Your browser does not support the audio element.
-  </audio>
-  <a href="https://github.com/bridgetleonard2/perspectiveTaking" style="margin-right: 60px; display: inline-block;">
+  <a href="https://github.com/bridgetleonard2/perspectiveTaking" style="margin-left: 70px; margin-right: 80px; display: inline-block;">
     <img src="/assets/img/github-mark.png" alt="GitHub" class="logo" width="40" />
   </a>
   <a href="https://arxiv.org/abs/2409.13929" style="display: inline-block;">
@@ -60,12 +61,6 @@ Listen to the AI-generated podcast based on our preprint or check out the benchm
   </a>
 </div
 >
-
-<audio controls>
-  <source src="/assets/audio/podcast.mp3" type="audio/mpeg">
-  Your browser does not support the audio element.
-</audio>
-
 ## Introduction
 
 In recent AI research, a large spotlight has appeared on current model's inability to do spatial reasoning tasks. Despite their robust visual perception skills, understanding space and making inferences about it seems completely lacking. Although this past research has examined spatial cognition, it lacks the specificity found in human spatial cognition studies where processes are broken down into sub-components for more precise measurement and interpretation. In cognitive psychology, established tasks have already been controlled to isolate specific variables, reducing bias and alternative strategies for task performance. In an effort to merge the fields of neuroscience and artificial intelligence, we sought to investigate a cornerstone of human spatial reasoning, visual perspective-taking.
