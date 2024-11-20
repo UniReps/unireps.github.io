@@ -61,7 +61,7 @@ Properly mapping out Patient Journeys in an healthcare system involves the analy
 
 ---
 
-## Case Study: Non-Small Cell Lung Cancer Dataset
+## Case Study: Lung Cancer Dataset
 
 Citations are then used in the article body with the `<d-cite>` tag.
 The key attribute is a reference to the id provided in the bibliography.
@@ -79,6 +79,17 @@ However, we consider it good style to mention author last names if you discuss s
 
 Just wrap the text you would like to show up in a footnote in a `<d-footnote>` tag.
 The number of the footnote will be automatically generated.<d-footnote>This will become a hoverable footnote.</d-footnote>
+Our  method transforms raw patient data into informative embeddings that capture the  relationships between treatments, diagnostic events, genomic sequencing, and patient responses. The first step in our methodology involves extracting data into a structured format that includes event type, event description, and event date. The event type categorizes whether the event is therapeutic (e.g., drug treatment), diagnostic, or pertains to a change in the patient's condition. The event description provides detailed information about the event, such as drug names and dosages or a textual description of the diagnosis. The event date is used to chronologically order these events.
+Using the event date, the events are organized into a series of Directed Acyclic Graphs (DAGs) for each patient, representing the sequence of discrete events they encounter. Each unique DAG is referred to as the "patient journey." These patient journeys often include repetitive event sequences, particularly for diagnostic purposes (e.g., consecutive "Condition" or "Panel" events), which can introduce noise into the data. To mitigate this noise, we employ an iterative filtering strategy:
+Identify Earliest Event 
+For each patient, identify the earliest recorded event or treatment date.
+Normalize Event Times
+Compute the treatment day for each event by calculating the difference between the event date and the earliest event date. This normalizes all event times to a relative day count starting from the first treatment.
+Aggregate Daily Events
+For each treatment day, aggregate the drugs administered into a summary string. This concatenates the drugs administered on a given day into a single record.
+Sort Events:
+Ensure the data is sorted by patient and event time to maintain a chronological order of treatments.
+
 
 ---
 
@@ -112,8 +123,14 @@ return x \* x;
 
 You can add interative plots using plotly + iframes :framed_picture:
 
-<div class="l-page">
+<!-- <div class="l-page">
   <iframe src="{{ '/assets/plotly/demo.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px dashed grey;"></iframe>
+</div> -->
+<div class="l-page">
+  <iframe src="{{ '/assets/plotly/diagnostic.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px dashed grey;"></iframe>
+</div>
+<div class="l-page">
+  <iframe src="{{ '/assets/plotly/treatment.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px dashed grey;"></iframe>
 </div>
 
 The plot must be generated separately and saved into an HTML file.
