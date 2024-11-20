@@ -45,7 +45,7 @@ toc:
   - name: Conclusion
 ---
 
-Listen to the AI-generated podcast based on our preprint or check out the benchmark paper and project GitHub:
+Listen to the AI-generated podcast based on our preprint or check out the benchmark paper and project on GitHub:
 
 <audio controls preload="auto">
   <source src="/assets/audio/podcast.mp3" type="audio/mpeg">
