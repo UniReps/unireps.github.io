@@ -31,6 +31,7 @@ toc:
     #   - name: Example Child Subsection 2
   - name: "Case Study: Lung Cancer Dataset"
   - name: Representation and Embeddings
+  - name: Goals of Analyzing Patient Journeys
   - name: Clustering
   - name: Results
   - name: Federated Patient Journey
