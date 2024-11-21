@@ -29,10 +29,10 @@ toc:
     # subsections:
     #   - name: Example Child Subsection 1
     #   - name: Example Child Subsection 2
-  - name: "Case Study: Lung Cancer Dataset"
   - name: Representation and Embeddings
   - name: Goals of Analyzing Patient Journeys
   - name: Clustering
+  - name: "Case Study: Non-Small Cell Lung Cancer Dataset"
   - name: Results
   - name: Federated Patient Journey
   - name: Conclusion
@@ -59,6 +59,40 @@ _styles: >
 
 Properly mapping out Patient Journeys in an healthcare system involves the analysis of both structured and unstructured dataset. In addition, this data is time-series in nature, making it difficult to apply standard clustering and prediction algorithms. This work explores a novel approach in mapping out Patient Journeys by combining Large Language Model (LLM) embeddings, K-Means clustering, and LLM based summarization. Embeddings are used to encode and project timeseries treatment regimes into a constant dimension vector, allowing K-Means to group journeys with similar patterns. Subsequently, an LLM summarizes the characteristics of each patient journey cluster, providing explainations on why patients are grouped together.  For instance, identifying clusters of patients with high readmission rates can help proactively address underlying issues. The resulting understanding of patient experiences can inform the development of targeted interventions and improve healthcare delivery.
 
+---
+
+## Representation and Embeddings
+
+Our  method transforms raw patient data into informative embeddings that capture the  relationships between treatments, diagnostic events, genomic sequencing, and patient responses. The first step in our methodology involves extracting data into a structured format that includes event type, event description, and event date. The event type categorizes whether the event is therapeutic (e.g., drug treatment), diagnostic, or pertains to a change in the patient's condition. The event description provides detailed information about the event, such as drug names and dosages or a textual description of the diagnosis. The event date is used to chronologically order these events.
+
+
+For each patient $$i$$, let the set of event times be $$ {t_1, t_2, \dots, t_n} $$. The first event time $$t_{\text{min}} $$ is calculated as:
+
+$$ t_{\text{min}}^i = \min(t_1, t_2, \dots, t_n) $$
+
+This gives the earliest recorded event or treatment date for each patient indexed by $$ i $$. For each event $$ t_j $$ compute the treatment day as the difference between the event time and the first event date:
+
+$$\text{treatment day}^i_j = t_j - t_{\text{min}}^i$$
+
+This normalizes all event times to a relative day count starting from the first treatment. Then for each treatment day the drugs administered are aggregated into a summary string:
+
+$$\text{summary}^i_j = \text{join(drugs administered on day } t_j)$$
+
+This concatenates the drugs administered on a given day into a single record. The data is sorted by patient and event time to ensure a chronological order of treatments:
+
+$$\text{sorted}(t_j^i, \text{ treatment day}^i_j)$$
+
+---
+
+## Clustering
+
+Once we've transformed our patient journeys into numerical representations, we can analyze them using clustering techniques to categorize patients and discover patterns within the data. For this post we will focus on the K-Means algorithm using $$L2$$ distance. K-Means clustering, which aims to partition the data into $$k$$ clusters. The objective is to minimize the within-cluster sum of squares (WCSS):
+
+$$
+\underset{S_1, ..., S_k}{\min} \sum_{i=1}^k \sum_{x \in S_i} ||x - \mu_i||^2
+$$
+
+where $$S_i$$ is the i-th cluster, $$μ_i$$ is the mean (centroid) of $$S_i$$, and ∣∣⋅∣∣. K-Means iteratively assigns data points to the nearest cluster centroid and then recalculates the centroids. This process continues until convergence or a maximum number of iterations is reached.
 
 ---
 
@@ -75,99 +109,6 @@ Distill chose a numerical inline citation style to improve readability of citati
 However, we consider it good style to mention author last names if you discuss something at length and it fits into the flow well — the authors are human and it’s nice for them to have the community associate them with their work.
 
 ---
-
-## Goals of Analyzing Patient Journeys
-
-### 1. Identifying Treatment Patterns  
-- By studying patient journeys, researchers can uncover emerging patterns in treatment responses.  
-- **Key outcomes include:**
-  - Understanding which treatments work best for specific cancer types or patient subgroups.
-  - Determining the optimal sequence of treatment administration to maximize efficacy.
-
-### 2. Assessing Treatment Efficacy  
-- Longitudinal data allows for evaluating the effectiveness of treatments over time.  
-- **Crucial benefits include:**
-  - Understanding long-term treatment outcomes.  
-  - Identifying potential late-onset side effects.
-
-### 3. Uncovering Patient Response Variability  
-- Cancer treatments are personalized, with significant variability in patient responses.  
-- **Insights gained:**
-  - Factors influencing variability, such as **genetic markers**, **comorbidities**, or **socio-demographic factors**.  
-  - Knowledge to develop more tailored treatment plans.
-
-### 4. Improving Clinical Decision-Making  
-- Patient journey data provides a detailed map for clinicians.  
-- **Applications include:**
-  - Comparing current patient data with historical records to predict outcomes.  
-  - Adjusting treatment plans based on predicted trajectories.
-
-### 5. Facilitating Clinical Research  
-- Patient journeys are critical in the context of clinical trials.  
-- **Use cases:**
-  - Identifying eligible patients for trials.  
-  - Tracking participant progress during trials.  
-  - Analyzing trial data to derive meaningful conclusions.
-
----
-## Representation and Embeddings
-
-
-Our  method transforms raw patient data into informative embeddings that capture the  relationships between treatments, diagnostic events, genomic sequencing, and patient responses. The first step in our methodology involves extracting data into a structured format that includes event type, event description, and event date. The event type categorizes whether the event is therapeutic (e.g., drug treatment), diagnostic, or pertains to a change in the patient's condition. The event description provides detailed information about the event, such as drug names and dosages or a textual description of the diagnosis. The event date is used to chronologically order these events.
-Using the event date, the events are organized into a series of Directed Acyclic Graphs (DAGs) for each patient, representing the sequence of discrete events they encounter. Each unique DAG is referred to as the "patient journey." These patient journeys often include repetitive event sequences, particularly for diagnostic purposes (e.g., consecutive "Condition" or "Panel" events), which can introduce noise into the data. To mitigate this noise, we employ an iterative filtering strategy:
-### 1.Cleaning Event Description
-Event descriptions are tokenized and standardized  for non-medication events replacing irrelevant terms with a curated set of common terms.
-### 2.Identify Earliest Event 
-For each patient, identify the earliest recorded event or treatment date.
-### 3.Normalize Event Times
-Compute the treatment day for each event by calculating the difference between the event date and the earliest event date. This normalizes all event times to a relative day count starting from the first treatment.
-### 4.Aggregate Daily Events
-For each treatment day, aggregate the drugs administered into a summary string. This concatenates the drugs administered on a given day into a single record.
-### 5.Sort Events:
-Ensure the data is sorted by patient and event time to maintain a chronological order of treatments.
-
-Next, a text string representation of each patient's journey is generated. The summary for each patient includes:
--The treatment day.
--The drugs taken on that day.
--The diagnosis on that day.
--The diagnostic panel on that day.
-These text strings can then be sent as input into a Large Language Model (LLM) to create a set of embeddings which can be used as a numerical representation for further analysis. These embeddings capture the semantic and syntactic nuances of the patient's journey, allowing us to compare and analyze different patient experiences.
-Once generated, these embeddings are stored in a vector database, enabling efficient retrieval and similarity search. By clustering these embeddings, we can identify groups of patients with similar treatment trajectories, allowing for deeper insights into treatment effectiveness and potential side effects. This approach enables us to uncover hidden patterns and trends that may not be apparent through traditional data analysis methods.
-
-
----
-
-## Clustering
- 
-This approach leverages pre-generated patient journey embeddings. These embeddings are numerical representations that capture the semantic relationships between words and events within a patient’s journey.The choice of embedding technique depends on the specific data structure (e.g., individual events vs. entire journey) and desired level of granularity. The K-Means algorithm uses a distance metric to determine the closest cluster centroid for each data point. Here, we performed Euclidean distance between two data points (embeddings) in the multidimensional space they occupy. The x-coordinate and y-coordinate represent the 2D projections of higher dimensional data, created by the t-SNE algorithm.Each dot corresponds to a specific patient’s data point. Patients are grouped based on similarities, which could be useful for further analysis like treatment effects, side effects, or disease progression.
-
-Syntax highlighting is provided within `<d-code>` tags.
-An example of inline code snippets: `<d-code language="html">let x = 10;</d-code>`.
-For larger blocks of code, add a `block` attribute:
-
-<d-code block language="javascript">
-  var x = 25;
-  function(x) {
-    return x * x;
-  }
-</d-code>
-
-**❗️ Note:** `<d-code>` blocks do not look good in the dark mode. ❗️
-
-You can always use the default code-highlight using the `highlight` liquid tag:
-
-{% highlight javascript %}
-var x = 25;
-function(x) {
-return x \* x;
-}
-{% endhighlight %}
-
----
-## Metrics
- Mutual Information Classification: We used a mutual information method to calculate the importance of each feature in separating data points into clusters. 
-Cluster Quality Evaluation: Sum of Squared Errors (SSE): This metric SSE = σ∥x i − c j∥2 measures the total squared Euclidean distance between each data point and its assigned cluster centroid c j. 
-Overall, this analysis combines feature importance with cluster quality metrics to evaluate the effectiveness of K-means clustering. 
 
 ## Results
 
