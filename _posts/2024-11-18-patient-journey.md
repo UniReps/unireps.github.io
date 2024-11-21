@@ -30,7 +30,6 @@ toc:
     #   - name: Example Child Subsection 1
     #   - name: Example Child Subsection 2
   - name: Representation and Embeddings
-  - name: Goals of Analyzing Patient Journeys
   - name: Clustering
   - name: "Case Study:  Lung Cancer Dataset"
   - name: Results
@@ -56,7 +55,9 @@ _styles: >
 
 ---
 
-Properly mapping out Patient Journeys in an healthcare system involves the analysis of both structured and unstructured dataset. In addition, this data is time-series in nature, making it difficult to apply standard clustering and prediction algorithms. This work explores a novel approach in mapping out Patient Journeys by combining Large Language Model (LLM) embeddings, K-Means clustering, and LLM based summarization. Embeddings are used to encode and project timeseries treatment regimes into a constant dimension vector, allowing K-Means to group journeys with similar patterns. Subsequently, an LLM summarizes the characteristics of each patient journey cluster, providing explainations on why patients are grouped together.  For instance, identifying clusters of patients with high readmission rates can help proactively address underlying issues. The resulting understanding of patient experiences can inform the development of targeted interventions and improve healthcare delivery.
+Properly mapping out Patient Journeys in an healthcare system involves the analysis of both structured and unstructured dataset.  Longitudinal data allows for evaluating the effectiveness of treatments over time. In addition, this data is time-series in nature, making it difficult to apply standard clustering and prediction algorithms. This work explores a novel approach in mapping out Patient Journeys by combining Large Language Model (LLM) embeddings, K-Means clustering, and LLM based summarization. Embeddings are used to encode and project timeseries treatment regimes into a constant dimension vector, allowing K-Means to group journeys with similar patterns. Subsequently, an LLM summarizes the characteristics of each patient journey cluster, providing explainations on why patients are grouped together.  For instance, identifying clusters of patients with high readmission rates can help proactively address underlying issues. The resulting understanding of patient experiences can inform the development of targeted interventions and improve healthcare delivery.
+Patient Journey helps in uncovering patient response variability, factors influencing variability, such as genetic markers, comorbidities, or socio-demographic factors.
+These journeys are critical in the context of clinical trials for identifying eligible patients for trials and tracking participant progress during trials.
 
 ---
 
@@ -96,45 +97,6 @@ $$
 where $$S_i$$ is the i-th cluster, $$μ_i$$ is the mean (centroid) of $$S_i$$, and ∣∣⋅∣∣. K-Means iteratively assigns data points to the nearest cluster centroid and then recalculates the centroids. This process continues until convergence or a maximum number of iterations is reached.
 
 ---
-
-
-## Goals of Analyzing Patient Journeys
-
-### 1. Identifying Treatment Patterns  
-- By studying patient journeys, researchers can uncover emerging patterns in treatment responses.  
-- **Key outcomes include:**
-  - Understanding which treatments work best for specific cancer types or patient subgroups.
-  - Determining the optimal sequence of treatment administration to maximize efficacy.
-
-### 2. Assessing Treatment Efficacy  
-- Longitudinal data allows for evaluating the effectiveness of treatments over time.  
-- **Crucial benefits include:**
-  - Understanding long-term treatment outcomes.  
-  - Identifying potential late-onset side effects.
-
-### 3. Uncovering Patient Response Variability  
-- Cancer treatments are personalized, with significant variability in patient responses.  
-- **Insights gained:**
-  - Factors influencing variability, such as **genetic markers**, **comorbidities**, or **socio-demographic factors**.  
-  - Knowledge to develop more tailored treatment plans.
-
-### 4. Improving Clinical Decision-Making  
-- Patient journey data provides a detailed map for clinicians.  
-- **Applications include:**
-  - Comparing current patient data with historical records to predict outcomes.  
-  - Adjusting treatment plans based on predicted trajectories.
-
-### 5. Facilitating Clinical Research  
-- Patient journeys are critical in the context of clinical trials.  
-- **Use cases:**
-  - Identifying eligible patients for trials.  
-  - Tracking participant progress during trials.  
-  - Analyzing trial data to derive meaningful conclusions.
-
----
-
-
-
 
 ## Case Study: Lung Cancer Dataset
 
