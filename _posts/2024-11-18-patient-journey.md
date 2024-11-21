@@ -34,7 +34,6 @@ toc:
   - name: Clustering
   - name: "Case Study:  Lung Cancer Dataset"
   - name: Results
-  - name: Federated Patient Journey
   - name: Conclusion
 
 # Below is an example of injecting additional post-specific styles.
@@ -187,16 +186,6 @@ mapbox_style="stamen-terrain",
 fig.show()
 fig.write_html('assets/plotly/demo.html')
 {% endhighlight %}
-
----
-
-## Federated Patient Journey
-
-Details boxes are collapsible boxes which hide additional information from the user. They can be added with the `details` liquid tag:
-
-{% details Click here to know more %}
-Additional details, where math $$ 2x - 1 $$ and `code` is rendered correctly.
-{% enddetails %}
 
 ---
 
