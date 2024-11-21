@@ -29,7 +29,7 @@ toc:
     # subsections:
     #   - name: Example Child Subsection 1
     #   - name: Example Child Subsection 2
-  - name: "Case Study: Non-Small Cell Lung Cancer Dataset"
+  - name: "Case Study: Lung Cancer Dataset"
   - name: Representation and Embeddings
   - name: Clustering
   - name: Results
@@ -75,20 +75,56 @@ However, we consider it good style to mention author last names if you discuss s
 
 ---
 
+## Goals of Analyzing Patient Journeys
+
+### 1. Identifying Treatment Patterns  
+- By studying patient journeys, researchers can uncover emerging patterns in treatment responses.  
+- **Key outcomes include:**
+  - Understanding which treatments work best for specific cancer types or patient subgroups.
+  - Determining the optimal sequence of treatment administration to maximize efficacy.
+
+### 2. Assessing Treatment Efficacy  
+- Longitudinal data allows for evaluating the effectiveness of treatments over time.  
+- **Crucial benefits include:**
+  - Understanding long-term treatment outcomes.  
+  - Identifying potential late-onset side effects.
+
+### 3. Uncovering Patient Response Variability  
+- Cancer treatments are personalized, with significant variability in patient responses.  
+- **Insights gained:**
+  - Factors influencing variability, such as **genetic markers**, **comorbidities**, or **socio-demographic factors**.  
+  - Knowledge to develop more tailored treatment plans.
+
+### 4. Improving Clinical Decision-Making  
+- Patient journey data provides a detailed map for clinicians.  
+- **Applications include:**
+  - Comparing current patient data with historical records to predict outcomes.  
+  - Adjusting treatment plans based on predicted trajectories.
+
+### 5. Facilitating Clinical Research  
+- Patient journeys are critical in the context of clinical trials.  
+- **Use cases:**
+  - Identifying eligible patients for trials.  
+  - Tracking participant progress during trials.  
+  - Analyzing trial data to derive meaningful conclusions.
+
+---
 ## Representation and Embeddings
 
-Just wrap the text you would like to show up in a footnote in a `<d-footnote>` tag.
-The number of the footnote will be automatically generated.<d-footnote>This will become a hoverable footnote.</d-footnote>
+
 Our  method transforms raw patient data into informative embeddings that capture the  relationships between treatments, diagnostic events, genomic sequencing, and patient responses. The first step in our methodology involves extracting data into a structured format that includes event type, event description, and event date. The event type categorizes whether the event is therapeutic (e.g., drug treatment), diagnostic, or pertains to a change in the patient's condition. The event description provides detailed information about the event, such as drug names and dosages or a textual description of the diagnosis. The event date is used to chronologically order these events.
 Using the event date, the events are organized into a series of Directed Acyclic Graphs (DAGs) for each patient, representing the sequence of discrete events they encounter. Each unique DAG is referred to as the "patient journey." These patient journeys often include repetitive event sequences, particularly for diagnostic purposes (e.g., consecutive "Condition" or "Panel" events), which can introduce noise into the data. To mitigate this noise, we employ an iterative filtering strategy:
-Identify Earliest Event 
+### 1.Cleaning Event Description
+Event descriptions are tokenized and standardized  for non-medication events replacing irrelevant terms with a curated set of common terms.
+### 2.Identify Earliest Event 
 For each patient, identify the earliest recorded event or treatment date.
-Normalize Event Times
+### 3.Normalize Event Times
 Compute the treatment day for each event by calculating the difference between the event date and the earliest event date. This normalizes all event times to a relative day count starting from the first treatment.
-Aggregate Daily Events
+### 4.Aggregate Daily Events
 For each treatment day, aggregate the drugs administered into a summary string. This concatenates the drugs administered on a given day into a single record.
-Sort Events:
+### 5.Sort Events:
 Ensure the data is sorted by patient and event time to maintain a chronological order of treatments.
+
 
 
 ---
@@ -118,6 +154,10 @@ return x \* x;
 {% endhighlight %}
 
 ---
+## Metrics
+ Mutual Information Classification: We used a mutual information method to calculate the importance of each feature in separating data points into clusters. 
+Cluster Quality Evaluation: Sum of Squared Errors (SSE): This metric SSE = σ∥x i − c j∥2 measures the total squared Euclidean distance between each data point and its assigned cluster centroid c j. 
+Overall, this analysis combines feature importance with cluster quality metrics to evaluate the effectiveness of K-means clustering. 
 
 ## Results
 
