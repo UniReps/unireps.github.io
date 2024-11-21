@@ -126,11 +126,20 @@ For each treatment day, aggregate the drugs administered into a summary string. 
 ### 5.Sort Events:
 Ensure the data is sorted by patient and event time to maintain a chronological order of treatments.
 
+Next, a text string representation of each patient's journey is generated. The summary for each patient includes:
+-The treatment day.
+-The drugs taken on that day.
+-The diagnosis on that day.
+-The diagnostic panel on that day.
+These text strings can then be sent as input into a Large Language Model (LLM) to create a set of embeddings which can be used as a numerical representation for further analysis. These embeddings capture the semantic and syntactic nuances of the patient's journey, allowing us to compare and analyze different patient experiences.
+Once generated, these embeddings are stored in a vector database, enabling efficient retrieval and similarity search. By clustering these embeddings, we can identify groups of patients with similar treatment trajectories, allowing for deeper insights into treatment effectiveness and potential side effects. This approach enables us to uncover hidden patterns and trends that may not be apparent through traditional data analysis methods.
 
 
 ---
 
 ## Clustering
+ 
+This approach leverages pre-generated patient journey embeddings. These embeddings are numerical representations that capture the semantic relationships between words and events within a patient’s journey.The choice of embedding technique depends on the specific data structure (e.g., individual events vs. entire journey) and desired level of granularity. The K-Means algorithm uses a distance metric to determine the closest cluster centroid for each data point. Here, we performed Euclidean distance between two data points (embeddings) in the multidimensional space they occupy. The x-coordinate and y-coordinate represent the 2D projections of higher dimensional data, created by the t-SNE algorithm.Each dot corresponds to a specific patient’s data point. Patients are grouped based on similarities, which could be useful for further analysis like treatment effects, side effects, or disease progression.
 
 Syntax highlighting is provided within `<d-code>` tags.
 An example of inline code snippets: `<d-code language="html">let x = 10;</d-code>`.
