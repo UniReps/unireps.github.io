@@ -98,23 +98,14 @@ where $$S_i$$ is the i-th cluster, $$μ_i$$ is the mean (centroid) of $$S_i$$, a
 
 ---
 
-## Case Study: Lung Cancer Dataset
+## Case Study: Analysis of Lung Cancer Data
 
-Citations are then used in the article body with the `<d-cite>` tag.
-The key attribute is a reference to the id provided in the bibliography.
-The key attribute can take multiple ids, separated by commas.
+To demonstrate our algorithms, we use a de-identified dataset of cancer patients<d-cite key="naik2024applying"></d-cite>.
+For this demo we wish to focus only on patients that have been diagnosed with Lung Cancer.
+Thus we select only patients that have an ICD-10 diagnosis that starts with C34. 
+This gives us a group of 441 patients, 198 of which have medication info and 272 with genomic panels.
 
-The citation is presented inline like this: <d-cite key="gregor2015draw"></d-cite> (a number that displays more information on hover).
-If you have an appendix, a bibliography is automatically created and populated in it.
-
-Distill chose a numerical inline citation style to improve readability of citation dense articles and because many of the benefits of longer citations are obviated by displaying more information on hover.
-However, we consider it good style to mention author last names if you discuss something at length and it fits into the flow well — the authors are human and it’s nice for them to have the community associate them with their work.
-
----
-
-## Results
-
-You can add interative plots using plotly + iframes :framed_picture:
+We then take the resulting treatment data for each patient and create the embedding vector for each patient using GPT-4<d-cite key="openai_gpt-4_2024"></d-cite>. 
 
 <!-- <div class="l-page">
   <iframe src="{{ '/assets/plotly/demo.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px dashed grey;"></iframe>
