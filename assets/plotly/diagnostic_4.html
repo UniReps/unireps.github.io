@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    .graph-container {
+      padding: 1rem;
+    }
+
+    .sankey-graph {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="graph-container">
+    <div id="sankey-graph"></div>
+  </div>
+  <script>
+    const groups = [{"layout":{"arrangement":"fixed","title":"Group 4 - 26 patient(s) filtered due to lack of variation","font":{"size":12},"height":400},"data":{"type":"sankey","orientation":"h","node":{"pad":15,"thickness":30,"line":{"color":"black","width":0.5},"x":[0,0,0,100,200,0,0,0,100,0,0,0,0,0,100,0,100,0,0,0,100,0,100,0,0,0,100,200,0,0,100,0,0,100,0,0,100,0,0,100,0,0],"label":["erlotinib","carboplatin,<br>peme...","nivolumab","docetaxel","nivolumab","tamoxifen","azacitidine","rituximab","alectinib","cisplatin,<br>pemetr...","fluorouracil","osimertinib","docetaxel","anastrozole","cisplatin,<br>etopos...","carboplatin","methotrexate","erlotinib","leuprolide acetate,<...","pembrolizumab","gemcitabine","pemetrexed","carboplatin,<br>pacl...","carboplatin,<br>peme...","carboplatin,<br>etop...","pemetrexed","alectinib","osimertinib","bevacizumab,<br>carb...","crizotinib"],"color":["#64BE82","#CF51E6","#7515F1","#50BF85","#7515F1","#91BF8F","#01341F","#9B14C5","#462F09","#D1BBBA","#B4DF3F","#0AD7DD","#50BF85","#7C32A0","#8B2EB9","#03D2F5","#375BFE","#64BE82","#5FC2BA","#3E44EF","#1AAC60","#3F1C9D","#9282AC","#CF51E6","#AC230D","#3F1C9D","#462F09","#0AD7DD","#29FE0B","#F1CA43"],"customdata":[{"incoming":0,"outgoing":3,"fullLabel":"erlotinib"},{"incoming":0,"outgoing":4,"fullLabel":"carboplatin,<br>pemetrexed"},{"incoming":4,"outgoing":3,"fullLabel":"nivolumab"},{"incoming":1,"outgoing":1,"fullLabel":"docetaxel"},{"incoming":0,"outgoing":1,"fullLabel":"nivolumab"},{"incoming":0,"outgoing":1,"fullLabel":"tamoxifen"},{"incoming":0,"outgoing":1,"fullLabel":"azacitidine"},{"incoming":0,"outgoing":1,"fullLabel":"rituximab"},{"incoming":0,"outgoing":1,"fullLabel":"alectinib"},{"incoming":0,"outgoing":2,"fullLabel":"cisplatin,<br>pemetrexed"},{"incoming":0,"outgoing":1,"fullLabel":"fluorouracil"},{"incoming":1,"outgoing":1,"fullLabel":"osimertinib"},{"incoming":1,"outgoing":1,"fullLabel":"docetaxel"},{"incoming":0,"outgoing":1,"fullLabel":"anastrozole"},{"incoming":0,"outgoing":4,"fullLabel":"cisplatin,<br>etoposide"},{"incoming":1,"outgoing":1,"fullLabel":"carboplatin"},{"incoming":0,"outgoing":1,"fullLabel":"methotrexate"},{"incoming":2,"outgoing":1,"fullLabel":"erlotinib"},{"incoming":0,"outgoing":1,"fullLabel":"leuprolide acetate,<br>carboplatin,<br>paclitaxel"},{"incoming":0,"outgoing":1,"fullLabel":"pembrolizumab"},{"incoming":2,"outgoing":2,"fullLabel":"gemcitabine"},{"incoming":2,"outgoing":1,"fullLabel":"pemetrexed"},{"incoming":0,"outgoing":1,"fullLabel":"carboplatin,<br>paclitaxel"},{"incoming":2,"outgoing":1,"fullLabel":"carboplatin,<br>pemetrexed"},{"incoming":0,"outgoing":1,"fullLabel":"carboplatin,<br>etoposide"},{"incoming":0,"outgoing":1,"fullLabel":"pemetrexed"},{"incoming":1,"outgoing":1,"fullLabel":"alectinib"},{"incoming":0,"outgoing":1,"fullLabel":"osimertinib"},{"incoming":0,"outgoing":1,"fullLabel":"bevacizumab,<br>carboplatin,<br>paclitaxel"},{"incoming":0,"outgoing":1,"fullLabel":"crizotinib"}],"hovertemplate":"Node: %{customdata.fullLabel}<br>Patients: %{value}<br>Incoming Links: %{customdata.incoming}<br>Outgoing Links: %{customdata.outgoing}<extra></extra>"},"link":{"color":["rgba(230,230,230,1)","rgba(230,230,230,1)","rgba(55,55,55,1)","rgba(195,195,195,1)","rgba(230,230,230,1)","rgba(230,230,230,1)","rgba(230,230,230,1)","rgba(55,55,55,1)","rgba(230,230,230,1)","rgba(230,230,230,1)","rgba(230,230,230,1)","rgba(230,230,230,1)","rgba(230,230,230,1)","rgba(55,55,55,1)","rgba(230,230,230,1)","rgba(55,55,55,1)","rgba(230,230,230,1)","rgba(230,230,230,1)","rgba(230,230,230,1)","rgba(55,55,55,1)","rgba(230,230,230,1)","rgba(55,55,55,1)","rgba(230,230,230,1)","rgba(230,230,230,1)","rgba(230,230,230,1)","rgba(55,55,55,1)","rgba(73,73,73,1)","rgba(230,230,230,1)","rgba(55,55,55,1)","rgba(128,128,128,1)","rgba(230,230,230,1)","rgba(73,73,73,1)","rgba(55,55,55,1)","rgba(230,230,230,1)","rgba(230,230,230,1)","rgba(55,55,55,1)","rgba(230,230,230,1)","rgba(230,230,230,1)","rgba(55,55,55,1)","rgba(55,55,55,1)","rgba(230,230,230,1)","rgba(128,128,128,1)"],"source":[0,1,1,2,3,4,5,6,2,7,8,9,10,0,11,1,12,13,14,9,15,16,17,18,19,14,20,21,22,1,20,14,0,23,24,25,26,27,28,2,29,14],"target":[-1,-1,2,3,-1,-1,-1,2,-1,-1,-1,-1,-1,11,-1,12,-1,-1,-1,15,-1,17,-1,-1,-1,20,21,-1,2,20,-1,17,23,-1,-1,26,-1,-1,2,21,-1,23],"value":[5,1,2,2,2,2,1,1,2,1,1,2,3,2,2,1,1,2,3,1,1,1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,1,1,1,1,1,1],"label":["Duration to next treatment median: No Change<br>Duration to next treatment minimum: No Change<br>Duration to next treatment maximum: No Change<extra></extra>","Duration to next treatment median: No Change<br>Duration to next treatment minimum: No Change<br>Duration to next treatment maximum: No Change<extra></extra>","Duration to next treatment median: No Change<br>Duration to next treatment minimum: 1 year, 2 months, 1 day<br>Duration to next treatment maximum: 1 year, 10 months, 6 days<extra></extra>","Duration to next treatment median: No Change<br>Duration to next treatment minimum: 2 months, 2 days<br>Duration to next treatment maximum: 1 year, 1 month, 2 days<extra></extra>","Duration to next treatment median: No Change<br>Duration to next treatment minimum: No Change<br>Duration to next treatment maximum: No Change<extra></extra>","Duration to next treatment median: No Change<br>Duration to next treatment minimum: No Change<br>Duration to next treatment maximum: No Change<extra></extra>","Duration to next treatment median: No Change<br>Duration to next treatment minimum: No Change<br>Duration to next treatment maximum: No Change<extra></extra>","Duration to next treatment median: 1 year, 2 months, 1 day<br>Duration to next treatment minimum: 1 year, 2 months, 1 day<br>Duration to next treatment maximum: 1 year, 2 months, 1 day<extra></extra>","Duration to next treatment median: No Change<br>Duration to next treatment minimum: No Change<br>Duration to next treatment maximum: No Change<extra></extra>","Duration to next treatment median: No Change<br>Duration to next treatment minimum: No Change<br>Duration to next treatment maximum: No Change<extra></extra>","Duration to next treatment median: No Change<br>Duration to next treatment minimum: No Change<br>Duration to next treatment maximum: No Change<extra></extra>","Duration to next treatment median: No Change<br>Duration to next treatment minimum: No Change<br>Duration to next treatment maximum: No Change<extra></extra>","Duration to next treatment median: No Change<br>Duration to next treatment minimum: No Change<br>Duration to next treatment maximum: No Change<extra></extra>","Duration to next treatment median: 1 month, 16 days<br>Duration to next treatment minimum: 1 year, 1 month, 2 days<br>Duration to next treatment maximum: 1 year, 4 months, 1 day<extra></extra>","Duration to next treatment median: No Change<br>Duration to next treatment minimum: No Change<br>Duration to next treatment maximum: No Change<extra></extra>","Duration to next treatment median: 1 year, <br>Duration to next treatment minimum: 1 year, <br>Duration to next treatment maximum: 1 year, <extra></extra>","Duration to next treatment median: No Change<br>Duration to next treatment minimum: No Change<br>Duration to next treatment maximum: No Change<extra></extra>","Duration to next treatment median: No Change<br>Duration to next treatment minimum: No Change<br>Duration to next treatment maximum: No Change<extra></extra>","Duration to next treatment median: No Change<br>Duration to next treatment minimum: No Change<br>Duration to next treatment maximum: No Change<extra></extra>","Duration to next treatment median: 3 years, 1 month, 2 days<br>Duration to next treatment minimum: 3 years, 1 month, 2 days<br>Duration to next treatment maximum: 3 years, 1 month, 2 days<extra></extra>","Duration to next treatment median: No Change<br>Duration to next treatment minimum: No Change<br>Duration to next treatment maximum: No Change<extra></extra>","Duration to next treatment median: 4 years, 1 day<br>Duration to next treatment minimum: 4 years, 1 day<br>Duration to next treatment maximum: 4 years, 1 day<extra></extra>","Duration to next treatment median: No Change<br>Duration to next treatment minimum: No Change<br>Duration to next treatment maximum: No Change<extra></extra>","Duration to next treatment median: No Change<br>Duration to next treatment minimum: No Change<br>Duration to next treatment maximum: No Change<extra></extra>","Duration to next treatment median: No Change<br>Duration to next treatment minimum: No Change<br>Duration to next treatment maximum: No Change<extra></extra>","Duration to next treatment median: 8 months, 4 days<br>Duration to next treatment minimum: 8 months, 4 days<br>Duration to next treatment maximum: 8 months, 4 days<extra></extra>","Duration to next treatment median: 6 months, 2 days<br>Duration to next treatment minimum: 6 months, 2 days<br>Duration to next treatment maximum: 6 months, 2 days<extra></extra>","Duration to next treatment median: No Change<br>Duration to next treatment minimum: No Change<br>Duration to next treatment maximum: No Change<extra></extra>","Duration to next treatment median: 1 year, <br>Duration to next treatment minimum: 1 year, <br>Duration to next treatment maximum: 1 year, <extra></extra>","Duration to next treatment median: 4 months, 3 days<br>Duration to next treatment minimum: 4 months, 3 days<br>Duration to next treatment maximum: 4 months, 3 days<extra></extra>","Duration to next treatment median: No Change<br>Duration to next treatment minimum: No Change<br>Duration to next treatment maximum: No Change<extra></extra>","Duration to next treatment median: 6 months, 2 days<br>Duration to next treatment minimum: 6 months, 2 days<br>Duration to next treatment maximum: 6 months, 2 days<extra></extra>","Duration to next treatment median: 1 year, 5 months, 4 days<br>Duration to next treatment minimum: 1 year, 5 months, 4 days<br>Duration to next treatment maximum: 1 year, 5 months, 4 days<extra></extra>","Duration to next treatment median: No Change<br>Duration to next treatment minimum: No Change<br>Duration to next treatment maximum: No Change<extra></extra>","Duration to next treatment median: No Change<br>Duration to next treatment minimum: No Change<br>Duration to next treatment maximum: No Change<extra></extra>","Duration to next treatment median: 2 years, 4 months, 3 days<br>Duration to next treatment minimum: 2 years, 4 months, 3 days<br>Duration to next treatment maximum: 2 years, 4 months, 3 days<extra></extra>","Duration to next treatment median: No Change<br>Duration to next treatment minimum: No Change<br>Duration to next treatment maximum: No Change<extra></extra>","Duration to next treatment median: No Change<br>Duration to next treatment minimum: No Change<br>Duration to next treatment maximum: No Change<extra></extra>","Duration to next treatment median: 8 months, 3 days<br>Duration to next treatment minimum: 8 months, 3 days<br>Duration to next treatment maximum: 8 months, 3 days<extra></extra>","Duration to next treatment median: 1 year, 1 month, <br>Duration to next treatment minimum: 1 year, 1 month, <br>Duration to next treatment maximum: 1 year, 1 month, <extra></extra>","Duration to next treatment median: No Change<br>Duration to next treatment minimum: No Change<br>Duration to next treatment maximum: No Change<extra></extra>","Duration to next treatment median: 4 months, 3 days<br>Duration to next treatment minimum: 4 months, 3 days<br>Duration to next treatment maximum: 4 months, 3 days<extra></extra>"],"hovertemplate":"%{label}<extra></extra>"}}}]
+
+    groups.forEach((group, i) => {
+      if (!group?.data || !group?.layout) {
+        return
+      }
+      const data = group.data
+      const layout = group.layout
+      
+      if (data.node.customdata.length <= 1) {
+        layout.height = 200
+      } else {
+        layout.height = 600
+      }
+
+      const id = `PlotlyChart-${i}`
+      
+      // Create new div to mount chart to
+      const graphDiv = document.createElement('div')
+      graphDiv.id = id
+      const parent = document.getElementById('sankey-graph')
+      parent.appendChild(graphDiv)
+
+      Plotly.react(id, [data], layout, { responsive: true, displayModeBar: false }).then(() => {
+        // After rendering, manually replace <br> in labels with <tspan> because they aren't created
+        // by Plotly when displayed this way.
+        const svgTextNodes = graphDiv.querySelectorAll('.node-label')
+        svgTextNodes.forEach((textNode) => {
+          const originalText = textNode.textContent
+
+          if (originalText.includes('<br>')) {
+            const lines = originalText.split('<br>')
+            textNode.innerHTML = ''
+
+            lines.forEach((line, index) => {
+              // Have to use createElementNS to create a tspan. Can't use createElement.
+              // https://www.motiontricks.com/creating-dynamic-svg-elements-with-javascript/
+              const tspan = document.createElementNS('http://www.w3.org/2000/svg', 'tspan')
+              // These are the attributes Plotly adds to its tspans when given <br> Datma.Why
+              tspan.setAttribute('x', '0')
+              tspan.setAttribute('dy', index === 0 ? '0em' : '1.3em')
+              tspan.textContent = line
+              textNode.appendChild(tspan)
+            })
+          }
+        })
+      })
+    })
+  </script>
+</body>
+</html>

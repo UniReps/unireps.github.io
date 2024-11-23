@@ -120,10 +120,13 @@ You can add interative plots using plotly + iframes :framed_picture:
   <iframe src="{{ '/assets/plotly/demo.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px dashed grey;"></iframe>
 </div> -->
 <div class="l-page">
-  <iframe src="{{ '/assets/plotly/diagnostic.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px dashed grey;"></iframe>
+  <iframe src="{{ '/assets/plotly/diagnostic_1.html' | relative_url }}" frameborder='0' scrolling='yes' height="500px" width="100%" style="border: 1px dashed grey;"></iframe>
 </div>
 <div class="l-page">
-  <iframe src="{{ '/assets/plotly/treatment.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px dashed grey;"></iframe>
+  <iframe src="{{ '/assets/plotly/diagnostic_2.html' | relative_url }}" frameborder='0' scrolling='yes' height="500px" width="100%" style="border: 1px dashed grey;"></iframe>
+</div>
+<div class="l-page">
+  <iframe src="{{ '/assets/plotly/diagnostic_4.html' | relative_url }}" frameborder='0' scrolling='yes' height="500px" width="100%" style="border: 1px dashed grey;"></iframe>
 </div>
 
 The plot must be generated separately and saved into an HTML file.
