@@ -141,4 +141,4 @@ fig.write_html('assets/plotly/demo.html')
 
 ## Conclusion
 
-I am a conclusion
+While most of the experiment done is based on embeddings created from gpt-4 using ehr and genomic panel we would like to perform experiment on  all the mutation information, demographic information and information from unstructured data such as histopathology and genomic reports. Comparing the representation with different embedding and encoding of the summary and clustering techniques using different distance such as equlidean and cosine.
