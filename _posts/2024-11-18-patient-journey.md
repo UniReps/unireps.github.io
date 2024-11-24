@@ -64,7 +64,7 @@ Patient Journey helps in uncovering patient response variability, factors influe
 
 Our method transforms raw patient data into informative embeddings that capture the relationships between treatments, diagnostic events, genomic sequencing, and patient responses. The first step in our methodology involves extracting data into a structured format that includes event type, event description, and event date. The event type categorizes whether the event is therapeutic (e.g., drug treatment), diagnostic, or pertains to a change in the patient's condition. The event description provides detailed information about the event, such as drug names and dosages or a textual description of the diagnosis. The event date is used to chronologically order these events.
 
-Inside the event description, there is a large amount of unneeded data (dosages, admission route, etc.) included in the health record. To overcome this we utilize tokenization to only extract the drug names from each event<d-cite key="noauthor_pdf_nodate"></d-cite>.
+Inside the event description, there is a large amount of irrelevant information (dosages, admission route, etc.) included in the health record. To overcome this we utilize tokenization to only extract the key information for diagnosis and/or treatment from each event<d-cite key="noauthor_pdf_nodate"></d-cite>.
 
 For each patient $$i$$, let the set of event times be $$ {t_1, t_2, \dots, t_n} $$. The first event time $$t_{\text{min}} $$ is calculated as:
 
