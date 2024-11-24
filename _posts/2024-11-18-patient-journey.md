@@ -15,6 +15,14 @@ authors:
     url: "https://www.datma.com/"
     affiliations:
       name: datma
+  - name: Olivia Webber
+    url: "https://www.datma.com/"
+    affiliations:
+      name: datma
+  - name: Dustin Simensen
+    url: "https://www.datma.com/"
+    affiliations:
+      name: datma
 
 bibliography: 2024-11-18-patient-journey.bib
 
@@ -123,16 +131,6 @@ $$
 
 where $$S_i$$ is the i-th cluster, $$μ_i$$ is the mean (centroid) of $$S_i$$, and ∣∣⋅∣∣. K-Means iteratively assigns data points to the nearest cluster centroid and then recalculates the centroids. This process continues until convergence or a maximum number of iterations is reached.
 
-Cluster 0 are patients  with squamous cell carcinoma and malignant neoplasms with  references to genetic mutation panels and targeted therapies like osimertinib.
-
-Cluster 1 are patients with secondary malignant neoplasms, particularly of the left lung, and overlapping sites of bronchus and lung and treatments include osimertinib and erlotinib.
-
-Cluster 2 are patients with a progression of adenocarcinoma in the right lung, frequently transitioning from stage 3 to stage 4 with treatments of osmertinib.
-
-Cluster 3 are patients metastatic lung cancer with secondary malignancies, such as those affecting the bone or liver and treatments with osmertinib and erlotinib.
-
-Cluster 4 are patients with  malignant neoplasms of the upper lobe of the left lung and  metastatic of colorectal cancer treatments involving osimertinib and cases of metastatic colorectal cancer alongside primary lung cancer.
-
 ---
 
 ## Case Study: Analysis of Lung Cancer Data
@@ -150,6 +148,18 @@ We then take the resulting treatment data for each patient and create the embedd
 <div class="l-page">
   <iframe src="{{ '/assets/plotly/diagnostic.html' | relative_url }}" frameborder='0' scrolling='yes' height="500px" width="100%" style="border: 1px dashed grey;"></iframe>
 </div>
+
+From examining the results, we can broadly categorize the clusters as follows:
+
+Cluster 1 are patients with squamous cell carcinoma and malignant neoplasms with references to genetic mutation panels and targeted therapies like osimertinib.
+
+Cluster 2 are patients with secondary malignant neoplasms, particularly of the left lung, and overlapping sites of bronchus and lung and treatments include osimertinib and erlotinib.
+
+Cluster 3 are patients with a progression of adenocarcinoma in the right lung, frequently transitioning from stage 3 to stage 4 with treatments of osmertinib.
+
+Cluster 4 are patients metastatic lung cancer with secondary malignancies, such as those affecting the bone or liver and treatments with osmertinib and erlotinib.
+
+Cluster 5 are patients with malignant neoplasms of the upper lobe of the left lung and metastatic of colorectal cancer treatments involving osimertinib and cases of metastatic colorectal cancer alongside primary lung cancer.
 
 ---
 
