@@ -142,4 +142,6 @@ fig.write_html('assets/plotly/demo.html')
 
 ## Conclusion
 
-While most of the experiment done is based on embeddings created from gpt-4 using ehr and genomic panel we would like to perform experiment on  all the mutation information, demographic information and information from unstructured data such as histopathology and genomic reports. Comparing the representation with different embedding and encoding of the summary and clustering techniques using different distance such as equlidean and cosine.
+This post shows the potential of LLMs for the representation and then analyse of patient journeys. We demonstrate how LLM embeddings can be combined with simple ML algorithms to gain insights from longitudinal patient data.
+
+To further enhance our patient journey analysis, we plan to expand our data sources to include comprehensive mutation information, demographic data, and unstructured data from histopathology and genomic reports. We will further expirement with other LLMs for embedding generation,such as BERT and other advanced language models, to improve the quality of patient representations. Experiments with additional clustering algorithms can also lead to additional insites into the data. By employing this approach, we plan to uncover deeper patterns in patient journeys and enable a new avenue for performing population level analysis of cancer data.
