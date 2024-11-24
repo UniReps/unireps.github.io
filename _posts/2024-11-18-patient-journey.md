@@ -107,7 +107,7 @@ For example, given the following set of treatment events:
 ]
 ```
 
-This would be encoded into the following text string: `"pemetrexed administered on day 0, cisplatin administered on day 90"`.
+This would be transformed into the following text string: `"pemetrexed administered on day 0, cisplatin administered on day 90"`.
 
 These text strings were then used as input into a LLM to create a set of vector embeddings which can be used as a numerical representation for further analysis. These embeddings capture the semantic and syntactic nuances of the patient's journey, allowing us to compare and analyze different patient experience.
 
