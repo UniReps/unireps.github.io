@@ -31,7 +31,7 @@ toc:
     #   - name: Example Child Subsection 2
   - name: Representation and Embeddings
   - name: Clustering
-  - name: "Case Study:  Lung Cancer Dataset"
+  - name: "Case Study: Lung Cancer Dataset"
   - name: Results
   - name: Conclusion
 
@@ -55,9 +55,8 @@ _styles: >
 
 ---
 
-Properly mapping out Patient Journeys in an healthcare system involves the analysis of both structured and unstructured dataset.  Longitudinal data allows for evaluating the effectiveness of treatments over time. In addition, this data is time-series in nature, making it difficult to apply standard clustering and prediction algorithms. This work explores a novel approach in mapping out Patient Journeys by combining Large Language Model (LLM) embeddings, K-Means clustering, and LLM based summarization. Embeddings are used to encode and project timeseries treatment regimes into a constant dimension vector, allowing K-Means to group journeys with similar patterns. Subsequently, an LLM summarizes the characteristics of each patient journey cluster, providing explainations on why patients are grouped together.  For instance, identifying clusters of patients with high readmission rates can help proactively address underlying issues. The resulting understanding of patient experiences can inform the development of targeted interventions and improve healthcare delivery.
-Patient Journey helps in uncovering patient response variability, factors influencing variability, such as genetic markers, comorbidities, or socio-demographic factors.
-These journeys are critical in the context of clinical trials for identifying eligible patients for trials and tracking participant progress during trials.
+Properly mapping out Patient Journeys in an healthcare system involves the analysis of both structured and unstructured dataset.  Longitudinal data allows for evaluating the effectiveness of treatments over time but because this data is time-series in nature, it is difficult to apply standard clustering and prediction algorithms. This work explores a novel approach in mapping out Patient Journeys by combining Large Language Model (LLM) embeddings, K-Means clustering, and LLM based summarization. Embeddings are used to encode and project timeseries treatment regimes into a constant dimension vector, allowing K-Means to group journeys with similar patterns. Subsequently, an LLM summarizes the characteristics of each patient journey cluster, providing explainations on why patients are grouped together.  For instance, identifying clusters of patients with high readmission rates can help proactively address underlying issues. The resulting understanding of patient experiences can inform the development of targeted interventions and improve healthcare delivery<d-cite key="advancing,GENTRY2023275"></d-cite>.
+Patient Journey helps in uncovering patient response variability, factors influencing variability, such as genetic markers, comorbidities, or socio-demographic factors. Finally, these journeys can be critical in the context of clinical trials for identifying eligible patients for trials and tracking participant progress during trials.
 
 ---
 
@@ -82,7 +81,7 @@ This concatenates the drugs administered on a given day into a single record. Th
 
 $$\text{sorted}(t_j^i, \text{ treatment day}^i_j)$$.
 
-These text strings were then used as input into a Large Language Model (LLM) to create a set of embeddings which can be used as a numerical representation for further analysis. These embeddings capture the semantic and syntactic nuances of the patient's journey, allowing us to compare and analyze different patient experience.
+These text strings were then used as input into a LLM to create a set of vector embeddings which can be used as a numerical representation for further analysis. These embeddings capture the semantic and syntactic nuances of the patient's journey, allowing us to compare and analyze different patient experience.
 
 ---
 
@@ -105,7 +104,7 @@ For this demo we wish to focus only on patients that have been diagnosed with Lu
 Thus we select only patients that have an ICD-10 diagnosis that starts with C34. 
 This gives us a group of 441 patients, 198 of which have medication info and 272 with genomic panels.
 
-We then take the resulting treatment data for each patient and create the embedding vector for each patient using GPT-4<d-cite key="openai_gpt-4_2024"></d-cite>. 
+We then take the resulting treatment data for each patient and create the embedding vector for each patient using GPT-4<d-cite key="openai_gpt-4_2024"></d-cite>. With these embeddings, patients are clustered into 5 groups. The following plot, shows Sankey diagrams that illustrate the flow of treatment for each group.
 
 <!-- <div class="l-page">
   <iframe src="{{ '/assets/plotly/demo.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px dashed grey;"></iframe>
