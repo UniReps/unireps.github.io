@@ -66,7 +66,6 @@ Our method transforms raw patient data into informative embeddings that capture 
 
 Inside the event description, there is a large amount of unneeded data (dosages, admission route, etc.) included in the health record. To overcome this we utilize tokenization to only extract the drug names from each event<d-cite key="noauthor_pdf_nodate"></d-cite>.
 
-
 For each patient $$i$$, let the set of event times be $$ {t_1, t_2, \dots, t_n} $$. The first event time $$t_{\text{min}} $$ is calculated as:
 
 $$ t_{\text{min}}^i = \min(t_1, t_2, \dots, t_n) $$
@@ -144,4 +143,4 @@ fig.write_html('assets/plotly/demo.html')
 
 This post shows the potential of LLMs for the representation and then analyse of patient journeys. We demonstrate how LLM embeddings can be combined with simple ML algorithms to gain insights from longitudinal patient data.
 
-To further enhance our patient journey analysis, we plan to expand our data sources to include comprehensive mutation information, demographic data, and unstructured data from histopathology and genomic reports. We will further expirement with other LLMs for embedding generation,such as BERT and other advanced language models, to improve the quality of patient representations. Experiments with additional clustering algorithms can also lead to additional insites into the data. By employing this approach, we plan to uncover deeper patterns in patient journeys and enable a new avenue for performing population level analysis of cancer data.
+To further enhance our patient journey analysis, we plan to expand our data sources to include comprehensive mutation information, demographic data, and unstructured data from histopathology and genomic reports. We will further expirement with other LLMs for embedding generation, such as BERT and other advanced language models, to improve the quality of patient representations. Experiments with additional clustering algorithms can also lead to additional insites into the data. By employing this approach, we plan to uncover deeper patterns in patient journeys and enable a new avenue for performing population level analysis of cancer data.
