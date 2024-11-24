@@ -83,6 +83,8 @@ $$\text{sorted}(t_j^i, \text{ treatment day}^i_j)$$.
 
 These text strings were then used as input into a LLM to create a set of vector embeddings which can be used as a numerical representation for further analysis. These embeddings capture the semantic and syntactic nuances of the patient's journey, allowing us to compare and analyze different patient experience.
 
+However, there is a large amount of unneeded data (dosages, admission route, etc.) included in the health record. To overcome this we utilize tokenization to only extract the drug names from each event<d-cite key="noauthor_pdf_nodate"></d-cite>.
+
 ---
 
 ## Clustering
