@@ -82,6 +82,36 @@ This concatenates the drugs administered on a given day into a single record. Th
 
 $$\text{sorted}(t_j^i, \text{ treatment day}^i_j)$$.
 
+For example, given the following set of treatment events:
+
+```
+[
+    {
+        "Event Type": "Medication",
+        "Event Attribute": "Chemotherapy",
+        "Event Description": "pemetrexed",
+        "Event Time": "2016-06-01T00:00:00",
+        "Index": "3ccbb1bb-7539-4ac1-9011-69d1ea9ecc21"
+    },
+    {
+        "Event Type": "Medication",
+        "Event Attribute": "Chemotherapy",
+        "Event Description": "pemetrexed",
+        "Event Time": "2016-06-01T00:00:00",
+        "Index": "3ccbb1bb-7539-4ac1-9011-69d1ea9ecc21"
+    },
+    {
+        "Event Type": "Medication",
+        "Event Attribute": "Chemotherapy",
+        "Event Description": "cisplatin",
+        "Event Time": "2016-03-01T00:00:00",
+        "Index": "3ccbb1bb-7539-4ac1-9011-69d1ea9ecc21"
+    },
+]
+```
+
+This would be encoded into the following text string: `"pemetrexed administered on day 0, cisplatin administered on day 90"`.
+
 These text strings were then used as input into a LLM to create a set of vector embeddings which can be used as a numerical representation for further analysis. These embeddings capture the semantic and syntactic nuances of the patient's journey, allowing us to compare and analyze different patient experience.
 
 ---
@@ -113,29 +143,6 @@ We then take the resulting treatment data for each patient and create the embedd
 <div class="l-page">
   <iframe src="{{ '/assets/plotly/diagnostic.html' | relative_url }}" frameborder='0' scrolling='yes' height="500px" width="100%" style="border: 1px dashed grey;"></iframe>
 </div>
-
-The plot must be generated separately and saved into an HTML file.
-To generate the plot that you see above, you can use the following code snippet:
-
-{% highlight python %}
-import pandas as pd
-import plotly.express as px
-df = pd.read_csv(
-'https://raw.githubusercontent.com/plotly/datasets/master/earthquakes-23k.csv'
-)
-fig = px.density_mapbox(
-df,
-lat='Latitude',
-lon='Longitude',
-z='Magnitude',
-radius=10,
-center=dict(lat=0, lon=180),
-zoom=0,
-mapbox_style="stamen-terrain",
-)
-fig.show()
-fig.write_html('assets/plotly/demo.html')
-{% endhighlight %}
 
 ---
 
