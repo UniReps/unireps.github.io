@@ -62,7 +62,9 @@ Patient Journey helps in uncovering patient response variability, factors influe
 
 ## Representation and Embeddings
 
-Our  method transforms raw patient data into informative embeddings that capture the  relationships between treatments, diagnostic events, genomic sequencing, and patient responses. The first step in our methodology involves extracting data into a structured format that includes event type, event description, and event date. The event type categorizes whether the event is therapeutic (e.g., drug treatment), diagnostic, or pertains to a change in the patient's condition. The event description provides detailed information about the event, such as drug names and dosages or a textual description of the diagnosis. The event date is used to chronologically order these events.
+Our method transforms raw patient data into informative embeddings that capture the relationships between treatments, diagnostic events, genomic sequencing, and patient responses. The first step in our methodology involves extracting data into a structured format that includes event type, event description, and event date. The event type categorizes whether the event is therapeutic (e.g., drug treatment), diagnostic, or pertains to a change in the patient's condition. The event description provides detailed information about the event, such as drug names and dosages or a textual description of the diagnosis. The event date is used to chronologically order these events.
+
+Inside the event description, there is a large amount of unneeded data (dosages, admission route, etc.) included in the health record. To overcome this we utilize tokenization to only extract the drug names from each event<d-cite key="noauthor_pdf_nodate"></d-cite>.
 
 
 For each patient $$i$$, let the set of event times be $$ {t_1, t_2, \dots, t_n} $$. The first event time $$t_{\text{min}} $$ is calculated as:
@@ -82,8 +84,6 @@ This concatenates the drugs administered on a given day into a single record. Th
 $$\text{sorted}(t_j^i, \text{ treatment day}^i_j)$$.
 
 These text strings were then used as input into a LLM to create a set of vector embeddings which can be used as a numerical representation for further analysis. These embeddings capture the semantic and syntactic nuances of the patient's journey, allowing us to compare and analyze different patient experience.
-
-However, there is a large amount of unneeded data (dosages, admission route, etc.) included in the health record. To overcome this we utilize tokenization to only extract the drug names from each event<d-cite key="noauthor_pdf_nodate"></d-cite>.
 
 ---
 
