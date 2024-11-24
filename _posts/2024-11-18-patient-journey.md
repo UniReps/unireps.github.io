@@ -91,21 +91,18 @@ For example, given the following set of treatment events:
         "Event Attribute": "Chemotherapy",
         "Event Description": "pemetrexed",
         "Event Time": "2016-06-01T00:00:00",
-        "Index": "3ccbb1bb-7539-4ac1-9011-69d1ea9ecc21"
     },
     {
         "Event Type": "Medication",
         "Event Attribute": "Chemotherapy",
         "Event Description": "pemetrexed",
         "Event Time": "2016-06-01T00:00:00",
-        "Index": "3ccbb1bb-7539-4ac1-9011-69d1ea9ecc21"
     },
     {
         "Event Type": "Medication",
         "Event Attribute": "Chemotherapy",
         "Event Description": "cisplatin",
         "Event Time": "2016-03-01T00:00:00",
-        "Index": "3ccbb1bb-7539-4ac1-9011-69d1ea9ecc21"
     },
 ]
 ```
