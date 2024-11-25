@@ -60,6 +60,11 @@ _styles: >
     text-align: center;
     font-size: 16px;
   }
+  .scrollable-code {
+    max-height: 200px; /* Adjust the width as needed */
+    overflow-x: auto;
+    white-space: pre-wrap; /* Prevent text wrapping */
+  }
 
 ---
 
@@ -92,28 +97,22 @@ $$\text{sorted}(t_j^i, \text{ treatment day}^i_j)$$.
 
 For example, given the following set of treatment events:
 
-```
+<pre class="scrollable-code">
 [
-    {
-        "Event Type": "Medication",
-        "Event Attribute": "Chemotherapy",
-        "Event Description": "pemetrexed",
-        "Event Time": "2016-06-01T00:00:00",
-    },
-    {
-        "Event Type": "Medication",
-        "Event Attribute": "Chemotherapy",
-        "Event Description": "pemetrexed",
-        "Event Time": "2016-06-01T00:00:00",
-    },
-    {
-        "Event Type": "Medication",
-        "Event Attribute": "Chemotherapy",
-        "Event Description": "cisplatin",
-        "Event Time": "2016-03-01T00:00:00",
-    },
+    {
+        "Event Type": "Medication",
+        "Event Attribute": "Chemotherapy",
+        "Event Description": "pemetrexed",
+        "Event Time": "2016-06-01T00:00:00",
+    },
+    {
+        "Event Type": "Medication",
+        "Event Attribute": "Chemotherapy",
+        "Event Description": "cisplatin",
+        "Event Time": "2016-03-01T00:00:00",
+    },
 ]
-```
+</pre>
 
 This would be transformed into the following text string: `"pemetrexed administered on day 0, cisplatin administered on day 90"`.
 
@@ -140,14 +139,16 @@ For this demo we wish to focus only on patients that have been diagnosed with Lu
 Thus we select only patients that have an ICD-10 diagnosis that starts with C34. 
 This gives us a group of 441 patients, 198 of which have medication info and 272 with genomic panels.
 
-We then take the resulting treatment data for each patient and create the embedding vector for each patient using GPT-4<d-cite key="openai_gpt-4_2024"></d-cite>. With these embeddings, patients are clustered into 5 groups. The following plot, shows Sankey diagrams that illustrate the flow of treatment for each group.
+We then take the resulting treatment data for each patient and create the embedding vector for each patient using GPT-4<d-cite key="openai_gpt-4_2024"></d-cite>. With these embeddings, patients are clustered into 5 groups. The following plot shows Sankey diagrams that illustrate the flow of treatment for each group.
 
 <!-- <div class="l-page">
   <iframe src="{{ '/assets/plotly/demo.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px dashed grey;"></iframe>
 </div> -->
 <div class="l-page">
-  <iframe src="{{ '/assets/plotly/diagnostic.html' | relative_url }}" frameborder='0' scrolling='yes' height="500px" width="100%" style="border: 1px dashed grey;"></iframe>
+  <iframe src="{{ '/assets/plotly/diagnostic.html' | relative_url }}" frameborder='0' scrolling='yes' height="500px" width="85%" style="border: 1px dashed grey;"></iframe>
 </div>
+
+Each node represents a specific treatment, and the width of the connecting edges indicates the number of patients transitioning between treatments. By hovering over a node, you can delve deeper into the patient population, revealing the total number of patients receiving that treatment within a particular line of therapy. Additionally, the hover provides insights into patient flow, highlighting the number of patients initiating treatment with that drug and those transitioning from other therapies. The intensity of each edge corresponds to the average duration of treatment, with darker shades signifying longer treatment periods. Using this graph, we can offer a comprehensive overview of treatment patterns, enabling the identification of effective therapies, treatment switching behaviors, and potential areas for optimization.
 
 From examining the results, we can broadly categorize the clusters as follows:
 
