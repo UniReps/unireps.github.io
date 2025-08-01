@@ -46,9 +46,9 @@ pagination:
 
 <strong>Important dates</strong>:
 <ul>
-  <li>To showcase your blogpost during the poster session of UniReps at NeurIPS 2024, the submission deadline is: 
+  <li>To showcase your blogpost during the poster session of UniReps at NeurIPS 2025, the submission deadline is: 
   <br>
-  <strong>25th November 2024 (AoE)</strong></li>
+  <strong>15th October 2025 (AoE)</strong></li>
 </ul>
 
 <p>For additional questions, discussion, and updates, join our <a href="https://discord.gg/XdeamXWsFE">Discord community</a> 🟣!</p>
