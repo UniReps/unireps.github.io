@@ -10,78 +10,63 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # Fetch all branches and full history
-          # Make sure the value of GITHUB_TOKEN will not be persisted in repo's config
-          persist-credentials: false
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Fetch all branches and full history
+        
+    - name: Install the latest version of uv with caching
+      id: setup-uv
+      uses: astral-sh/setup-uv@v1
+      with:
+        enable-cache: true
 
-      # TODO: move this to the "PR accepted" workflow
-      # - name: Prettify code
-      #   uses: creyD/prettier_action@v4.3
-      #   with:
-      #     prettier_options: '--write **/*.{js,jsx,ts,tsx,css,scss,md,html,yaml,liquid,yml}'
-      #     only_changed: True
-      #     # Set your custom token
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Run validation script
+      run: uv run scripts/submission_check.py ${{ github.event.pull_request.base.ref }}
 
-      # # Checkout the code again to get the latest changes (with Prettier formatting)
-      # - name: Checkout updated code
-      #   uses: actions/checkout@v4
-      #   with:
-      #     fetch-depth: 0 # Ensure full history is fetched
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: "3.2.2"
+        bundler-cache: true
 
-      - name: Install the latest version of uv with caching
-        id: setup-uv
-        uses: astral-sh/setup-uv@v1
-        with:
-          enable-cache: true
+    - name: Install and Build 🔧
+      run: |
+        pip3 install --upgrade jupyter
+        export JEKYLL_ENV=production
+        bundle exec jekyll build
 
-      - name: Run validation script
-        run: uv run scripts/submission_check.py ${{ github.event.pull_request.base.ref }}
+    - name: Purge unused CSS 🧹
+      run: |
+        npm install -g purgecss
+        purgecss -c purgecss.config.js
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: "3.2.2"
-          bundler-cache: true
+    - name: Deploy to Submission Branch
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./_site
+        destination_dir: submission
+        
+    - name: Install GitHub CLI
+      run: sudo apt-get install gh
 
-      - name: Install and Build 🔧
-        run: |
-          pip3 install --upgrade jupyter
-          export JEKYLL_ENV=production
-          bundle exec jekyll build
+    - name: Post Preview Link to PR
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        PREVIEW_URL=https://${{ github.repository_owner }}.github.io/${{ github.repository_id }}/submission/
+        COMMENT_BODY="Preview of your submission is available at: $PREVIEW_URL"
 
-      - name: Purge unused CSS 🧹
-        run: |
-          npm install -g purgecss
-          purgecss -c purgecss.config.js
+        # Fetch the existing comments on the pull request
+        COMMENTS=$(gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments --jq '.[].body')
 
-      - name: Deploy to Submission Branch
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./_site
-          destination_dir: submission/pr-${{ github.event.pull_request.number }}
-
-      - name: Install GitHub CLI
-        run: sudo apt-get install gh
-
-      - name: Post Preview Link to PR
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          # Construct a unique preview URL using the pull request number
-          PREVIEW_URL=https://${{ github.repository_owner }}.github.io/${{ github.repository }}/submission/pr-${{ github.event.pull_request.number }}
-          COMMENT_BODY="Preview of your submission is available at: $PREVIEW_URL"
-
-          # Fetch the existing comments on the pull request
-          EXISTING_COMMENT=$(gh pr view ${{ github.event.pull_request.number }} --json comments --jq '.comments[] | select(.body | contains("Preview of your submission is available at")) | .id')
-
-          # Check if a preview comment already exists and update or create a new one
-          if [ -z "$EXISTING_COMMENT" ]; then
-            gh pr comment ${{ github.event.pull_request.number }} --body "$COMMENT_BODY"
-          else
-            gh pr comment $EXISTING_COMMENT --body "$COMMENT_BODY"
-          fi
+        # Check if a preview comment already exists
+        if echo "$COMMENTS" | grep -q "Preview of your submission is available at"; then
+          # Find the comment ID and update the comment
+          COMMENT_ID=$(gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments --jq '.[] | select(.body | contains("Preview of your submission is available at")) | .id')
+          gh api repos/${{ github.repository }}/issues/comments/$COMMENT_ID --method PATCH -f body="$COMMENT_BODY"
+        else
+          # Create a new comment if no preview comment exists
+          gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments --method POST -f body="$COMMENT_BODY"
+        fi
