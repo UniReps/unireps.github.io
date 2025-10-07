@@ -21,7 +21,7 @@ authors:
     affiliations:
       name: Psychology, University of Washington
 
-bibliography: 2024-11-20-failures_perspectivetaking.bib
+bibliography: 2024-11-20-failures_perspectivetaking/2024-11-20-failures_perspectivetaking.bib
 
 # Optionally, you can add a table of contents to your post.
 # NOTES:
@@ -48,16 +48,16 @@ toc:
 Listen to the AI-generated podcast based on our preprint or check out the benchmark paper and project on GitHub:
 
 <audio controls preload="auto">
-  <source src="/assets/audio/podcast.mp3" type="audio/mpeg">
+  <source src="/assets/audio/2024-11-20-failures_perspectivetaking/podcast.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
 
 <div style="display: flex; align-items: center;">
   <a href="https://github.com/bridgetleonard2/perspectiveTaking" style="margin-left: 70px; margin-right: 80px; display: inline-block;">
-    <img src="/assets/img/github-mark.png" alt="GitHub" class="logo" width="40" />
+    <img src="/assets/img/2024-11-20-failures_perspectivetaking/github-mark.png" alt="GitHub" class="logo" width="40" />
   </a>
   <a href="https://arxiv.org/abs/2409.13929" style="display: inline-block;">
-    <img src="/assets/img/arxiv-logomark-small@2x.png" alt="arXiv" class="logo" width="30"/>
+    <img src="/assets/img/2024-11-20-failures_perspectivetaking/arxiv-logomark-small@2x.png" alt="arXiv" class="logo" width="30"/>
   </a>
 </div
 >
@@ -121,10 +121,10 @@ Ten iterations of each image were passed through the model to calculate the perc
 
 | Task                      | Example Stimulus                                                                           | Prompt                                                                                                                                         |
 | ------------------------- | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| Level 1                   | <img src="/assets/img/infront_behind_ex.jpg" alt='Level 1: "IN FRONT" 45°' width="300"/>   | For the following images respond with in front or behind to indicate if the cube is in front or behind from the perspective of the person.     |
-| Level 2: Spatial Judgment | <img src="/assets/img/left_right_ex.jpg" alt='Level 2 Spatial: "RIGHT" 225°' width="300"/> | For the following images respond with left or right to indicate if the cube is to the left or to the right from the perspective of the person. |
-| Level 2: Visual Judgment  | <img src="/assets/img/number_ex.jpg" alt='Level 2 Visual: "6" 90°' width="300"/>           | For the following images respond with 6 or 9 to indicate if the number on the cube is a 6 or a 9 from the perspective of the person.           |
-| Level 2: Visual Judgment  | <img src="/assets/img/letter_ex.jpg" alt='Level 2 Visual: "W" 315°' width="300"/>          | For the following images respond with M or W to indicate if the letter on the cube is an M or a W from the perspective of the person.          |
+| Level 1                   | <img src="/assets/img/2024-11-20-failures_perspectivetaking/infront_behind_ex.jpg" alt='Level 1: "IN FRONT" 45°' width="300"/>   | For the following images respond with in front or behind to indicate if the cube is in front or behind from the perspective of the person.     |
+| Level 2: Spatial Judgment | <img src="/assets/img/2024-11-20-failures_perspectivetaking/left_right_ex.jpg" alt='Level 2 Spatial: "RIGHT" 225°' width="300"/> | For the following images respond with left or right to indicate if the cube is to the left or to the right from the perspective of the person. |
+| Level 2: Visual Judgment  | <img src="/assets/img/2024-11-20-failures_perspectivetaking/number_ex.jpg" alt='Level 2 Visual: "6" 90°' width="300"/>           | For the following images respond with 6 or 9 to indicate if the number on the cube is a 6 or a 9 from the perspective of the person.           |
+| Level 2: Visual Judgment  | <img src="/assets/img/2024-11-20-failures_perspectivetaking/letter_ex.jpg" alt='Level 2 Visual: "W" 315°' width="300"/>          | For the following images respond with M or W to indicate if the letter on the cube is an M or a W from the perspective of the person.          |
 
 ### Chain of Thought Prompting
 
@@ -141,7 +141,7 @@ To further examine how language might be used to solve spatial tasks, we include
 GPT-4o performed with near-perfect accuracy on 6 out of the 8 image angles as seen below. Its poor performance on 0° images is likely due to an accidental viewpoint where the avatar blocked one of the shapes. However, poor performance on 315° image types is less interpretable, especially in contrast to GPT-4o's impressive performance on 45° images, which have the same angular perspective.
 
 <div class="l-body">
-  <iframe src="{{ '/assets/plotly/infront_behind.html' | relative_url }}" frameborder='0' scrolling='no' height="450px" width="100%"></iframe>
+  <iframe src="{{ '/assets/plotly/2024-11-20-failures_perspectivetaking/infront_behind.html' | relative_url }}" frameborder='0' scrolling='no' height="450px" width="100%"></iframe>
 </div>
 
 ### Level 2 Spatial and Visual Judgments
@@ -149,7 +149,7 @@ GPT-4o performed with near-perfect accuracy on 6 out of the 8 image angles as se
 As previously mentioned, human response times increase on perspective-taking tasks as the angular difference between the target and observer increases <d-cite key="surtees2013similarities"></d-cite>. We administered the task to a small number of human participants and replicated this effect with both our stimuli types, finding a bell-shaped curve in the relationship between response time and angle. Response times peaked when the target required a full mental rotation (180°), as seen in the green line in the figure below. As expected, GPT-4o struggled with the task when mental rotation was involved, beginning around a 90° angular difference. Interestingly, in both tasks, GPT-4o exhibited a response bias toward either "left" or "6" or "W" when the angular difference of the avatar is 90° or 135° in either direction. This likely reflects uncertainty from an egocentric perspective, and thus, a default to one response over another.
 
 <div class="l-page-outset">
-  <iframe src="{{ '/assets/plotly/subplots.html' | relative_url }}" frameborder='0' scrolling='no' height="550px" width="100%"></iframe>
+  <iframe src="{{ '/assets/plotly/2024-11-20-failures_perspectivetaking/subplots.html' | relative_url }}" frameborder='0' scrolling='no' height="550px" width="100%"></iframe>
 </div>
 
 ### Chain of Thought
@@ -157,7 +157,7 @@ As previously mentioned, human response times increase on perspective-taking tas
 GPT-4o performance significantly improved with chain-of-thought prompting on 180° stimuli. However, this linguistic strategy did not improve the model's ability to handle intermediate rotations between 90° and 180°. This suggests that while language can convey some level of spatial information, it lacks the precision required for human-level spatial cognition. This demonstration of surface-level perspective-taking abilities can partially explain how multimodal models achieve high performance on certain spatial benchmarks.
 
 <div class="l-body">
-  <iframe src="{{ '/assets/plotly/cot.html' | relative_url }}" frameborder='0' scrolling='no' height="450px" width="100%"></iframe>
+  <iframe src="{{ '/assets/plotly/2024-11-20-failures_perspectivetaking/cot.html' | relative_url }}" frameborder='0' scrolling='no' height="450px" width="100%"></iframe>
 </div>
 
 ---
