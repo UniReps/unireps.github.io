@@ -123,7 +123,7 @@ We welcome blogposts of different nature:
 - Opinion pieces on relevant topics in UniReps 🧠
 - And more!
 
-Remember, the goal is to share your insights, spark discussions, and connect with the community. Keep it engaging and accessible to the [broad workshop audience](https://unireps.org/2024/)!
+Remember, the goal is to share your insights, spark discussions, and connect with the community. Keep it engaging and accessible to the [broad workshop audience](https://unireps.org/2025/)!
 
 ### Create a New Post
 

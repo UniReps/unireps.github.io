@@ -1,0 +1,67 @@
+name: Build & Publish to External Repo Subfolder (on main)
+
+on:
+  push:
+    branches: [ master ]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-publish-main
+  cancel-in-progress: true
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2.2"
+          bundler-cache: true
+
+      - name: Build site 🔧
+        run: |
+          pip3 install --upgrade jupyter
+          export JEKYLL_ENV=production
+          bundle exec jekyll build
+
+      - name: Purge unused CSS 🧹
+        run: |
+          npm install -g purgecss
+          purgecss -c purgecss.config.js
+
+      # Now clone the target repo, replace the subfolder, and push
+      - name: Checkout target repo
+        uses: actions/checkout@v4
+        with:
+          repository: crisostomi/uni-reps              
+          token: ${{ secrets.MAIN_WEBSITE_TOKEN }}
+          path: target-repo
+          fetch-depth: 0
+
+      - name: Copy build into subfolder
+        run: |
+          mkdir -p target-repo/static/blog
+          rm -rf target-repo/static/blog/* || true
+          cp -r _site/* target-repo/static/blog/
+
+      - name: Commit & push changes
+        working-directory: target-repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain)" ]; then
+            git add -A
+            git commit -m "Update static/blog from ${GITHUB_REPOSITORY}@${GITHUB_SHA}"
+            git push
+          else
+            echo "No changes to commit."
+          fi
