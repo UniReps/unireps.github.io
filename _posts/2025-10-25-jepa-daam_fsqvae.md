@@ -56,7 +56,7 @@ toc:
 
 We introduce a two-stage self-supervised learning framework that combines Joint-Embedding Predictive Architecture (JEPA) <d-cite key="Assran2023IJEPA"></d-cite>, <d-cite key="assran2023selfsupervisedlearningimagesjointembedding"></d-cite> with Density Adaptive Attention Mechanisms for learning robust speech representations. This approach decouples representation learning from reconstruction: Stage 1 employs JEPA with DAAM to learn semantic audio features through masked prediction, while Stage 2 leverages these frozen representations for efficient tokenization via Finite Scalar Quantization (FSQ) <d-cite key="Mentzer2023FSQ"></d-cite> and high-quality reconstruction through HiFi-GAN <d-cite key="Ioannides2024DAAM"></d-cite>.
 
-**Key innovation:** By integrating DAAM-based gating into the JEPA encoder, we achieve adaptive feature selection during self-supervised learning <d-cite key="Ioannides2024DAAM"></d-cite>. Combined with our mixed-radix packing scheme, the learned representations capture hierarchical (due progressively to downsampling the signal from layer to layer) speech structure—from at the low frame rate of 2.5Hz, enabling efficient speech modeling without requiring labeled data.
+**Key innovation:** By integrating Density AAdaptive Attentio-based gating (i.e. Gaussian Mixture gating) into the JEPA encoder, we achieve adaptive feature selection during self-supervised learning <d-cite key="Ioannides2024DAAM"></d-cite>. Combined with our mixed-radix packing scheme, the learned representations capture hierarchical speech structure (due to progressively downsampling the signal from layer to layer) — at the low frame rate of 2.5Hz, enabling efficient speech modeling without requiring labeled data.
 
 ### Motivation: Why JEPA for Speech?
 
