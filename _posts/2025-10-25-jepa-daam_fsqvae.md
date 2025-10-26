@@ -30,6 +30,9 @@ authors:
   - name: Ravid Shwartz-Ziv
     affiliations:
       name: New York University
+  - name: Yann LeCun
+    affiliations:
+      name: New York University
 
 bibliography: 2025-10-25-jepa-daam.bib
 
