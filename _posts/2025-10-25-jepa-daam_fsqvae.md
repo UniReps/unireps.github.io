@@ -54,9 +54,9 @@ toc:
 
 ### Overview
 
-We introduce a two-stage self-supervised learning framework that combines Joint-Embedding Predictive Architecture (JEPA) <d-cite key="Assran2023IJEPA"></d-cite>, <d-cite key="assran2023selfsupervisedlearningimagesjointembedding"></d-cite> with Density Adaptive Attention Mechanisms for learning robust speech representations. This approach decouples representation learning from reconstruction: Stage 1 employs JEPA with DAAM to learn semantic audio features through masked prediction, while Stage 2 leverages these frozen representations for efficient tokenization via Finite Scalar Quantization (FSQ) <d-cite key="Mentzer2023FSQ"></d-cite> and high-quality reconstruction through HiFi-GAN <d-cite key="Ioannides2024DAAM"></d-cite>.
+We introduce a two-stage self-supervised learning framework that combines Joint-Embedding Predictive Architecture (JEPA) <d-cite key="Assran2023IJEPA"></d-cite> with Density Adaptive Attention Mechanisms for learning robust speech representations. This approach decouples representation learning from reconstruction: Stage 1 employs JEPA with DAAM to learn semantic audio features through masked prediction, while Stage 2 leverages these frozen representations for efficient tokenization via Finite Scalar Quantization (FSQ) <d-cite key="Mentzer2023FSQ"></d-cite> and high-quality reconstruction through HiFi-GAN <d-cite key="Kong2020HiFiGAN"></d-cite>.
 
-**Key innovation:** By integrating Density AAdaptive Attentio-based gating (i.e. Gaussian Mixture gating) into the JEPA encoder, we achieve adaptive feature selection during self-supervised learning <d-cite key="Ioannides2024DAAM"></d-cite>. Combined with our mixed-radix packing scheme, the learned representations capture hierarchical speech structure (due to progressively downsampling the signal from layer to layer) — at the low frame rate of 2.5Hz, enabling efficient speech modeling without requiring labeled data.
+**Key innovation:** By integrating Density Adaptive Attention-based gating (i.e. Gaussian Mixture gating) <d-cite key="Ioannides2024DAAM"></d-cite> into the JEPA encoder, we achieve adaptive feature selection during self-supervised learning. Combined with our mixed-radix packing scheme, the learned representations capture hierarchical speech structure (due to progressively downsampling the signal from layer to layer) — at the low frame rate of 2.5Hz, enabling efficient speech modeling without requiring labeled data.
 
 ### Motivation: Why JEPA for Speech?
 
@@ -120,7 +120,7 @@ At 2.5 Hz frame rate, this corresponds to variable spans adapted to the sequence
 
 #### Density Adaptive Attention for Temporal Feature Modulation
 
-The core innovation integrating an stabilized version of the original DAAM into JEPA is the **DensityAdaptiveAttention** module, which computes adaptive attention gates based on learned Gaussian mixture distributions. Unlike standard self-attention that computes pairwise dot-product between positions, DAAM learns to identify **statistically salient** temporal regions based on their distribution characteristics.
+The core innovation integrating a stabilized version of the original DAAM into JEPA is the **DensityAdaptiveAttention** module, which computes adaptive attention gates based on learned Gaussian mixture distributions. Unlike standard self-attention that computes pairwise dot-product between positions, DAAM learns to identify **statistically salient** temporal regions based on their distribution characteristics.
 
 **Mathematical Formulation:**
 
@@ -294,7 +294,7 @@ $$
 
 where:
 - $\mathcal{M} = \{t : m_t = 0\}$ is the set of masked positions
-- $N_{\text{mask}} = |\mathcal{M}|$ is the number of masked timesteps
+- $N_{\mathrm{mask}} = \lvert \mathcal{M} \rvert$ is the number of masked timesteps
 - $C$ is the channel dimension
 - $\text{sg}(\cdot)$ denotes stop-gradient operation on target features
 - $\mathbf{z}_{\text{pred}}^{(t)} \in \mathbb{R}^C$ is the predictor output at position $t$
