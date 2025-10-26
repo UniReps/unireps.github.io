@@ -383,7 +383,7 @@ $$
 **Our FSQ configuration:**
 - Levels: $\mathbf{L} = [4, 4, 4, 4]$ (4-level quantization per group)
 - Code dimension: $C = 128$
-- Each group of 32 dimensions uses same level
+- All quantized dimensions use 4 levels (radix 4) across the 128-D code
 - Temperature: $\tau = 1.0$ (no annealing)
 
 **Straight-through estimator:**
@@ -447,7 +447,7 @@ This requires only $G-1$ multiplications and $G-1$ additions, making it highly e
 
 **Padding and grouping:**
 
-Our FSQ implementation produces $D = 128$ quantized dimensions. With group size $G = 7$:
+Our FSQ implementation produces $D = 128$ quantized dimensions. We choose a group size $G = 7$ for packing (a design choice; increasing $G$ increases vocabulary $4^G$ and decreases tokens/sec $2.5 \times \lceil 128/G \rceil$):
 
 - Number of groups: $\lceil 128 / 7 \rceil = 19$ groups
 - Padding needed: $19 \times 7 - 128 = 5$ dimensions
@@ -496,7 +496,7 @@ This is computed iteratively:
 
 **Vocabulary size considerations:**
 
-With $G=7$ dimensions of level $L=4$, the vocabulary size is $4^7 = 16384$ distinct tokens per group. This is comparable to subword vocabularies in language models (e.g., BPE with 16k merges), making our tokenized representations compatible with standard Transformer architectures.
+With $G=7$ (packing choice) and per-dimension radix $4$, the vocabulary per packed token is $4^7 = 16384$. Changing $G$ trades vocabulary size ($4^G$) against tokens/sec ($2.5 \times \lceil 128/G \rceil$). This is comparable to subword vocabularies in language models (e.g., BPE with 16k merges), making our tokenized representations compatible with standard Transformer architectures.
 
 **Integration with language models:**
 
