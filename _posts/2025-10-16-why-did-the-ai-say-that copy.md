@@ -21,7 +21,7 @@ authors:
     affiliations:
       name: University of Kansas
 
-bibliography: 2025-10-16-why-did-the-ai-say-that.bib
+bibliography: 2025-10-26-why-did-the-ai-say-that.bib
 
 # Table of contents
 toc:
