@@ -122,46 +122,63 @@ Comparing whole-brain dynamics across individuals is hard without a common refer
 Resting-state fUS from N=8 mice (7 Cre-lox ASD models spanning 4 subtypes; 1 control with no symptomatic manifestation modelled); 54 bilateral regions (27 L/R pairs; whole-brain collection) - unified across all the subjects; two runs per mouse (1494 frames for each recording session; TR ≈ 0.6 s); runs concatenated per subject.
 
 
-<figure class="l-page">
-  <iframe
-    src="{{ '/assets/plotly/2025-10-25-phase-diagram-playbook/3D-ELA.html' | relative_url }}"
-    title="Interactive 3D energy landscape of an example subject"
-    loading="lazy"
-    style="width:100%; aspect-ratio: 10 / 10; border:0;"
-    allowfullscreen
-  ></iframe>
-  <figcaption style="color:var(--theme-text, #eaeaea)">
-    <strong>Interactive 3D energy landscape for an example mouse</strong>
-      <br><br>
-    <noscript>
-      <a href="{{ '/assets/plotly/2025-10-25-phase-diagram-playbook/3D-ELA.html' | relative_url }}">
-        Open the interactive figure.
-      </a>
-    </noscript>
+<style>
+  /* Local tweaks for interactive Plotly figures (include once per page) */
+  figure.plotblock { 
+    clear: both;
+    display: block;
+    margin: 2rem 0 3rem;
+  }
+  figure.plotblock .holder {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    height: clamp(520px, 72vh, 900px);  /* reserve real space to avoid reflow */
+    overflow: hidden;                   /* keep canvas/modebar inside */
+  }
+  figure.plotblock figcaption {
+    margin-top: .75rem;
+    text-align: center;
+    font-size: .95rem;
+    color: var(--theme-text, #eaeaea);
+  }
+</style>
+
+<!-- Include Plotly once per page (remove if already included) -->
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+
+<figure class="plotblock l-page">
+  <div id="louvain-3d-fig" class="holder" aria-label="3D Louvain graph of brain regions"></div>
+  <figcaption>
+    <strong>3D Louvain graph of brain regions.</strong>
+    Nodes are regions; node colour shows Louvain communities, edges reflect above-threshold similarity used for the graph. 
+    Hover reveals region name, degree, and cluster; drag to rotate, scroll to zoom.
   </figcaption>
 </figure>
 
-<figure class="l-page">
-  <iframe
-    src="{{ '/assets/plotly/2025-10-25-phase-diagram-playbook/3D-ELA2.html' | relative_url }}"
-    title="Interactive 3D energy landscape of another example subject"
-    loading="lazy"
-    style="width:100%; aspect-ratio: 10 / 10; border:0;"
-    allowfullscreen
-  ></iframe>
-  <figcaption style="color:var(--theme-text, #eaeaea)">
-    <strong>Interactive 3D energy landscape for another example mouse </strong>
-      <br><br> 
-    <noscript>
-      <a href="{{ '/assets/plotly/2025-10-25-phase-diagram-playbook/3D-ELA2.html' | relative_url }}">
-        Open the interactive figure.
-      </a>
-    </noscript>
-  </figcaption>
-</figure>
+<script>
+(async () => {
+  const el = document.getElementById('louvain-3d-fig');
+  try {
+    const res = await fetch("{{ '/assets/plotly/2025-10-25-phase-diagram-playbook/3D-louvain.json' | relative_url }}");
+    const spec = await res.json();
 
+    // Render (spec can be either a full figure or {data, layout, config})
+    Plotly.newPlot(
+      el,
+      spec.data || spec,
+      spec.layout || {},
+      Object.assign({ responsive: true, displaylogo: false }, spec.config || {})
+    );
 
-
+    // Nudge layout to fit nicely in the reserved holder
+    window.addEventListener('resize', () => Plotly.Plots.resize(el));
+  } catch (e) {
+    console.error('Plot load error: Louvain 3D', e);
+    el.textContent = 'Interactive figure failed to load.';
+  }
+})();
+</script>
 
 
 ---
@@ -350,20 +367,36 @@ This sub-pipeline fills in missing regional time series in whole-brain power-Dop
 </figure>
 
 
-<div style="position:relative;width:100%;max-width:980px;height:0;padding-bottom:62%;">
-  <iframe
-    src="{{ '/assets/plotly/2025-10-25-phase-diagram-playbook/3D-impu.html'  | relative_url }}"
-    title="Nearest-neighbours imputation — 3D PCA view"
-    loading="lazy"
-    style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
-    allowfullscreen>
-  </iframe>
-</div>
+<figure class="l-page">
+  <div id="plot-3d-impu"
+      style="position:relative;width:100%;max-width:980px;height:0;padding-bottom:85%;">
+  </div>
+  <figcaption style="color:var(--theme-text, #eaeaea)">
+    <strong>Nearest-neighbours imputation — 3D PCA view</strong>
+  </figcaption>
+</figure>
 
-<p class="figure-caption" style="color:var(--theme-text,#eaeaea);margin-top:.5rem;">
-  <strong>Nearest-neighbours in PCA space (interactive).</strong>
-  Each marker is a reference mouse/run for the same region, embedded by PCA of the region’s time-series vectors; colours show clusters (nearest-neighbour groups). The <em>red diamond</em> is the imputed series; the <em>blue marker(s)</em> indicate the current mouse/run.
+<!-- Include Plotly once per page -->
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
 
+<script>
+(async function () {
+  const mount = document.getElementById('plot-3d-impu');
+  const jsonUrl = "{{ '/assets/plotly/2025-10-25-phase-diagram-playbook/3D-impu2.json' | relative_url }}";
+
+  try {
+    const res  = await fetch(jsonUrl);
+    const spec = await res.json();
+    const data   = spec.data   || spec;
+    const layout = spec.layout || {};
+    const config = Object.assign({ responsive: true, displaylogo: false }, spec.config || {});
+    Plotly.newPlot(mount, data, layout, config);
+  } catch (err) {
+    console.error('Plot load error:', err);
+    mount.textContent = 'Interactive figure failed to load.';
+  }
+})();
+</script>
 
 
 {% enddetails %}
@@ -1134,6 +1167,55 @@ where $$\mathbf{s}^{(i)}$$ is $$\mathbf{s}$$ with spin $$i$$ flipped. This yield
 
 **Read-outs:** (i) attractor maps (patterns + labels), (ii) disconnectivity graphs, (iii) barrier distributions, (iv) transition/reachability matrices (one-step and multi-step), and (v) kinetic summaries (MFPT heatmaps, committor fields, relaxation spectra, Kemeny constants). These quantify stability, switching propensity, and heterogeneity of access between states.
 
+
+<!-- Figure 1 -->
+<figure class="l-page">
+  <div id="ela-1" style="width:100%;max-width:1100px;height:min(80vh,820px);"></div>
+  <figcaption style="color:var(--theme-text, #eaeaea)">
+    <strong>Interactive 3D energy landscape for an example mouse</strong>
+  </figcaption>
+</figure>
+
+<!-- Figure 2 -->
+<figure class="l-page">
+  <div id="ela-2" style="width:100%;max-width:1100px;height:min(80vh,820px);"></div>
+  <figcaption style="color:var(--theme-text, #eaeaea)">
+    <strong>Interactive 3D energy landscape for another example mouse</strong>
+  </figcaption>
+</figure>
+
+<!-- Include Plotly once per page -->
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+
+<script>
+(async () => {
+  const figs = [
+    {
+      mount: document.getElementById('ela-1'),
+      url: "{{ '/assets/plotly/2025-10-25-phase-diagram-playbook/3D-ELA22.json' | relative_url }}"
+    },
+    {
+      mount: document.getElementById('ela-2'),
+      url: "{{ '/assets/plotly/2025-10-25-phase-diagram-playbook/3D-ELA23.json' | relative_url }}"
+    }
+  ];
+
+  for (const f of figs) {
+    try {
+      const res  = await fetch(f.url);
+      const spec = await res.json();
+      const data   = spec.data   || spec;
+      const layout = spec.layout || {};
+      const config = Object.assign({ responsive: true, displaylogo: false }, spec.config || {});
+      Plotly.newPlot(f.mount, data, layout, config);
+    } catch (err) {
+      console.error('Plotly JSON load error:', f.url, err);
+      f.mount.textContent = 'Interactive figure failed to load.';
+    }
+  }
+})();
+</script>
+
 Crucially, these mechanistic and interpretable descriptors and metrics provide an additional high-level framework for comparing brain dynamics across different individuals, or even cohorts with systematically divergent patterns of neural activity - a discrete and more intuitive alternative to classic means for unifying/juxtaposing representations in computational systems. 
 
 <!-- Energy Landscape Analysis (ELA) – composite panel --> 
@@ -1173,26 +1255,108 @@ Crucially, these mechanistic and interpretable descriptors and metrics provide a
 ## 6) Phase-Diagram Analysis (PDA): multi-observable placement
 
 **Goal:** 
-Place every subject on a *shared* Sherrington–Kirkpatrick‑like $$(\mu,\sigma)$$ phase surface using *multiple* observables at once, with uncertainty, so that cohorts become directly comparable without needing a fixed “healthy baseline”. PDA sits downstream of our shared‑latent → binarisation → Ising (PMEM) fit, and is designed to be robust, auditable, and reproducible from end to end. <d-cite key="edwards1975ea,sherrington1975sk,ezaki2020critical"></d-cite>
+Place every subject on a *shared* Sherrington–Kirkpatrick-like $$(\mu,\sigma)$$ phase surface using *multiple* observables at once, with uncertainty, so that cohorts become directly comparable without needing a fixed “healthy baseline”. PDA sits downstream of our shared-latent → binarisation → Ising (PMEM) fit, and is designed to be robust, auditable, and reproducible from end to end. <d-cite key="edwards1975ea,sherrington1975sk,ezaki2020critical"></d-cite>
 
-<figure class="l-page">
-  <iframe
-    src="{{ '/assets/plotly/2025-10-25-phase-diagram-playbook/3D-PDA.html' | relative_url }}"
-    title="Interactive 3D surface for an example phase diagram metric with cohort-aware placements"
-    loading="lazy"
-    style="width:100%; aspect-ratio: 10 / 10; border:0;"
-    allowfullscreen
-  ></iframe>
-  <figcaption style="color:var(--theme-text, #eaeaea)">
-    <strong>Interactive 3D phase diagram with robust multi-subject positioning - illustrated for C as the example metric </strong>
-      <br><br> 
-    <noscript>
-      <a href="{{ 'assets/plotly/2025-10-25-phase-diagram-playbook/3D-PDA.html' | relative_url }}">
-        Open the interactive figure.
-      </a>
-    </noscript>
-  </figcaption>
+<style>
+  /* Local tweaks for interactive Plotly figures */
+  figure.plotblock { 
+    clear: both;
+    display: block;
+    margin: 2rem 0 3rem;       /* a touch more bottom margin */
+  }
+  figure.plotblock .holder {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    height: clamp(520px, 72vh, 900px);  /* explicit height to reserve space */
+    overflow: hidden;                   /* prevent canvas/modebar spillover */
+  }
+  figure.plotblock figcaption {
+    margin-top: .75rem;
+    text-align: center;
+    font-size: .95rem;
+    color: var(--theme-text, #eaeaea);
+  }
+</style>
+
+<!-- Include Plotly once per page (remove if already included) -->
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+
+<figure class="plotblock l-page">
+  <div id="pda-m-fig" class="holder"></div>
+  <figcaption><strong>Magnetisation (m)</strong> — whole-brain activation bias on the σ–μ plane (pooled-reference surface).</figcaption>
 </figure>
+<script>
+(async () => {
+  const el = document.getElementById('pda-m-fig');
+  try {
+    const res = await fetch("{{ '/assets/plotly/2025-10-25-phase-diagram-playbook/3D-PDA-m.json' | relative_url }}");
+    const spec = await res.json();
+    Plotly.newPlot(el, spec.data || spec, spec.layout || {}, Object.assign({responsive:true, displaylogo:false}, spec.config || {}));
+  } catch (e) { console.error('Plot load error: m', e); el.textContent = 'Interactive figure failed to load.'; }
+})();
+</script>
+
+<figure class="plotblock l-page">
+  <div id="pda-q-fig" class="holder"></div>
+  <figcaption><strong>Spin-glass order (q)</strong> — pattern stability; high q = rigid/repetitive, low q = flexible/variable (pooled-reference).</figcaption>
+</figure>
+<script>
+(async () => {
+  const el = document.getElementById('pda-q-fig');
+  try {
+    const res = await fetch("{{ '/assets/plotly/2025-10-25-phase-diagram-playbook/3D-PDA-q.json' | relative_url }}");
+    const spec = await res.json();
+    Plotly.newPlot(el, spec.data || spec, spec.layout || {}, Object.assign({responsive:true, displaylogo:false}, spec.config || {}));
+  } catch (e) { console.error('Plot load error: q', e); el.textContent = 'Interactive figure failed to load.'; }
+})();
+</script>
+
+<figure class="plotblock l-page">
+  <div id="pda-chisg-fig" class="holder"></div>
+  <figcaption><strong>Spin-glass susceptibility (χ<sub>SG</sub>)</strong> — sensitivity to local perturbations; peaks indicate proximity to critical boundaries (pooled-reference).</figcaption>
+</figure>
+<script>
+(async () => {
+  const el = document.getElementById('pda-chisg-fig');
+  try {
+    const res = await fetch("{{ '/assets/plotly/2025-10-25-phase-diagram-playbook/3D-PDA-chiSG.json' | relative_url }}");
+    const spec = await res.json();
+    Plotly.newPlot(el, spec.data || spec, spec.layout || {}, Object.assign({responsive:true, displaylogo:false}, spec.config || {}));
+  } catch (e) { console.error('Plot load error: chiSG', e); el.textContent = 'Interactive figure failed to load.'; }
+})();
+</script>
+
+<figure class="plotblock l-page">
+  <div id="pda-chiuni-fig" class="holder"></div>
+  <figcaption><strong>Uniform susceptibility (χ<sub>uni</sub>)</strong> — sensitivity to a global nudge; high values = strong coherent whole-brain shift (pooled-reference).</figcaption>
+</figure>
+<script>
+(async () => {
+  const el = document.getElementById('pda-chiuni-fig');
+  try {
+    const res = await fetch("{{ '/assets/plotly/2025-10-25-phase-diagram-playbook/3D-PDA-chiUni.json' | relative_url }}");
+    const spec = await res.json();
+    Plotly.newPlot(el, spec.data || spec, spec.layout || {}, Object.assign({responsive:true, displaylogo:false}, spec.config || {}));
+  } catch (e) { console.error('Plot load error: chiUni', e); el.textContent = 'Interactive figure failed to load.'; }
+})();
+</script>
+
+<figure class="plotblock l-page">
+  <div id="pda-c-fig" class="holder"></div>
+  <figcaption><strong>Specific heat (C)</strong> — variance of model energy; high C = many competing states near a phase boundary (pooled-reference).</figcaption>
+</figure>
+<script>
+(async () => {
+  const el = document.getElementById('pda-c-fig');
+  try {
+    const res = await fetch("{{ '/assets/plotly/2025-10-25-phase-diagram-playbook/3D-PDA-C.json' | relative_url }}");
+    const spec = await res.json();
+    Plotly.newPlot(el, spec.data || spec, spec.layout || {}, Object.assign({responsive:true, displaylogo:false}, spec.config || {}));
+  } catch (e) { console.error('Plot load error: C', e); el.textContent = 'Interactive figure failed to load.'; }
+})();
+</script>
+
 
 ---
 
