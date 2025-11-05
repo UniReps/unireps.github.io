@@ -95,19 +95,32 @@ def check_submission(base_branch: str):
     if asset_files:
         # If there are changes in the assets directory, ensure they are confined to the right folders
         for file in asset_files:
-            try:
-                submission_key_index = file.parts.index(submission_key)
-                if submission_key_index < 2:
-                    raise ValueError
-            except ValueError:
-                raise Exception(
-                    f"All asset files must be confined to a submission-specific directory. E.g. assets/asset_type_dir/{submission_key}/*. Found: {file}"
-                )
-
-            if "bibliography" in file.parts:
-                if not file.suffix == ".bib":
+            # Special case: bibliography files must be at assets/bibliography/{SUBMISSION_KEY}.bib
+            # Check if the file is in the bibliography directory
+            if len(file.parts) > 1 and file.parts[1] == "bibliography":
+                # Bibliography files must be at exactly assets/bibliography/{SUBMISSION_KEY}.bib
+                # This means the path should have exactly 3 parts: ['assets', 'bibliography', 'filename.bib']
+                if len(file.parts) != 3:
                     raise Exception(
-                        f"Only .bib files are allowed in the bibliography directory. Found: {file}"
+                        f"Bibliography file must be located at exactly assets/bibliography/{submission_key}.bib (no subdirectories). Found: {file}"
+                    )
+                if file.suffix != ".bib":
+                    raise Exception(
+                        f"Bibliography file must have a .bib extension. Found: {file}"
+                    )
+                # if file.stem != submission_key:
+                #     raise Exception(
+                #         f"Bibliography file name must be {submission_key}.bib. Found: {file.name}"
+                #     )
+            else:
+                # All other assets must be in assets/<asset_type>/{SUBMISSION_KEY}/*
+                try:
+                    submission_key_index = file.parts.index(submission_key)
+                    if submission_key_index < 2:
+                        raise ValueError
+                except ValueError:
+                    raise Exception(
+                        f"All asset files must be confined to a submission-specific directory. E.g. assets/asset_type_dir/{submission_key}/*. Found: {file}"
                     )
 
 
