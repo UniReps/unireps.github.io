@@ -152,7 +152,7 @@ Resting-state fUS from N=8 mice (7 Cre-lox ASD models spanning 4 subtypes; 1 con
   <figcaption>
     <strong>3D Louvain graph of brain regions.</strong>
     Nodes are regions; node colour shows Louvain communities, edges reflect above-threshold similarity used for the graph. 
-    Hover reveals region name, degree, and cluster; drag to rotate, scroll to zoom.
+    Hover reveals region name, degree, and cluster; drag to rotate, scroll to zoom, right-click drag to pan.
   </figcaption>
 </figure>
 
@@ -160,7 +160,7 @@ Resting-state fUS from N=8 mice (7 Cre-lox ASD models spanning 4 subtypes; 1 con
 (async () => {
   const el = document.getElementById('louvain-3d-fig');
   try {
-    const res = await fetch("{{ '/assets/plotly/2025-10-25-phase-diagram-playbook/3D-louvain.json' | relative_url }}");
+    const res = await fetch("{{ '/assets/plotly/2025-10-25-phase/3D-louvain.json' | relative_url }}");
     const spec = await res.json();
 
     // Render (spec can be either a full figure or {data, layout, config})
@@ -382,7 +382,7 @@ This sub-pipeline fills in missing regional time series in whole-brain power-Dop
 <script>
 (async function () {
   const mount = document.getElementById('plot-3d-impu');
-  const jsonUrl = "{{ '/assets/plotly/2025-10-25-phase-diagram-playbook/3D-impu2.json' | relative_url }}";
+  const jsonUrl = "{{ '/assets/plotly/2025-10-25-phase/3D-impu2.json' | relative_url }}";
 
   try {
     const res  = await fetch(jsonUrl);
@@ -1192,11 +1192,11 @@ where $$\mathbf{s}^{(i)}$$ is $$\mathbf{s}$$ with spin $$i$$ flipped. This yield
   const figs = [
     {
       mount: document.getElementById('ela-1'),
-      url: "{{ '/assets/plotly/2025-10-25-phase-diagram-playbook/3D-ELA22.json' | relative_url }}"
+      url: "{{ '/assets/plotly/2025-10-25-phase/3D-ELA22.json' | relative_url }}"
     },
     {
       mount: document.getElementById('ela-2'),
-      url: "{{ '/assets/plotly/2025-10-25-phase-diagram-playbook/3D-ELA23.json' | relative_url }}"
+      url: "{{ '/assets/plotly/2025-10-25-phase/3D-ELA23.json' | relative_url }}"
     }
   ];
 
@@ -1290,7 +1290,7 @@ Place every subject on a *shared* Sherrington–Kirkpatrick-like $$(\mu,\sigma)$
 (async () => {
   const el = document.getElementById('pda-m-fig');
   try {
-    const res = await fetch("{{ '/assets/plotly/2025-10-25-phase-diagram-playbook/3D-PDA-m.json' | relative_url }}");
+    const res = await fetch("{{ '/assets/plotly/2025-10-25-phase/3D-PDA-m.json' | relative_url }}");
     const spec = await res.json();
     Plotly.newPlot(el, spec.data || spec, spec.layout || {}, Object.assign({responsive:true, displaylogo:false}, spec.config || {}));
   } catch (e) { console.error('Plot load error: m', e); el.textContent = 'Interactive figure failed to load.'; }
@@ -1305,7 +1305,7 @@ Place every subject on a *shared* Sherrington–Kirkpatrick-like $$(\mu,\sigma)$
 (async () => {
   const el = document.getElementById('pda-q-fig');
   try {
-    const res = await fetch("{{ '/assets/plotly/2025-10-25-phase-diagram-playbook/3D-PDA-q.json' | relative_url }}");
+    const res = await fetch("{{ '/assets/plotly/2025-10-25-phase/3D-PDA-q.json' | relative_url }}");
     const spec = await res.json();
     Plotly.newPlot(el, spec.data || spec, spec.layout || {}, Object.assign({responsive:true, displaylogo:false}, spec.config || {}));
   } catch (e) { console.error('Plot load error: q', e); el.textContent = 'Interactive figure failed to load.'; }
@@ -1320,7 +1320,7 @@ Place every subject on a *shared* Sherrington–Kirkpatrick-like $$(\mu,\sigma)$
 (async () => {
   const el = document.getElementById('pda-chisg-fig');
   try {
-    const res = await fetch("{{ '/assets/plotly/2025-10-25-phase-diagram-playbook/3D-PDA-chiSG.json' | relative_url }}");
+    const res = await fetch("{{ '/assets/plotly/2025-10-25-phase/3D-PDA-chiSG.json' | relative_url }}");
     const spec = await res.json();
     Plotly.newPlot(el, spec.data || spec, spec.layout || {}, Object.assign({responsive:true, displaylogo:false}, spec.config || {}));
   } catch (e) { console.error('Plot load error: chiSG', e); el.textContent = 'Interactive figure failed to load.'; }
@@ -1335,7 +1335,7 @@ Place every subject on a *shared* Sherrington–Kirkpatrick-like $$(\mu,\sigma)$
 (async () => {
   const el = document.getElementById('pda-chiuni-fig');
   try {
-    const res = await fetch("{{ '/assets/plotly/2025-10-25-phase-diagram-playbook/3D-PDA-chiUni.json' | relative_url }}");
+    const res = await fetch("{{ '/assets/plotly/2025-10-25-phase/3D-PDA-chiUni.json' | relative_url }}");
     const spec = await res.json();
     Plotly.newPlot(el, spec.data || spec, spec.layout || {}, Object.assign({responsive:true, displaylogo:false}, spec.config || {}));
   } catch (e) { console.error('Plot load error: chiUni', e); el.textContent = 'Interactive figure failed to load.'; }
@@ -1350,7 +1350,7 @@ Place every subject on a *shared* Sherrington–Kirkpatrick-like $$(\mu,\sigma)$
 (async () => {
   const el = document.getElementById('pda-c-fig');
   try {
-    const res = await fetch("{{ '/assets/plotly/2025-10-25-phase-diagram-playbook/3D-PDA-C.json' | relative_url }}");
+    const res = await fetch("{{ '/assets/plotly/2025-10-25-phase/3D-PDA-C.json' | relative_url }}");
     const spec = await res.json();
     Plotly.newPlot(el, spec.data || spec, spec.layout || {}, Object.assign({responsive:true, displaylogo:false}, spec.config || {}));
   } catch (e) { console.error('Plot load error: C', e); el.textContent = 'Interactive figure failed to load.'; }
