@@ -1,0 +1,374 @@
+<div class="phase-portrait-embed" style="max-width: 800px; margin: 2rem auto;">
+  <div style="position: relative; background: #12161a; border: 1px solid #20262d; border-radius: 12px; padding: 12px;">
+    <canvas id="phaseCanvas" style="width: 100%; height: 500px; display: block; border-radius: 8px; cursor: crosshair;"></canvas>
+    <div style="position: absolute; right: 14px; top: 14px; padding: 6px 10px; border-radius: 999px; background: #0d1318cc; border: 1px solid #2a323b; color: #a8b3c4; font-size: 11px; backdrop-filter: blur(6px); font-family: ui-sans-serif, system-ui;">
+      Click to trace
+    </div>
+  </div>
+  <div style="text-align: center; color: #8f9bad; margin-top: 8px; font-size: 13px; font-family: ui-sans-serif, system-ui;">
+    System: <strong>dx/dt = x + 2y − (x+y)³</strong>, <strong>dy/dt = −y</strong>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('phaseCanvas');
+  if (!canvas) return;
+  
+  const ctx = canvas.getContext('2d');
+  const DPR = window.devicePixelRatio || 1;
+
+  // Model: dx/dt = x + 2y - (x+y)³, dy/dt = -y
+  const f = (x, y) => {
+    const s = x + y;
+    return { dx: x + 2*y - s*s*s, dy: -y };
+  };
+
+  // State
+  const state = {
+    xmin: -2, xmax: 2, ymin: -2, ymax: 2,
+    trajectories: []
+  };
+
+  function setCanvasSize() {
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = Math.floor(rect.width * DPR);
+    canvas.height = Math.floor(rect.height * DPR);
+    ctx.setTransform(1,0,0,1,0,0);
+    ctx.scale(DPR, DPR);
+    draw();
+  }
+
+  function W() { return state.xmax - state.xmin; }
+  function H() { return state.ymax - state.ymin; }
+
+  function worldToCanvas(x, y) {
+    const rect = canvas.getBoundingClientRect();
+    const u = (x - state.xmin) / W() * rect.width;
+    const v = (state.ymax - y) / H() * rect.height;
+    return [u, v];
+  }
+
+  function canvasToWorld(u, v) {
+    const rect = canvas.getBoundingClientRect();
+    const x = state.xmin + (u / rect.width) * W();
+    const y = state.ymax - (v / rect.height) * H();
+    return [x, y];
+  }
+
+  function rk4Step(x, y, h) {
+    const k1 = f(x, y);
+    const k2 = f(x + 0.5*h*k1.dx, y + 0.5*h*k1.dy);
+    const k3 = f(x + 0.5*h*k2.dx, y + 0.5*h*k2.dy);
+    const k4 = f(x + h*k3.dx, y + h*k3.dy);
+    const nx = x + (h/6)*(k1.dx + 2*k2.dx + 2*k3.dx + k4.dx);
+    const ny = y + (h/6)*(k1.dy + 2*k2.dy + 2*k3.dy + k4.dy);
+    return { x: nx, y: ny };
+  }
+
+  function draw() {
+    const rect = canvas.getBoundingClientRect();
+    ctx.clearRect(0, 0, rect.width, rect.height);
+
+    // Background
+    ctx.fillStyle = '#12161a';
+    ctx.fillRect(0, 0, rect.width, rect.height);
+
+    drawGrid();
+    drawVectorField();
+    // drawNullclines();  // Removed
+    drawAnnotations();
+    drawTrajectories();
+  }
+
+  function drawGrid() {
+    const rect = canvas.getBoundingClientRect();
+    ctx.save();
+    ctx.strokeStyle = '#1e232a';
+    ctx.lineWidth = 1;
+
+    // Grid
+    const xStep = niceStep(W()/8);
+    const yStep = niceStep(H()/8);
+    ctx.beginPath();
+    for (let x = Math.ceil(state.xmin/xStep)*xStep; x <= state.xmax; x += xStep) {
+      const [u] = worldToCanvas(x, 0);
+      ctx.moveTo(u, 0); ctx.lineTo(u, rect.height);
+    }
+    for (let y = Math.ceil(state.ymin/yStep)*yStep; y <= state.ymax; y += yStep) {
+      const [, v] = worldToCanvas(0, y);
+      ctx.moveTo(0, v); ctx.lineTo(rect.width, v);
+    }
+    ctx.stroke();
+
+    // Axes
+    ctx.strokeStyle = '#8f9bad';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    const [ux0, vy0] = worldToCanvas(state.xmin, 0);
+    const [ux1, vy1] = worldToCanvas(state.xmax, 0);
+    ctx.moveTo(ux0, vy0); ctx.lineTo(ux1, vy1);
+    const [ux2, vy2] = worldToCanvas(0, state.ymin);
+    const [ux3, vy3] = worldToCanvas(0, state.ymax);
+    ctx.moveTo(ux2, vy2); ctx.lineTo(ux3, vy3);
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  function drawVectorField() {
+    const rect = canvas.getBoundingClientRect();
+    const cols = 20, rows = 20;
+    const du = rect.width / cols;
+    const dv = rect.height / rows;
+    const maxArrowLen = Math.min(du, dv) * 0.35;
+
+    ctx.save();
+    ctx.strokeStyle = '#3a4453';
+    ctx.lineWidth = 1;
+    ctx.lineCap = 'round';
+
+    for (let i = 0; i <= cols; i++) {
+      for (let j = 0; j <= rows; j++) {
+        const u = i * du + du * 0.5;
+        const v = j * dv + dv * 0.5;
+        const [x, y] = canvasToWorld(u, v);
+        const {dx, dy} = f(x, y);
+        
+        // Transform vector from world coordinates to canvas coordinates
+        const canvas_dx = dx * (rect.width / W());
+        const canvas_dy = -dy * (rect.height / H());  // Note: y is inverted
+        const mag = Math.hypot(canvas_dx, canvas_dy) || 1e-9;
+        const sx = (canvas_dx / mag) * maxArrowLen;
+        const sy = (canvas_dy / mag) * maxArrowLen;
+
+        ctx.beginPath();
+        ctx.moveTo(u - sx*0.6, v - sy*0.6);
+        ctx.lineTo(u + sx*0.6, v + sy*0.6);
+        ctx.stroke();
+
+        // Arrowhead
+        const angle = Math.atan2(sy, sx);
+        const ah = 5;
+        const tailX = u + sx*0.6, tailY = v + sy*0.6;
+        ctx.beginPath();
+        ctx.moveTo(tailX, tailY);
+        ctx.lineTo(tailX - ah*Math.cos(angle - Math.PI/6), tailY - ah*Math.sin(angle - Math.PI/6));
+        ctx.moveTo(tailX, tailY);
+        ctx.lineTo(tailX - ah*Math.cos(angle + Math.PI/6), tailY - ah*Math.sin(angle + Math.PI/6));
+        ctx.stroke();
+      }
+    }
+    ctx.restore();
+  }
+
+  function drawNullclines() {
+    ctx.save();
+    ctx.setLineDash([5, 5]);
+    ctx.strokeStyle = '#ff6b6b99';
+    ctx.lineWidth = 1.5;
+
+    // dx/dt = 0: y = 0 (horizontal line)
+    const [uh1, vh1] = worldToCanvas(state.xmin, 0);
+    const [uh2, vh2] = worldToCanvas(state.xmax, 0);
+    ctx.beginPath();
+    ctx.moveTo(uh1, vh1);
+    ctx.lineTo(uh2, vh2);
+    ctx.stroke();
+
+    // dy/dt = 0: y = x - x³ (cubic curve)
+    ctx.beginPath();
+    const steps = 200;
+    for (let i = 0; i <= steps; i++) {
+      const x = state.xmin + (state.xmax - state.xmin) * i / steps;
+      const y = x - x*x*x;
+      const [u, v] = worldToCanvas(x, y);
+      if (i === 0) ctx.moveTo(u, v);
+      else ctx.lineTo(u, v);
+    }
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  function drawAnnotations() {
+    ctx.save();
+    
+    // 1. Dashed line along y = -x (separatrix)
+    ctx.setLineDash([8, 4]);
+    ctx.strokeStyle = '#ff6600';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    const xStart = Math.max(state.xmin, -state.ymax);
+    const xEnd = Math.min(state.xmax, -state.ymin);
+    const [u1, v1] = worldToCanvas(xStart, -xStart);
+    const [u2, v2] = worldToCanvas(xEnd, -xEnd);
+    ctx.moveTo(u1, v1);
+    ctx.lineTo(u2, v2);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    
+    // Label separatrix (positioned at top-left)
+    ctx.fillStyle = '#ff6600';
+    ctx.font = 'bold 14px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'top';
+    const labelPadding = 10;
+    ctx.fillText('separatrix', labelPadding, labelPadding);
+    
+    // 2. Stable fixed points at (-1, 0) and (1, 0)
+    ctx.fillStyle = '#00ff00';
+    ctx.font = '13px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial';
+    const stablePoints = [[-1, 0], [1, 0]];
+    for (const [x, y] of stablePoints) {
+      const [u, v] = worldToCanvas(x, y);
+      // Draw circle
+      ctx.beginPath();
+      ctx.arc(u, v, 6, 0, 2 * Math.PI);
+      ctx.fill();
+      
+      // Label below each point (3 lines)
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      const offset = 10;
+      const lineHeight = 14;
+      const labels = ['stable', 'fixed', 'point'];
+      labels.forEach((label, i) => {
+        ctx.fillText(label, u, v + offset + i * lineHeight);
+      });
+    }
+    
+    // 3. Unstable fixed point at (0, 0) - draw a cross
+    const [u0, v0] = worldToCanvas(0, 0);
+    ctx.strokeStyle = '#ff6600';
+    ctx.lineWidth = 2.5;
+    const crossSize = 8;
+    ctx.beginPath();
+    ctx.moveTo(u0 - crossSize, v0 - crossSize);
+    ctx.lineTo(u0 + crossSize, v0 + crossSize);
+    ctx.moveTo(u0 - crossSize, v0 + crossSize);
+    ctx.lineTo(u0 + crossSize, v0 - crossSize);
+    ctx.stroke();
+    
+    // Label unstable fixed point (positioned below, 3 lines)
+    ctx.fillStyle = '#ff6600';
+    ctx.font = '13px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    const unstableLabels = ['unstable', 'fixed', 'point'];
+    const unstableLineHeight = 14;
+    unstableLabels.forEach((label, i) => {
+      ctx.fillText(label, u0, v0 + 10 + i * unstableLineHeight);
+    });
+    
+    ctx.restore();
+  }
+
+  function drawTrajectories() {
+    ctx.save();
+    ctx.lineWidth = 2.5;
+    ctx.lineJoin = 'round';
+    
+    for (const tr of state.trajectories) {
+      ctx.strokeStyle = tr.color;
+      ctx.beginPath();
+      let move = true;
+      for (const p of tr.pts) {
+        const [u, v] = worldToCanvas(p.x, p.y);
+        if (move) { ctx.moveTo(u, v); move = false; }
+        else ctx.lineTo(u, v);
+      }
+      ctx.stroke();
+
+      // Start marker
+      const [u0, v0] = worldToCanvas(tr.pts[0].x, tr.pts[0].y);
+      ctx.fillStyle = tr.color;
+      ctx.beginPath();
+      ctx.arc(u0, v0, 3.5, 0, 2*Math.PI);
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  function integrateTrajectory(x0, y0) {
+    const dt = 0.02, nsteps = 4000, eps = 1e-6;
+    
+    // Check if near equilibrium
+    const {dx, dy} = f(x0, y0);
+    if (Math.hypot(dx, dy) < eps) return;
+
+    const ptsF = [{x: x0, y: y0}];
+    const ptsB = [{x: x0, y: y0}];
+
+    // Forward
+    let x = x0, y = y0;
+    for (let i = 0; i < nsteps; i++) {
+      const step = rk4Step(x, y, dt);
+      x = step.x; y = step.y;
+      if (Math.hypot(f(x,y).dx, f(x,y).dy) < eps) break;
+      if (outOfBounds(x, y)) break;
+      ptsF.push({x, y});
+    }
+
+    // Backward
+    x = x0; y = y0;
+    for (let i = 0; i < nsteps; i++) {
+      const step = rk4Step(x, y, -dt);
+      x = step.x; y = step.y;
+      if (Math.hypot(f(x,y).dx, f(x,y).dy) < eps) break;
+      if (outOfBounds(x, y)) break;
+      ptsB.push({x, y});
+    }
+
+    ptsB.reverse();
+    const pts = ptsB.slice(0, -1).concat(ptsF);
+    const color = pickColor();
+    state.trajectories.push({pts, color});
+    draw();
+  }
+
+  function outOfBounds(x, y) {
+    const pad = 0.1;
+    return x < state.xmin - pad*W() || x > state.xmax + pad*W() || 
+           y < state.ymin - pad*H() || y > state.ymax + pad*H();
+  }
+
+  // Interaction
+  canvas.addEventListener('click', (ev) => {
+    const rect = canvas.getBoundingClientRect();
+    const u = ev.clientX - rect.left;
+    const v = ev.clientY - rect.top;
+    const [x, y] = canvasToWorld(u, v);
+    integrateTrajectory(x, y);
+  });
+
+  // Utilities
+  function niceStep(raw) {
+    const pow10 = Math.pow(10, Math.floor(Math.log10(raw)));
+    const n = raw / pow10;
+    const snaps = [1, 2, 2.5, 5, 10];
+    const s = snaps.find(v => n <= v) || 10;
+    return s * pow10;
+  }
+
+  let colorIdx = 0;
+  const palette = [
+    'hsl(48 100% 70%)',   // golden
+    'hsl(190 100% 70%)',  // cyan
+    'hsl(140 100% 70%)',  // green
+    'hsl(300 85% 75%)',   // purple
+    'hsl(12 100% 70%)',   // orange-red
+    'hsl(220 100% 70%)',  // blue
+  ];
+  function pickColor() {
+    const c = palette[colorIdx % palette.length];
+    colorIdx++;
+    return c;
+  }
+
+  // Initialize
+  window.addEventListener('resize', setCanvasSize);
+  setCanvasSize();
+})();
+</script>
+
