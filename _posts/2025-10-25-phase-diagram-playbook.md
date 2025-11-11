@@ -4,7 +4,7 @@ title: "Shared Coordinates for Cross-Subject Brain Dynamics: Universal Latents a
 categories: [shared latent representations, tutorial, subject alignment, neural state-spaces, energy landscapes, intersubject comparability, state transitions, interpretable descriptors, brain dynamics]
 giscus_comments: true
 date: 2025-10-25
-featured: false
+featured: true
 
 authors:
   - name: Julian Kędys
