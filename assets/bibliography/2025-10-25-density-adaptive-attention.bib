@@ -1,0 +1,628 @@
+%%%%%%%%%% ATTENTION
+
+@inproceedings{gqa,
+    title = "{GQA}: Training Generalized Multi-Query Transformer Models from Multi-Head Checkpoints",
+    author = "Ainslie, Joshua  and
+      Lee-Thorp et al.",
+    editor = "Bouamor, Houda  and
+      Pino, Juan  and
+      Bali, Kalika",
+    booktitle = "Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing",
+    month = dec,
+    year = "2023",
+    address = "Singapore",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2023.emnlp-main.298",
+    doi = "10.18653/v1/2023.emnlp-main.298",
+    pages = "4895--4901",
+    abstract = "Multi-query attention (MQA), which only uses a single key-value head, drastically speeds up decoder inference. However, MQA can lead to quality degradation, and moreover it may not be desirable to train a separate model just for faster inference. We (1) propose a recipe for uptraining existing multi-head language model checkpoints into models with MQA using 5{\%} of original pre-training compute, and (2) introduce grouped-query attention (GQA), a generalization of multi-query attention which uses an intermediate (more than one, less than number of query heads) number of key-value heads. We show that uptrained GQA achieves quality close to multi-head attention with comparable speed to MQA.",
+}
+
+@misc{back2023magnitude,
+      title={Magnitude Attention-based Dynamic Pruning}, 
+      author={Jihye Back and Namhyuk Ahn and Jangho Kim},
+      year={2023},
+      eprint={2306.05056},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}
+
+@misc{shazeer2019fast,
+      title={Fast Transformer Decoding: One Write-Head is All You Need}, 
+      author={Noam Shazeer},
+      year={2019},
+      eprint={1911.02150},
+      archivePrefix={arXiv},
+      primaryClass={cs.NE}
+}
+
+@InProceedings{gct,
+    author    = {Ruan, Dongsheng and Wang, Daiyin and Zheng, Yuan and Zheng, Nenggan and Zheng, Min},
+    title     = {Gaussian Context Transformer},
+    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+    month     = {June},
+    year      = {2021},
+    pages     = {15129-15138}
+}
+%%%%%%%%%%
+
+@inproceedings{voxpouli,
+    title = "{V}ox{P}opuli: A Large-Scale Multilingual Speech Corpus for Representation Learning, Semi-Supervised Learning and Interpretation",
+    author = "Wang, Changhan  and
+      Riviere, Morgane  and
+      Lee, Ann  and
+      Wu, Anne  and
+      Talnikar, Chaitanya  and
+      Haziza, Daniel  and
+      Williamson, Mary  and
+      Pino, Juan  and
+      Dupoux, Emmanuel",
+    booktitle = " International Joint Conference on Natural Language Processing",
+    year = "2021",
+}
+
+@article{li2023unlocking,
+  title={Unlocking Context Constraints of LLMs: Enhancing Context Efficiency of LLMs with Self-Information-Based Content Filtering},
+  author={Yucheng Li},
+  journal={arXiv preprint arXiv:2304.12102},
+  year={2023},
+  url={https://dx.doi.org/10.48550/arXiv.2304.12102}
+}
+
+@article{10.1162/tacl_a_00306,
+    author = {Hahn, Michael},
+    title = "{Theoretical Limitations of Self-Attention in Neural Sequence Models}",
+    journal = {Transactions of the Association for Computational Linguistics},
+    volume = {8},
+    pages = {156-171},
+    year = {2020},
+    abstract = "{Transformers are emerging as the new workhorse of NLP, showing great success across tasks. Unlike LSTMs, transformers process input sequences entirely through self-attention. Previous work has suggested that the computational capabilities of self-attention to process hierarchical structures are limited. In this work, we mathematically investigate the computational power of self-attention to model formal languages. Across both soft and hard attention, we show strong theoretical limitations of the computational abilities of self-attention, finding that it cannot model periodic finite-state languages, nor hierarchical structure, unless the number of layers or heads increases with input length. These limitations seem surprising given the practical success of self-attention and the prominent role assigned to hierarchical structure in linguistics, suggesting that natural language can be approximated well with models that are too weak for the formal languages typically assumed in theoretical linguistics.}",
+    issn = {2307-387X},
+    doi = {10.1162/tacl_a_00306},
+    url = {https://doi.org/10.1162/tacl\_a\_00306},
+    eprint = {https://direct.mit.edu/tacl/article-pdf/doi/10.1162/tacl\_a\_00306/1923102/tacl\_a\_00306.pdf},
+}
+
+
+@InProceedings{xai,
+author="Bhan, Milan
+and Achache, Nina
+and Legrand, Victor
+and Blangero, Annabelle
+and Chesneau, Nicolas",
+editor="Longo, Luca",
+title="Evaluating Self-attention Interpretability Through Human-Grounded Experimental Protocol",
+booktitle="Explainable Artificial Intelligence",
+year="2023",
+publisher="Springer Nature Switzerland",
+address="Cham",
+pages="26--46",
+abstract="Attention mechanisms have played a crucial role in the development of complex architectures such as Transformers in natural language processing. However, Transformers remain hard to interpret and are considered as black-boxes. In this paper we assess how attention coefficients from Transformers help in providing classifier interpretability when properly aggregated. A fast and easy-to-implement way of aggregating attention is proposed to build local feature importance. A human-grounded experiment is conducted to evaluate and compare this approach to other usual interpretability methods. The experimental protocol relies on the capacity of an interpretability method to provide explanation in line with human reasoning. Experiment design includes measuring reaction times and correct response rates by human subjects. Attention performs comparably to usual interpretability methods and significantly better than a random baseline regarding average participant reaction time and accuracy. Moreover, data analysis highlights that high probability prediction induces great explanation relevance. This work shows how self-attention can be aggregated and used to explain Transformer classifiers. The low computational cost of attention compared to other interpretability methods and its availability by design within Transformer classifiers make it particularly beneficial. Finally, the quality of its explanation depends strongly on the certainty of the classifier's prediction related to it.",
+isbn="978-3-031-44070-0"
+}
+
+@article{chan2023using,
+  title={Using External Off-Policy Speech-To-Text Mappings in Contextual End-To-End Automated Speech Recognition},
+  author={David Chan and Shalini Ghosh and A. Rastrow and Björn Hoffmeister},
+  journal={arXiv preprint arXiv:2301.02736},
+  year={2023},
+  url={http://arxiv.org/pdf/2301.02736}
+}
+
+@article{jin2023rethinking,
+  title={Rethinking AI Explainability and Plausibility},
+  author={Weina Jin and Xiaoxiao Li and Ghassan Hamarneh},
+  journal={arXiv preprint arXiv:2303.17707},
+  year={2023},
+  url={http://arxiv.org/pdf/2303.17707}
+}
+
+
+@inproceedings{ioannides23_interspeech,
+  author={Georgios Ioannides and Michael Owen and Andrew Fletcher and Viktor Rozgic and Chao Wang},
+  title={{Towards Paralinguistic-Only Speech Representations for End-to-End Speech Emotion Recognition}},
+  year=2023,
+  booktitle={Proc. INTERSPEECH 2023},
+  pages={1853--1857},
+  doi={10.21437/Interspeech.2023-497}
+}
+
+@article{tao2023cram,
+  title={CRAM: Code Recommendation With Programming Context Based on Self-Attention Mechanism},
+  author={Chuanqi Tao and Kai Lin and Zhiqiu Huang and Xiaobing Sun},
+  journal={IEEE Transactions on Reliability},
+  year={2023},
+  url={https://dx.doi.org/10.1109/TR.2022.3171309}
+}
+
+
+@article{edelman2021inductive,
+  title={Inductive Biases and Variable Creation in Self-Attention Mechanisms},
+  author={Benjamin L. Edelman and Surbhi Goel and S. Kakade and Cyril Zhang},
+  journal={International Conference on Machine Learning (ICML)},
+  year={2022},
+  url={https://arxiv.org/abs/2110.10090}
+}
+
+
+
+@article{Russakovsky2015,
+  author    = {Olga Russakovsky and Jia Deng et al.},
+  title     = {ImageNet Large Scale Visual Recognition Challenge},
+  journal   = {International Journal of Computer Vision},
+  year      = {2015},
+  volume    = {115},
+  number    = {3},
+  pages     = {211--252},
+  month     = {12},
+  doi       = {10.1007/s11263-015-0816-y},
+  url       = {https://doi.org/10.1007/s11263-015-0816-y},
+  abstract  = {The ImageNet Large Scale Visual Recognition Challenge is a benchmark in object category classification and detection on hundreds of object categories and millions of images. The challenge has been run annually from 2010 to present, attracting participation from more than fifty institutions. This paper describes the creation of this benchmark dataset and the advances in object recognition that have been possible as a result. We discuss the challenges of collecting large-scale ground truth annotation, highlight key breakthroughs in categorical object recognition, provide a detailed analysis of the current state of the field of large-scale image classification and object detection, and compare the state-of-the-art computer vision accuracy with human accuracy. We conclude with lessons learned in the 5 years of the challenge, and propose future directions and improvements.},
+  issn      = {1573-1405}
+}
+
+
+@article{iemocap,
+author = {Busso, Carlos and Bulut, Murtaza et al.},
+year = {2008},
+title = {IEMOCAP: Interactive emotional dyadic motion capture database},
+journal = {Language Resources and Evaluation},
+}
+
+@TECHREPORT{cifar100,
+    author = {Alex Krizhevsky},
+    title = {Learning multiple layers of features from tiny images},
+    institution = {Canadian Institute For Advanced Research},
+    year = {2009}
+}
+
+@inproceedings{agnews,
+ author = {Zhang, Xiang and Zhao, Junbo and LeCun, Yann},
+ booktitle = {Advances in Neural Information Processing Systems},
+ editor = {C. Cortes and N. Lawrence and D. Lee and M. Sugiyama and R. Garnett},
+ pages = {},
+ publisher = {Curran Associates, Inc.},
+ title = {Character-level Convolutional Networks for Text Classification},
+ url = {https://proceedings.neurips.cc/paper_files/paper/2015/file/250cf8b51c773f3f8dc8b4be867a9a02-Paper.pdf},
+ volume = {28},
+ year = {2015}
+}
+
+@inproceedings{fearless,
+  author       = {Szu{-}Jui Chen and
+                  Jiamin Xie and
+                  John H. L. Hansen},
+  editor       = {Hanseok Ko and
+                  John H. L. Hansen},
+  title        = {FeaRLESS: Feature Refinement Loss for Ensembling Self-Supervised Learning
+                  Features in Robust End-to-end Speech Recognition},
+  booktitle    = {Interspeech 2022, 23rd Annual Conference of the International Speech
+                  Communication Association, Incheon, Korea, 18-22 September 2022},
+  publisher    = {{ISCA}},
+  year         = {2022}
+}
+
+@inbook{hierarchy,
+author = {Chen, Minshuo and Bai, Yu et al.},
+title = {Towards Understanding Hierarchical Learning: Benefits of Neural Representations},
+year = {2020},
+publisher = {Curran Associates Inc.},
+abstract = {Deep neural networks can empirically perform efficient hierarchical learning, in which the layers learn useful representations of the data. However, how they make use of the intermediate representations are not explained by recent theories that relate them to "shallow learners" such as kernels. In this work, we demonstrate that intermediate neural representations add more flexibility to neural networks and can be advantageous over raw inputs. We consider a fixed, randomly initialized neural network as a representation function fed into another trainable network. When the trainable network is the quadratic Taylor model of a wide two-layer network, we show that neural representation can achieve improved sample complexities compared with the raw input: For learning a low-rank degree-p polynomial (p ≥ 4) in d dimension, neural representation requires only \~{O}(d｢p/2｣) samples, while the best-known sample complexity upper bound for the raw input is \~{O}(dp-1). We contrast our result with a lower bound showing that neural representations do not improve over the raw input (in the infinite width limit), when the trainable network is instead a neural tangent kernel. Our results characterize when neural representations are beneficial, and may provide a new perspective on why depth is important in deep learning.},
+booktitle = {Proceedings of the 34th International Conference on Neural Information Processing Systems}
+}
+
+
+@article{vaswani2017attention,
+  title={Attention is all you need},
+  author={Vaswani, Ashish and Shazeer, Noam and Parmar, Niki and Uszkoreit, Jakob and Jones, Llion and Gomez, Aidan N and Kaiser, Lukasz and Polosukhin, Illia},
+  journal={Advances in neural information processing systems},
+  volume={30},
+  year={2017}
+}
+
+@article{wang2023rrwkv,
+  title={RRWKV: Capturing Long-range Dependencies in RWKV},
+  author={Wang, Leilei},
+  journal={arXiv preprint arXiv:2306.05176},
+  year={2023}
+}
+
+@inproceedings{zhuang2022long,
+  title={Long-range Sequence Modeling with Predictable Sparse Attention},
+  author={Zhuang, Yimeng and Zhang, Jing and Tu, Mei},
+  booktitle={Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)},
+  pages={271--281},
+  year={2022}
+}
+
+@inproceedings{Devlin2019BERTPO,
+  title={BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding},
+  author={Jacob Devlin and Ming-Wei Chang and Kenton Lee and Kristina Toutanova},
+  booktitle={North American Chapter of the Association for Computational Linguistics},
+  year={2019},
+  url={https://api.semanticscholar.org/CorpusID:52967399}
+}
+
+@article{he2023long,
+  title={A Unified View of Long-Sequence Models towards Million-Scale Dependencies},
+  author={He, Hongyu},
+  journal={arXiv preprint arXiv:2307.03172},
+  year={2023}
+}
+
+
+@inproceedings{patrick2022reconstructive,
+  title={Reconstructive Training for Real-World Robustness in Image Classification},
+  author={David Patrick and Michaela Geyer and Richard Tran and Amanda Fernandez},
+  booktitle={IEEE Winter Conference on Applications of Computer Vision Workshops (WACVW)},
+  year={2022},
+  doi={10.1109/WACVW54805.2022.00031},
+  url={https://dx.doi.org/10.1109/WACVW54805.2022.00031}
+}
+
+@inproceedings{yildirim2019realworld,
+  title={A Real-World Text Classification Application for an E-commerce Platform},
+  author={Fatih Mehmet Yıldırım and Abdullah Kaya and Selin Öztürk and Deniz Kılınç},
+  booktitle={International Symposium on Advanced Electrical and Communication Technologies (ISAECT)},
+  year={2019},
+  doi={10.1109/ASYU48272.2019.8946337},
+  url={https://dx.doi.org/10.1109/ASYU48272.2019.8946337}
+}
+
+
+@inproceedings{GigaSpeech2021,
+  title={GigaSpeech: An Evolving, Multi-domain ASR Corpus with 10,000 Hours of Transcribed Audio},
+  booktitle={Interspeech},
+  year={2021},
+  author={Guoguo Chen and  Shuzhou Chai et al.}
+}
+
+@article{tao2022self,
+  title={Self-Supervised Learning for Multimedia Recommendation},
+  author={Zhulin Tao and Xiaohao Liu and Yewei Xia and Xiang Wang and Lifang Yang and Xianglin Huang and Tat-Seng Chua},
+  journal={IEEE Transactions on Multimedia},
+  year={2022},
+  doi={10.1109/TMM.2022.3187556},
+  url={https://dx.doi.org/10.1109/TMM.2022.3187556}
+}
+
+
+
+@inproceedings{librilight,
+  title={Libri-Light: A Benchmark for ASR with Limited or No Supervision},
+  booktitle={International Conference on Acoustics, Speech and Signal Processing (ICASSP)},
+  year={2020},
+  author={Jacob Kahn and Morgane Rivière et al.}
+}
+
+@article{parlak2023,
+  title={Spectro-Temporal Energy Ratio Features for Single-Corpus and Cross-Corpus Experiments in Speech Emotion Recognition},
+  author={Cevahir Parlak and B. Diri and Y. Altun},
+  journal={Arabian Journal for Science and Engineering},
+  year={2023},
+  doi={10.1007/s13369-023-07920-8}
+}
+
+@article{fujimura,
+  title={Speech Emotion Recognition by Combining Multiple Discriminators with Multiple Temporal Resolution Features},
+  author={Hiroshi Fujimura},
+}
+
+@inproceedings{daneshfar2021,
+  title={Speech Emotion Recognition Using Multi-Layer Sparse Auto-Encoder Extreme Learning Machine and Spectral/Spectro-Temporal Features with New Weighting Method for Data Imbalance},
+  author={Fatemeh Daneshfar and S. J. Kabudian},
+  booktitle={2021 11th International Conference on Computer and Knowledge Engineering (ICCKE)},
+  year={2021},
+  doi={10.1109/ICCKE54056.2021.9721524}
+}
+
+@article{Fluri2022,
+  title={Full \(w\)CDM analysis of KiDS-1000 weak lensing maps using deep learning},
+  author={J. Fluri and T. Kacprzak and Aurélien Lucchi and A. Schneider and A. Réfrégier and Thomas Hofmann},
+  journal={Physical Review D},
+  year={2022},
+  doi={10.1103/PhysRevD.105.083518}
+}
+
+
+@article{an2021,
+  title={Speech Emotion Recognition algorithm based on deep learning algorithm fusion of temporal and spatial features},
+  author={X. An and Zhou Ruan},
+  journal={Journal of Physics: Conference Series},
+  year={2021},
+  volume={1861},
+  number={1},
+  doi={10.1088/1742-6596/1861/1/012064}
+}
+
+
+@misc{kingma2017adam,
+      title={Adam: A Method for Stochastic Optimization}, 
+      author={Diederik P. Kingma and Jimmy Ba},
+      year={2017},
+      journal={International Conference for Learning Representations (ICLR)},
+}
+
+@misc{lin2018focal,
+      title={Focal Loss for Dense Object Detection}, 
+      author={Tsung-Yi Lin and Priya Goyal and Ross Girshick and Kaiming He and Piotr Dollár},
+      year={2018},
+      eprint={1708.02002},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}
+
+
+@inproceedings{You2020HardCodedGA,
+  title={Hard-Coded Gaussian Attention for Neural Machine Translation},
+  author={Weiqiu You and Simeng Sun and Mohit Iyyer},
+  booktitle={Annual Meeting of the Association for Computational Linguistics},
+  year={2020},
+url={https://api.semanticscholar.org/CorpusID:218487704}
+}
+
+@INPROCEEDINGS{9053591,
+  author={Kim, Jaeyoung and El-Khamy, Mostafa and Lee, Jungwon},
+  booktitle={ICASSP 2020 - 2020 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)}, 
+  title={T-GSA: Transformer with Gaussian-Weighted Self-Attention for Speech Enhancement}, 
+  year={2020},
+  volume={},
+  number={},
+  pages={6649-6653},
+  doi={10.1109/ICASSP40776.2020.9053591}}
+
+
+@ARTICLE{9511096,
+  author={Xie, Jiyang and Ma, Zhanyu and Chang, Dongliang and Zhang, Guoqiang and Guo, Jun},
+  journal={IEEE Transactions on Pattern Analysis and Machine Intelligence}, 
+  title={GPCA: A Probabilistic Framework for Gaussian Process Embedded Channel Attention}, 
+  year={2022},
+  volume={44},
+  number={11},
+  pages={8230-8248},
+  doi={10.1109/TPAMI.2021.3102955}}
+
+
+@article{CHEN2023109467,
+title = {An Interpretable Channelwise Attention Mechanism based on Asymmetric and Skewed Gaussian Distribution},
+journal = {Pattern Recognition},
+volume = {139},
+pages = {109467},
+year = {2023},
+issn = {0031-3203},
+doi = {https://doi.org/10.1016/j.patcog.2023.109467},
+url = {https://www.sciencedirect.com/science/article/pii/S003132032300167X},
+author = {Cheng Chen and Bo Li},
+keywords = {Channelwise attention, Interpretable modeling, Skewness distribution, Asymmetric distribution}
+}
+
+@article{Guo_Zhang_Liu_2019, title={Gaussian Transformer: A Lightweight Approach for Natural Language Inference}, volume={33}, url={https://ojs.aaai.org/index.php/AAAI/article/view/4614}, DOI={10.1609/aaai.v33i01.33016489},  number={01}, journal={Proceedings of the AAAI Conference on Artificial Intelligence}, author={Guo, Maosheng and Zhang, Yu and Liu, Ting}, year={2019}, month={Jul.}, pages={6489-6496} }
+
+@InProceedings{Luo_2023_ICCV,
+    author    = {Luo, Ao and Yang, Fan and Li, Xin and Nie, Lang and Lin, Chunyu and Fan, Haoqiang and Liu, Shuaicheng},
+    title     = {GAFlow: Incorporating Gaussian Attention into Optical Flow},
+    booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
+    month     = {October},
+    year      = {2023},
+    pages     = {9642-9651}
+}
+
+
+@ARTICLE{9814838,
+  author={Chen, Sanyuan and Wang, Chengyi et al.},
+  journal={IEEE Journal of Selected Topics in Signal Processing}, 
+  title={WavLM: Large-Scale Self-Supervised Pre-Training for Full Stack Speech Processing}, 
+  year={2022},
+  volume={16},
+  number={6},
+  pages={1505-1518},
+  doi={10.1109/JSTSP.2022.3188113}}
+
+
+@article{Lovisotto2022GiveMY,
+  title={Give Me Your Attention: Dot-Product Attention Considered Harmful for Adversarial Patch Robustness},
+  author={Giulio Lovisotto and Nicole Finnie and Mauricio Mu{\~n}oz and Chaithanya Kumar Mummadi and Jan Hendrik Metzen},
+  journal={2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  year={2022},
+  pages={15213-15222},
+  url={https://api.semanticscholar.org/CorpusID:247748735}
+}
+
+@INPROCEEDINGS{9440639,
+  author={Jaiswal, Rahul and Romero, Daniel},
+  booktitle={2021 11th International Conference on Information Science and Technology (ICIST)}, 
+  title={Implicit Wiener Filtering for Speech Enhancement In Non-Stationary Noise}, 
+  year={2021},
+  volume={},
+  number={},
+  pages={39-47},
+  doi={10.1109/ICIST52614.2021.9440639}}
+
+
+@INPROCEEDINGS{10095399,
+  author={Wang, Yanmeng and Shi, Qingjiang and Chang, Tsung-Hui},
+  booktitle={ICASSP 2023 - 2023 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)}, 
+  title={Batch Normalization Damages Federated Learning on NON-IID Data: Analysis and Remedy}, 
+  year={2023},
+  volume={},
+  number={},
+  pages={1-5},
+  doi={10.1109/ICASSP49357.2023.10095399}}
+
+
+@misc{hsu2021hubert,
+      title={HuBERT: Self-Supervised Speech Representation Learning by Masked Prediction of Hidden Units}, 
+      author={Wei-Ning Hsu and Benjamin Bolte and Yao-Hung Hubert Tsai and Kushal Lakhotia and Ruslan Salakhutdinov and Abdelrahman Mohamed},
+      year={2021},
+      eprint={2106.07447},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+
+
+@InProceedings{xavierinit,
+  title = 	 {Understanding the difficulty of training deep feedforward neural networks},
+  author = 	 {Glorot, Xavier and Bengio, Yoshua},
+  booktitle = 	 {Proceedings of the Thirteenth International Conference on Artificial Intelligence and Statistics},
+  pages = 	 {249--256},
+  year = 	 {2010},
+  editor = 	 {Teh, Yee Whye and Titterington, Mike},
+  volume = 	 {9},
+  series = 	 {Proceedings of Machine Learning Research},
+  address = 	 {Chia Laguna Resort, Sardinia, Italy},
+  month = 	 {13--15 May},
+  publisher =    {PMLR},
+  pdf = 	 {http://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf},
+  url = 	 {https://proceedings.mlr.press/v9/glorot10a.html},
+  abstract = 	 {Whereas before 2006 it appears that deep multi-layer neural networks were not successfully trained, since then several algorithms have been shown to successfully train them, with experimental results showing the superiority of deeper vs less deep architectures. All these experimental results were obtained with new initialization or training mechanisms. Our objective here is to understand better why standard gradient descent from random initialization is doing so poorly with deep neural networks, to better understand these recent relative successes and help design better algorithms in the future.  We first observe the influence of the non-linear activations functions. We find that the logistic sigmoid activation is unsuited for deep networks with random initialization because of its mean value, which can drive especially the top hidden layer into saturation. Surprisingly, we find that saturated units can move out of saturation by themselves, albeit slowly, and explaining the plateaus sometimes seen when training neural networks. We find that a new non-linearity that saturates less can often be beneficial. Finally, we study how activations and gradients vary across layers and during training, with the idea that training may be more difficult when the singular values of the Jacobian associated with each layer are far from 1.  Based on these considerations, we propose a new initialization scheme that brings substantially faster convergence.}
+}
+
+
+@misc{touvron2023llama,
+      title={Llama 2: Open Foundation and Fine-Tuned Chat Models}, 
+      author={Hugo Touvron and Louis Martin et al.},
+      year={2023},
+      eprint={2307.09288},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+
+@misc{zhang2022platon,
+      title={PLATON: Pruning Large Transformer Models with Upper Confidence Bound of Weight Importance}, 
+      author={Qingru Zhang and Simiao Zuo and Chen Liang and Alexander Bukharin and Pengcheng He and Weizhu Chen and Tuo Zhao},
+      year={2022},
+      eprint={2206.12562},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+
+@article{grounding,
+author = {Li, Kun and Li, Jiaxiu and Guo, Dan and Yang, Xun and Wang, Meng},
+title = {Transformer-Based Visual Grounding with Cross-Modality Interaction},
+year = {2023},
+issue_date = {November 2023},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {19},
+number = {6},
+issn = {1551-6857},
+url = {https://doi.org/10.1145/3587251},
+doi = {10.1145/3587251},
+abstract = {This article tackles the challenging yet important task of Visual Grounding (VG), which aims to localize a visual region in the given image referred by a natural language query. Existing efforts on the VG task are twofold: (1) two-stage methods first extract region proposals and then rank them according to their similarities with the referring expression, which usually leads to suboptimal results due to the quality of region proposals; (2) one-stage methods usually predict all the possible coordinates of the target region online by leveraging modern object detection architectures, which pay little attention to cross-modality correlations and have limited generalization ability. To better address the task, we present an effective transformer-based end-to-end visual grounding approach, which focuses on capturing the cross-modality correlations between the referring expression and visual regions for accurately reasoning the location of the target region. Specifically, our model consists of a feature encoder, a cross-modality interactor, and a modality-agnostic decoder. The feature encoder is employed to capture the intra-modality correlation, which models the linguistic context in query and the spatial dependency in image respectively. The cross-modality interactor endows the model with the capability of highlighting the localization-relevant visual and textual cues by mutual verification of vision and language, which plays a key role in our model. The decoder learns a consolidated token representation enriched by multi-modal contexts and further directly predicts the box coordinates. Extensive experiments on five public benchmark datasets with quantitative and qualitative analysis clearly demonstrate the effectiveness and rationale of our proposed method.},
+journal = {ACM Trans. Multimedia Comput. Commun. Appl.},
+month = {may},
+articleno = {183},
+numpages = {19},
+keywords = {cross-modality interaction, Visual Grounding, referring expression}
+}
+
+@misc{liu2023visual,
+      title={Visual Instruction Tuning}, 
+      author={Haotian Liu and Chunyuan Li and Qingyang Wu and Yong Jae Lee},
+      year={2023},
+      eprint={2304.08485},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}
+
+@article{hu2021lora,
+  title={LoRA: Low-Rank Adaptation of Large Language Models},
+  author={Hu, Edward J and Shen, Yelong and Wallis, Philip and Allen-Zhu, Zeyuan and Li, Yuanzhi and Wang, Lu and Chen, Weizhu},
+  journal={arXiv preprint arXiv:2106.09685},
+  year={2021}
+}
+
+@article{ding2022lora,
+  title={Parameter-efficient Fine-tuning by Low-rank Adaptation},
+  author={Ding, Ming and Zheng, Wendi and Liu, Xinghan and Hong, Wen and Tian, Xiaochun and Tang, Jie},
+  journal={arXiv preprint arXiv:2203.08275},
+  year={2022}
+}
+
+@inproceedings{li2021lora,
+  title={Towards Parameter-efficient Transfer Learning for Natural Language Processing},
+  author={Li, Xiaoran and Liang, Minghao and Shen, Yelong and Wang, Lu},
+  booktitle={Proceedings of the 59th Annual Meeting of the Association for Computational Linguistics (ACL)},
+  year={2021}
+}
+
+@misc{bao2022beit,
+      title={BEiT: BERT Pre-Training of Image Transformers}, 
+      author={Hangbo Bao and Li Dong and Songhao Piao and Furu Wei},
+      year={2022},
+      eprint={2106.08254},
+      archivePrefix={ICLR},
+      primaryClass={cs.CV}
+}
+
+@misc{bahdanau2016neural,
+      title={Neural Machine Translation by Jointly Learning to Align and Translate}, 
+      author={Dzmitry Bahdanau and Kyunghyun Cho and Yoshua Bengio},
+      year={2016},
+      eprint={1409.0473},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+
+% APPENDIX REFS
+
+@book{mclachlan2000finite,
+  title={Finite Mixture Models},
+  author={McLachlan, Geoffrey J. and Peel, David},
+  year={2000},
+  publisher={John Wiley \& Sons},
+  address={New York}
+}
+
+@article{bottou2018optimization,
+  title={Optimization Methods for Large-Scale Machine Learning},
+  author={Bottou, L{\'e}on and Curtis, Frank E. and Nocedal, Jorge},
+  journal={SIAM Review},
+  volume={60},
+  number={2},
+  pages={223--311},
+  year={2018},
+  publisher={SIAM}
+}
+
+@book{cover2006elements,
+  title={Elements of Information Theory},
+  author={Cover, Thomas M. and Thomas, Joy A.},
+  year={2006},
+  edition={2nd},
+  publisher={John Wiley \& Sons},
+  address={Hoboken, NJ}
+}
+
+@book{bishop2006pattern,
+  title={Pattern Recognition and Machine Learning},
+  author={Bishop, Christopher M.},
+  year={2006},
+  publisher={Springer},
+  address={New York}
+}
+
+@misc{lin2017coco,
+  title={Microsoft COCO: Common Objects in Context},
+  author={Lin, Tsung-Yi and Maire, Michael and Belongie, Serge and Hays, James and Perona, Pietro and Ramanan, Deva and Doll{\'a}r, Piotr and Zitnick, C. Lawrence},
+  year={2017},
+  howpublished={\url{http://cocodataset.org}},
+  note={2017 release}
+}
+
+@article{glorot2010understanding,
+  title={Understanding the Difficulty of Training Deep Feedforward Neural Networks},
+  author={Glorot, Xavier and Bengio, Yoshua},
+  journal={Proceedings of the Thirteenth International Conference on Artificial Intelligence and Statistics},
+  pages={249--256},
+  year={2010},
+  volume={9},
+  publisher={PMLR}
+}
+
+@article{kingma2014adam,
+  title={Adam: A Method for Stochastic Optimization},
+  author={Kingma, Diederik P. and Ba, Jimmy},
+  journal={arXiv preprint arXiv:1412.6980},
+  year={2014}
+}

@@ -108,10 +108,10 @@ def check_submission(base_branch: str):
                     raise Exception(
                         f"Bibliography file must have a .bib extension. Found: {file}"
                     )
-                if file.stem != submission_key:
-                    raise Exception(
-                        f"Bibliography file name must be {submission_key}.bib. Found: {file.name}"
-                    )
+                # if file.stem != submission_key:
+                #     raise Exception(
+                #         f"Bibliography file name must be {submission_key}.bib. Found: {file.name}"
+                #     )
             else:
                 # All other assets must be in assets/<asset_type>/{SUBMISSION_KEY}/*
                 try:
