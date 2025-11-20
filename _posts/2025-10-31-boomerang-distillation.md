@@ -33,7 +33,7 @@ authors:
     affiliations:
       name: Kempner Institute, Harvard University
 
-bibliography: /assets/bibliography/2025-10-31-boomerang-distillation.bib
+bibliography: 2025-10-31-boomerang-distillation.bib
 
 # Optionally, you can add a table of contents to your post.
 # NOTES:
