@@ -11,3 +11,10 @@ assets/libs/
 node_modules/
 vendor
 .idea
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
