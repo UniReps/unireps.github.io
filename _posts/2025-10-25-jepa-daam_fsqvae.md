@@ -10,15 +10,15 @@ featured: true
 authors:
   - name: Georgios Ioannides
     affiliations:
-      name: Carnegie Mellon University, Amazon GenAI*, James Silberstad Brown Center for Artificial Intelligence
+      name: Carnegie Mellon University, Amazon GenAI*, James Silberrad Brown Center for Artificial Intelligence
     url: mailto:gioannid@alumni.cmu.edu
   - name: Christos Constantinou
     affiliations:
-      name: University of Bristol, Amazon GenAI*, James Silberstad Brown Center for Artificial Intelligence
+      name: University of Bristol, Amazon GenAI*, James Silberrad Brown Center for Artificial Intelligence
     url: mailto:christos.constantinou@bristol.ac.uk
   - name: Aman Chadha
     affiliations:
-      name: Stanford University, Amazon GenAI*, James Silberstad Brown Center for Artificial Intelligence
+      name: Stanford University, Amazon GenAI*, James Silberrad Brown Center for Artificial Intelligence
     url: mailto:hi@aman.ai
   - name: Aaron Elkins
     affiliations:
@@ -26,10 +26,11 @@ authors:
     url: mailto:aelkins@sdsu.edu
   - name: Linsey Pang
     affiliations:
-      name: Northeastern University, James Silberstad Brown Center for Artificial Intelligence
+      name: Northeastern University
   - name: Ravid Shwartz-Ziv
     affiliations:
       name: New York University
+    url: mailto:rs8020@nyu.edu
   - name: Yann LeCun
     affiliations:
       name: New York University
@@ -57,7 +58,7 @@ toc:
 
 ### Overview
 
-We introduce a two-stage self-supervised learning framework that combines Joint-Embedding Predictive Architecture (JEPA) <d-cite key="Assran2023IJEPA"></d-cite> with Density Adaptive Attention Mechanisms for learning robust speech representations. This approach decouples representation learning from reconstruction: Stage 1 employs JEPA with DAAM to learn semantic audio features through masked prediction, while Stage 2 leverages these frozen representations for efficient tokenization via Finite Scalar Quantization (FSQ) <d-cite key="Mentzer2023FSQ"></d-cite> and high-quality reconstruction through HiFi-GAN <d-cite key="Kong2020HiFiGAN"></d-cite>.
+We introduce a two-stage self-supervised learning framework that combines Joint-Embedding Predictive Architecture (JEPA) <d-cite key="Assran2023IJEPA"></d-cite> with Density Adaptive Attention Mechanisms for learning robust speech representations. This approach decouples representation learning from reconstruction: Stage 1 employs JEPA with DAAM to learn semantic audio features through masked prediction, while Stage 2 leverages these representations for efficient tokenization via Finite Scalar Quantization (FSQ) <d-cite key="Mentzer2023FSQ"></d-cite> and high-quality reconstruction through HiFi-GAN <d-cite key="Kong2020HiFiGAN"></d-cite>.
 
 **Key innovation:** By integrating Density Adaptive Attention-based gating (i.e. Gaussian Mixture gating) <d-cite key="Ioannides2024DAAM"></d-cite> into the JEPA encoder, we achieve adaptive feature selection during self-supervised learning. Combined with our mixed-radix packing scheme, the learned representations capture hierarchical speech structure (due to progressively downsampling the signal from layer to layer) — at the low frame rate of 2.5Hz, enabling efficient speech modeling without requiring labeled data.
 
@@ -70,7 +71,7 @@ Traditional speech codec training couples representation learning with reconstru
 JEPA addresses this by separating concerns: the encoder learns to predict masked representations in latent space (Stage 1), then a separate decoder learns to map these representations to audio (Stage 2). This architectural separation enables:
 
 - **Better representations:** Encoder optimizes for semantic content rather than low-level waveform details
-- **Efficiency:** Frozen encoder reduces Stage 2 training cost
+- **Efficiency:** Fine-tuning encoder reduces Stage 2 training cost
 - **Flexibility:** Same encoder can support multiple downstream tasks (Text-To-Speech, Voice Conversion, Automatic Speech Recognition etc.)
 - **Scalability:** Stage 1 can leverage large unlabeled datasets
 
@@ -344,9 +345,9 @@ To detect potential representation collapse, we monitor (without backpropagation
 </div>
 ---
 
-### Stage 2: Frozen Encoder + FSQ Quantization + HiFi-GAN Decoder
+### Stage 2: Fine-tuning Encoder + FSQ Quantization + HiFi-GAN Decoder
 
-After Stage 1 completes, the JEPA encoder weights are **frozen** and used as a feature extractor for Stage 2 training. Stage 2 introduces quantization and waveform reconstruction.
+After Stage 1 completes, the JEPA encoder weights are **fine-tuned** and used as a feature extractor for Stage 2 training. Stage 2 introduces quantization and waveform reconstruction.
 
 #### Finite Scalar Quantization (FSQ)
 
@@ -354,7 +355,7 @@ FSQ provides efficient discrete tokenization without requiring codebook learning
 
 **FSQ Formulation:**
 
-For latent features $\mathbf{z}_e \in \mathbb{R}^{B \times C \times T}$ from the frozen encoder, FSQ quantizes each dimension independently:
+For latent features $\mathbf{z}_e \in \mathbb{R}^{B \times C \times T}$ from the encoder, FSQ quantizes each dimension independently:
 
 Given levels $\mathbf{L} = [L_1, \ldots, L_D]$ where $D$ divides $C$:
 
@@ -562,7 +563,7 @@ Each residual block contains:
 
 #### Stage 2 Training Objective
 
-Stage 2 optimizes the FSQ quantizer and HiFi-GAN decoder while keeping the JEPA encoder frozen.
+Stage 2 optimizes the FSQ quantizer and HiFi-GAN decoder and the JEPA encoder.
 
 **Loss function:**
 
@@ -629,7 +630,7 @@ $$
 
 **Training procedure:**
 
-The encoder parameters receive learning rate 0.0 (effectively frozen), while decoder parameters receive the standard learning rate. A separate optimizer is used for the discriminators with half the generator learning rate. During each training step, the generator is updated with the combined reconstruction, STFT, and GAN losses. After a warmup period of 5000 steps, the discriminators are updated every step using detached reconstructions to prevent gradients flowing back to the generator.
+The encoder parameters and decoder parameters receive the standard learning rate. A separate optimizer is used for the discriminators with half the generator learning rate. During each training step, the generator is updated with the combined reconstruction, STFT, and GAN losses. After a warmup period of 5000 steps, the discriminators are updated every step using detached reconstructions to prevent gradients flowing back to the generator.
 
 **Loss weights:**
 - $\lambda_{\text{stft}} = 2.0$
@@ -673,7 +674,7 @@ The encoder parameters receive learning rate 0.0 (effectively frozen), while dec
 
 During inference, the full pipeline operates as:
 
-1. Raw waveform → Frozen JEPA encoder → Latent features
+1. Raw waveform → JEPA encoder → Latent features
 2. Latent features → FSQ quantization → Discrete tokens
 3. Discrete tokens → Dequantization → Quantized features
 4. Quantized features → HiFi-GAN decoder → Reconstructed waveform
@@ -686,12 +687,12 @@ Token rate: 47.5 tokens/sec (G=7 packing)
 |-----------|-----------|-------|
 | **Stage 1: JEPA Encoder Training** | | |
 | Online Encoder | 121.7M | Trainable (context encoder) |
-| Target Encoder (EMA) | 118.5M | Frozen (momentum update only) |
+| Target Encoder (EMA) | 118.5M | (momentum update) |
 | Predictor Network | 3.2M | Trainable (masked prediction) |
 | **Stage 1 Total** | **240.2M** | **121.7M trainable** |
 | | | |
 | **Stage 2: Decoder Training** | | |
-| JEPA Encoder (frozen) | 240.2M | Frozen via lr=0 |
+| JEPA Encoder | 240.2M | Trainable via fine-tuning |
 | FSQ Quantizer | ~0.01M | Trainable (finite scalar quantization) |
 | HiFi-GAN Decoder | 69.2M | Trainable (waveform reconstruction) |
 | **Stage 2 Total** | **309.5M** | **69.3M trainable** |
@@ -712,7 +713,6 @@ Token rate: 47.5 tokens/sec (G=7 packing)
 
 **Key Efficiency Features:**
 - **Two-stage training**: Self-supervised pretraining (Stage 1) + supervised finetuning (Stage 2)
-- **Parameter efficiency**: Only 22% of parameters trained in Stage 2 (encoder frozen)
 - **Inference efficiency**: 191M parameters (no EMA encoder needed at inference)
 
 ---
@@ -829,7 +829,7 @@ The complete implementation of our JEPA+DAAM framework, including training scrip
 
 The repository includes:
 - Stage 1 JEPA encoder training with DAAM
-- Stage 2 decoder training with frozen encoder
+- Stage 2 decoder training with encoder
 - FSQ quantization and mixed-radix packing algorithms
 - HiFi-GAN decoder with optional DAAM gating
 - DeepSpeed integration for distributed training
@@ -840,7 +840,7 @@ GitHub: [https://github.com/gioannides/Density-Adaptive-JEPA](https://github.com
 
 ### Conclusion
 
-We introduced a two-stage self-supervised framework combining Joint-Embedding Predictive Architecture (JEPA) with Density Adaptive Attention Mechanisms (DAAM) for efficient speech representation learning. Stage 1 trains a JEPA encoder with DAAM-based gating to learn robust semantic representations via masked prediction using only MSE loss on masked regions. Stage 2 leverages these frozen representations for reconstruction using L1 loss, multi-resolution STFT loss, and adversarial GAN losses with Finite Scalar Quantization (FSQ) and HiFi-GAN decoding.
+We introduced a two-stage self-supervised framework combining Joint-Embedding Predictive Architecture (JEPA) with Density Adaptive Attention Mechanisms (DAAM) for efficient speech representation learning. Stage 1 trains a JEPA encoder with DAAM-based gating to learn robust semantic representations via masked prediction using only MSE loss on masked regions. Stage 2 leverages these representations for reconstruction using L1 loss, multi-resolution STFT loss, and adversarial GAN losses with Finite Scalar Quantization (FSQ) and HiFi-GAN decoding.
 
 **Key methodological contributions:**
 
