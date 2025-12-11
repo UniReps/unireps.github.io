@@ -98,7 +98,7 @@ Separatrices! These are boundaries between basins of attraction in dynamical sys
 **Code**: We provide a Python package implementing this method at [github.com/KabirDabholkar/separatrix_locator](https://github.com/KabirDabholkar/separatrix_locator).
 
 
-**Interactive version**: if the interactive plots below don't work click [here](https://github.com/KabirDabholkar/separatrix_locator.github.io).
+**Interactive version**: if the interactive plots below don't work click [here](https://unireps.github.io/blog/2025/Separatrix-Locator/).
 
 ## Introduction: Fixed Points and Beyond
 Many natural and artificial systems — from neural circuits making decisions to ecosystems switching between healthy and diseased states — are modelled as **multistable dynamical systems**. Their behaviour is governed by multiple **attractors** in state space, each corresponding to a stable mode of activity. Understanding these systems often boils down to understanding their **geometry**: where are the stable states, and how are the different basins of attraction separated?
@@ -108,6 +108,7 @@ For the last decade, a workhorse of neural circuit analysis has been **fixed poi
 ### Finding Fixed Points
 First consider a bistable dynamical system in 2 dimensions. Below is a phase-portrait of such a system, with two stable fixed points and one unstable fixed point. Click on plot to realise trajectories of the dynamics.
 
+[(click here if the plot below doesn't load)](https://unireps.github.io/blog/2025/Separatrix-Locator/)
 <div class="l-body" style="text-align: center; margin: 2rem 0;">
   <iframe src="/blog/assets/html/2025-09-29-Separatrix-Locator/clickable_phase_portrait_simple.html" 
           scrolling="no"
@@ -121,6 +122,7 @@ Now try to click somewhere that will lead you exactly to the saddle point. Did y
 
 This motivates developing a principled way to find such points. One solution is to define a specific scalar function of the dynamics whose only minima are given by all the fixed points. One such function is the kinetic energy $$q(\boldsymbol x)=\frac{1}{2}\Vert f(\boldsymbol x)\Vert^2$$ <d-cite key="sussillo_opening_2013,golub_fixedpointfinder_2018"></d-cite>. By differentiating this function, one can perform gradient descent to find these minima. The interactive plot below realises such trajectories.
 
+[(click here if the plot below doesn't load)](https://unireps.github.io/blog/2025/Separatrix-Locator/)
 <div class="l-body" style="text-align: center; margin: 2rem 0;">
   <iframe src="/blog/assets/html/2025-09-29-Separatrix-Locator/gradient_descent_phase_portrait.html" 
           scrolling="no"
@@ -138,6 +140,7 @@ When a system receives a perturbation — for example, a sensory input or an opt
 
 Below is an example of such a function that we constructed for this simple system (click on it to run trajectories). 
 
+[(click here if the plot below doesn't load)](https://unireps.github.io/blog/2025/Separatrix-Locator/)
 <div class="l-body" style="text-align: center; margin: 2rem 0;">
   <iframe src="/blog/assets/html/2025-09-29-Separatrix-Locator/absolute_value_gradient_descent.html" 
           scrolling="no"
