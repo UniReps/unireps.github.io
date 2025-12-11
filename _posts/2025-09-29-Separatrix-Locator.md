@@ -98,6 +98,8 @@ Separatrices! These are boundaries between basins of attraction in dynamical sys
 **Code**: We provide a Python package implementing this method at [github.com/KabirDabholkar/separatrix_locator](https://github.com/KabirDabholkar/separatrix_locator).
 
 
+**Interactive version**: if the interactive plots below don't work click [here](https://github.com/KabirDabholkar/separatrix_locator.github.io).
+
 ## Introduction: Fixed Points and Beyond
 Many natural and artificial systems — from neural circuits making decisions to ecosystems switching between healthy and diseased states — are modelled as **multistable dynamical systems**. Their behaviour is governed by multiple **attractors** in state space, each corresponding to a stable mode of activity. Understanding these systems often boils down to understanding their **geometry**: where are the stable states, and how are the different basins of attraction separated?
 
