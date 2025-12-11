@@ -18,7 +18,7 @@ authors:
     url: mailto:hi@aman.ai
   - name: Aaron Elkins
     affiliations:
-      name: James Silberstad Brown Center for Artificial Intelligence
+      name: James Silberrad Brown Center for Artificial Intelligence
     url: mailto:aelkins@sdsu.edu
 
 bibliography: 2025-10-25-density-adaptive-attention.bib
