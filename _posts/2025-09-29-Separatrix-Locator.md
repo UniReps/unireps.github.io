@@ -110,7 +110,7 @@ First consider a bistable dynamical system in 2 dimensions. Below is a phase-por
 
 [(click here if the plot below doesn't load)](https://unireps.github.io/blog/2025/Separatrix-Locator/)
 <div class="l-body" style="text-align: center; margin: 2rem 0;">
-  <iframe src="/blog/assets/html/2025-09-29-Separatrix-Locator/clickable_phase_portrait_simple.html" 
+  <iframe src="/blog/assets/html/2025-09-29-Separatrix/clickable_phase_portrait_simple.html" 
           scrolling="no"
           style="width: 80%; height: 400px; border: none; border-radius: 8px; overflow: hidden;">
   </iframe>
@@ -124,7 +124,7 @@ This motivates developing a principled way to find such points. One solution is 
 
 [(click here if the plot below doesn't load)](https://unireps.github.io/blog/2025/Separatrix-Locator/)
 <div class="l-body" style="text-align: center; margin: 2rem 0;">
-  <iframe src="/blog/assets/html/2025-09-29-Separatrix-Locator/gradient_descent_phase_portrait.html" 
+  <iframe src="/blog/assets/html/2025-09-29-Separatrix/gradient_descent_phase_portrait.html" 
           scrolling="no"
           style="width: 80%; height: 400px; border: none; border-radius: 8px; overflow: hidden;">
   </iframe>
@@ -142,7 +142,7 @@ Below is an example of such a function that we constructed for this simple syste
 
 [(click here if the plot below doesn't load)](https://unireps.github.io/blog/2025/Separatrix-Locator/)
 <div class="l-body" style="text-align: center; margin: 2rem 0;">
-  <iframe src="/blog/assets/html/2025-09-29-Separatrix-Locator/absolute_value_gradient_descent.html" 
+  <iframe src="/blog/assets/html/2025-09-29-Separatrix/absolute_value_gradient_descent.html" 
           scrolling="no"
           style="width: 80%; height: 400px; border: none; border-radius: 8px; overflow: hidden;">
   </iframe>
@@ -171,7 +171,7 @@ where $$\dot \square$$ is shorthand for the time derivative $$\frac{d}{dt}\squar
 Any bistable system can be decomposed as follows: it will have two attractors, their respective basins of attraction and the separatrix between them. This is like a cheese sandwich: the attractors are slices of bread, and the separatrix is the slice of cheese between them. We can call this the **Sandwich of Bistability**. In general, this sandwich could be arbitrarily oriented in $$\mathbb R^N$$ and even nonlinearly warped. 
 
 <div style="text-align: center;">
-  <img src="/blog/assets/img/2025-09-29-Separatrix-Locator/sandwich_of_bistability.png" alt="Sandwich of Bistability" width="500" />
+  <img src="/blog/assets/img/2025-09-29-Separatrix/sandwich_of_bistability.png" alt="Sandwich of Bistability" width="500" />
   <div style="max-width: 500px; margin: 0.5rem auto; text-align: center;">
     <em>The Sandwich of Bistability: Two attractors and their basins of attraction (bread slices) separated by a separatrix (cheese slice). We only care about mapping the coordinates along bistable axis.</em>
   </div>
@@ -192,7 +192,7 @@ $$
 $$
 
 <div class="plot-tooltip">
-  <iframe src="/blog/assets/html/2025-09-29-Separatrix-Locator/bistable_1d_plot.html" scrolling="no"></iframe>
+  <iframe src="/blog/assets/html/2025-09-29-Separatrix/bistable_1d_plot.html" scrolling="no"></iframe>
 </div>
 
 </div>
@@ -200,7 +200,7 @@ $$
 with $$\lambda>0$$, dropping the $$\boldsymbol x$$ notation for a moment for clarity.  This system has fixed point attractors at $$\pm 1$$ and an unstable fixed point (a separatrix) at $$0$$ -- a 1D Sandwich of Bistability.
 
 <div style="text-align: center;">
-  <img src="/blog/assets/img/2025-09-29-Separatrix-Locator/mapping_illustration_horizontal.png" alt="Mapping" width="500" />
+  <img src="/blog/assets/img/2025-09-29-Separatrix/mapping_illustration_horizontal.png" alt="Mapping" width="500" />
   <div style="max-width: 500px; margin: 0.5rem auto; text-align: center;">
     <em>Mapping the high-D state to a 1D bistable system.</em>
   </div>
@@ -492,7 +492,7 @@ Now that we know what we are looking for (PDE equation), and how to find it (DNN
 We train a DNN on a bistable damped oscillator, and on a 2D GRU trained on a 1-bit flip-flop task. In both cases, the resulting $$\psi$$ has a zero level set on the separatrix.
 
 <div style="text-align: center;">
-  <img src="/blog/assets/img/2025-09-29-Separatrix-Locator/two_2D_examples_squashed.png" alt="Two 2D Examples" width="100%" />
+  <img src="/blog/assets/img/2025-09-29-Separatrix/two_2D_examples_squashed.png" alt="Two 2D Examples" width="100%" />
   <div style="max-width: 500px; margin: 0.5rem auto; text-align: center;">
     <em><strong>A</strong>: ODEs for the damped duffing oscillator. <strong>B</strong>: Kinetic energy function identifies stable and unstable fixed points. <strong>C</strong>: DNN approximation of the sKEF and it's level sets. The zero-level set (orange) aligns with the separatrix. <strong>D,E,F</strong>: Same for a 2D GRU RNN trained on a 1-bit flip flop task. </em>
   </div>
@@ -501,7 +501,7 @@ We train a DNN on a bistable damped oscillator, and on a 2D GRU trained on a 1-b
 Finally, we take a published $$N=668$$ unit RNN trained to reproduce the activity of neurones from anterior lateral motor cortex of mice trained to respond to optogenetic stimulation of their somatosensory cortex <d-cite key="finkelstein_attractor_2021"></d-cite>. By simulating the RNN we can locate the two attractors. The separatrix is an $$(N-1)$$-dimensional manifold in $$\mathbb{R}^N$$. To evaluate our method, we sample this high-D space by drawing random cubic Hermite curves that connect the two attractors (Fig. **A**). We then run many simulations via a binary-search along each curve (parameterised by $$\alpha\in[0,1]$$) to find the true separatrix crossing, and compare with $$\psi=0$$, finding close agreement (Fig. **B**). This also allows us to design optimal perturbations. If we want to change the network's decision, pushing the system towards the desired attractor may not be the most efficient direction. Using $$\psi$$, we design minimal perturbations that cross the separatrix. The resulting perturbation size is smaller than perturbations aimed at the target fixed point or random separatrix locations (Fig. **C**).
 
 <div style="text-align: center;">
-  <img src="/blog/assets/img/2025-09-29-Separatrix-Locator/finkelstein_blog.png" alt="Two 2D Examples" width="100%" />
+  <img src="/blog/assets/img/2025-09-29-Separatrix/finkelstein_blog.png" alt="Two 2D Examples" width="100%" />
   <div style="max-width: 500px; margin: 0.5rem auto; text-align: center;">
     <em><strong>A</strong>: Hermite curves connecting attractors of a data-trained RNN <d-cite key="finkelstein_attractor_2021"></d-cite> (2D projection from 668D) with true separatrix points (red). <strong>B</strong>: sKEF zeroes versus true separatrix points along each curve. <strong>C</strong>: Norm of perturbations to reach separatrix from base point $\boldsymbol{x}_\text{base}$. </em>
   </div>
