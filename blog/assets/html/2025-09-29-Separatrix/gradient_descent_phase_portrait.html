@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Interactive Phase Portrait</title>
+  <title>Fixed Point Finder</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
-    
+
     /* Light mode (default) */
     :root {
       --bg: #ffffff;
@@ -37,93 +38,124 @@
       --border: #424246;
     }
 
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body {
-      margin: 0; background: var(--bg); color: var(--ink);
-      font: 15px/1.5 'Comic Neue', 'Comic Sans MS', cursive;
-      display: grid; place-items: start center; padding: 24px;
+    * {
+      box-sizing: border-box;
     }
 
-    .wrap { width: min(470px, 96vw); }
+    html,
+    body {
+      height: 100%;
+    }
 
-    header { margin-bottom: 16px; }
-    h1 { font-size: 20px; font-weight: 650; margin: 0 0 8px 0; letter-spacing: 0.2px; }
-    .sub { color: var(--muted); font-size: 13px; line-height: 1.6; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 15px/1.5 'Comic Neue', 'Comic Sans MS', cursive;
+      display: grid;
+      place-items: start center;
+      padding: 24px;
+    }
 
-    .canvas-wrap { 
-      position: relative; 
+    .wrap {
+      width: min(470px, 96vw);
+    }
+
+    header {
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: 20px;
+      font-weight: 650;
+      margin: 0 0 8px 0;
+      letter-spacing: 0.2px;
+    }
+
+    .sub {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .canvas-wrap {
+      position: relative;
       background: var(--panel);
-      border: 1px solid var(--border); 
+      border: 1px solid var(--border);
       border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
       overflow: hidden;
     }
-    
-    canvas { 
-      width: 100%; 
-      height: 78vh; 
-      display: block; 
+
+    canvas {
+      width: 100%;
+      height: 78vh;
+      display: block;
       background: var(--panel);
     }
 
     .controls {
-      position: absolute; 
-      right: 14px; 
-      top: 14px; 
+      position: absolute;
+      right: 14px;
+      top: 14px;
       display: flex;
       gap: 8px;
       z-index: 10;
     }
 
-    button { 
-      cursor: pointer; 
-      border: 1px solid var(--border); 
-      background: var(--panel); 
-      color: var(--ink); 
-      padding: 8px 12px; 
-      border-radius: 10px; 
+    button {
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--ink);
+      padding: 8px 12px;
+      border-radius: 10px;
       font-weight: 600;
       font-size: 12px;
       backdrop-filter: blur(6px);
       transition: all 0.2s;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
-    button:hover { 
+
+    button:hover {
       border-color: var(--accent);
       background: var(--panel);
     }
 
-    .hint { 
-      color: var(--muted); 
-      margin-top: 12px; 
-      font-size: 13px; 
+    .hint {
+      color: var(--muted);
+      margin-top: 12px;
+      font-size: 13px;
       text-align: center;
     }
 
-    .toast { 
-      position: fixed; 
-      left: 50%; 
-      bottom: 22px; 
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
       transform: translateX(-50%);
-      background: var(--panel); 
-      border: 1px solid var(--border); 
-      color: var(--ink); 
+      background: var(--panel);
+      border: 1px solid var(--border);
+      color: var(--ink);
       padding: 10px 14px;
-      border-radius: 12px; 
-      opacity: 0; 
-      pointer-events: none; 
+      border-radius: 12px;
+      opacity: 0;
+      pointer-events: none;
       transition: opacity .25s ease;
       font-size: 13px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
-    .toast.show { opacity: 1; }
+
+    .toast.show {
+      opacity: 1;
+    }
   </style>
 </head>
+
 <body>
   <div class="wrap">
     <header>
-      <h1>Interactive Phase Portrait</h1>
+      <h1>Fixed Point Finder</h1>
       <div class="sub" id="systemDesc">
         <!-- Will be filled by JavaScript -->
       </div>
@@ -133,10 +165,9 @@
       <canvas id="phase"></canvas>
       <div class="controls">
         <button id="clearBtn" title="Clear all trajectories">Clear</button>
-        <button id="downloadBtn" title="Download canvas as PNG">Download</button>
       </div>
     </div>
-    
+
     <div class="hint">
       Shift+Drag to pan · Double‑click to recenter · Click to draw trajectories
     </div>
@@ -146,43 +177,38 @@
 
   <script>
     // ========================================================================
-    // DYNAMICAL SYSTEM DEFINITION - Change only this section!
+    // DYNAMICAL SYSTEM DEFINITION
     // ========================================================================
+
+    // Kinetic energy function
+    function q(x, y) {
+      const term1 = x + 2 * y - Math.pow(x + y, 3);
+      return 0.5 * (term1 * term1 + y * y);
+    }
+
+    // Gradient descent dynamics
     const SYSTEM = {
-      // The dynamical system: returns {dx, dy} given (x, y)
       f: (x, y) => {
         const s = x + y;
-        return { 
-          dx: x + 2*y - s*s*s, 
-          dy: -y 
+        const term = x + 2 * y - s * s * s;
+        const s2 = s * s;
+        return {
+          dx: -term * (1 - 3 * s2),
+          dy: -term * (2 - 3 * s2) - y
         };
       },
-      
-      // Description for display
+
       equations: {
-        dx: 'x + 2y − (x+y)³',
-        dy: '−y'
+        dx: '−(x+2y−(x+y)³)(1−3(x+y)²)',
+        dy: '−(x+2y−(x+y)³)(2−3(x+y)²) − y'
       },
-      
-      // Nullclines: curves where dx=0 and dy=0
-      nullclines: {
-        // dx/dt = 0: curve where x + 2y = (x+y)³
-        dx_zero: {
-          type: 'curve',
-          // Solve for y given x: x + 2y = (x+y)³
-          // This is complex, so we'll draw it parametrically
-        },
-        // dy/dt = 0: horizontal line at y=0
-        dy_zero: {
-          type: 'horizontal_line',
-          value: 0
-        }
-      }
+
+      energy: 'q(x,y) = ½[(x+2y−(x+y)³)² + y²]'
     };
     // ========================================================================
 
     // Update title with system equations
-    document.getElementById('systemDesc').innerHTML = 
+    document.getElementById('systemDesc').innerHTML =
       'Click anywhere to trace the trajectory forward in time from that initial condition.';
 
     // ---------- Viewport / transforms ----------
@@ -195,16 +221,17 @@
       dt: 0.02, nsteps: 4000, eps: 1e-6,
       gx: 28, gy: 28,
       trajectories: [],
-      pan: {active: false, sx:0, sy:0, ox:0, oy:0},
+      pan: { active: false, sx: 0, sy: 0, ox: 0, oy: 0 },
+      animating: false,
     };
 
     function rk4Step(x, y, h) {
       const k1 = SYSTEM.f(x, y);
-      const k2 = SYSTEM.f(x + 0.5*h*k1.dx, y + 0.5*h*k1.dy);
-      const k3 = SYSTEM.f(x + 0.5*h*k2.dx, y + 0.5*h*k2.dy);
-      const k4 = SYSTEM.f(x + h*k3.dx, y + h*k3.dy);
-      const nx = x + (h/6)*(k1.dx + 2*k2.dx + 2*k3.dx + k4.dx);
-      const ny = y + (h/6)*(k1.dy + 2*k2.dy + 2*k3.dy + k4.dy);
+      const k2 = SYSTEM.f(x + 0.5 * h * k1.dx, y + 0.5 * h * k1.dy);
+      const k3 = SYSTEM.f(x + 0.5 * h * k2.dx, y + 0.5 * h * k2.dy);
+      const k4 = SYSTEM.f(x + h * k3.dx, y + h * k3.dy);
+      const nx = x + (h / 6) * (k1.dx + 2 * k2.dx + 2 * k3.dx + k4.dx);
+      const ny = y + (h / 6) * (k1.dy + 2 * k2.dy + 2 * k3.dy + k4.dy);
       return { x: nx, y: ny };
     }
 
@@ -241,7 +268,7 @@
       const rect = canvas.getBoundingClientRect();
       canvas.width = Math.max(400, Math.floor(rect.width * DPR));
       canvas.height = Math.max(320, Math.floor(rect.height * DPR));
-      ctx.setTransform(1,0,0,1,0,0);
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.scale(DPR, DPR);
       draw();
     }
@@ -265,13 +292,80 @@
     // ---------- Drawing ----------
     function draw() {
       const rect = canvas.getBoundingClientRect();
-      ctx.clearRect(0,0,rect.width,rect.height);
+      ctx.clearRect(0, 0, rect.width, rect.height);
 
+      drawContours();
       drawGrid();
       // drawVectorField();  // Disabled
-      // drawNullclines();  // Removed
       drawAnnotations();
       drawTrajectories();
+    }
+
+    function drawContours() {
+      const rect = canvas.getBoundingClientRect();
+      const resolution = 2; // pixels per sample
+      const cols = Math.ceil(rect.width / resolution);
+      const rows = Math.ceil(rect.height / resolution);
+
+      // Sample energy values
+      let minQ = Infinity;
+      let maxQ = -Infinity;
+      const qValues = new Array(rows);
+
+      for (let j = 0; j < rows; j++) {
+        qValues[j] = new Array(cols);
+        for (let i = 0; i < cols; i++) {
+          const u = (i / cols) * rect.width;
+          const v = (j / rows) * rect.height;
+          const [x, y] = canvasToWorld(u, v);
+          const qRaw = q(x, y);
+          // Use log transform, adding small epsilon to avoid log(0)
+          // const qVal = Math.log(qRaw);
+          const qVal = Math.pow(qRaw, 0.1);
+          qValues[j][i] = qVal;
+          minQ = Math.min(minQ, qVal);
+          maxQ = Math.max(maxQ, qVal);
+        }
+      }
+
+      // Clamp maxQ for better visualization
+      const qRange = maxQ - minQ;
+      maxQ = minQ + qRange * 0.8; // Use lower percentile for better contrast
+
+      // Create image data
+      const imgData = ctx.createImageData(cols, rows);
+
+      for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < cols; i++) {
+          const qVal = qValues[j][i];
+          const normalized = Math.min(1, Math.max(0, (qVal - minQ) / (maxQ - minQ)));
+
+          // Blue colormap: dark blue (low) to light blue/white (high)
+          const t = Math.pow(normalized, 0.7); // Gamma correction for better perception
+          const r = Math.floor(20 + t * 235);
+          const g = Math.floor(40 + t * 215);
+          const b = Math.floor(100 + t * 155);
+
+          const idx = (j * cols + i) * 4;
+          imgData.data[idx] = r;
+          imgData.data[idx + 1] = g;
+          imgData.data[idx + 2] = b;
+          imgData.data[idx + 3] = 180; // Alpha for blend with background
+        }
+      }
+
+      // Draw contours with scaling
+      ctx.save();
+      ctx.globalAlpha = 0.6;
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = cols;
+      tempCanvas.height = rows;
+      const tempCtx = tempCanvas.getContext('2d');
+      tempCtx.putImageData(imgData, 0, 0);
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(tempCanvas, 0, 0, rect.width, rect.height);
+      ctx.restore();
     }
 
     function drawGrid() {
@@ -279,21 +373,18 @@
       ctx.save();
       ctx.lineWidth = 1;
 
-      // Background
-      ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--panel').trim();
-      ctx.fillRect(0,0,rect.width,rect.height);
-
-      // Grid lines
-      ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--grid').trim();
-      const xStep = niceStep(W()/10);
-      const yStep = niceStep(H()/10);
-      for (let x = Math.ceil(state.xmin/xStep)*xStep; x <= state.xmax; x += xStep) {
+      // Grid lines (semi-transparent over contours)
+      const gridColor = getComputedStyle(document.documentElement).getPropertyValue('--grid').trim();
+      ctx.strokeStyle = gridColor;
+      const xStep = niceStep(W() / 10);
+      const yStep = niceStep(H() / 10);
+      for (let x = Math.ceil(state.xmin / xStep) * xStep; x <= state.xmax; x += xStep) {
         const [u] = worldToCanvas(x, 0);
         ctx.beginPath();
         wobbleLine(ctx, u, 0, u, rect.height, 1);
         ctx.stroke();
       }
-      for (let y = Math.ceil(state.ymin/yStep)*yStep; y <= state.ymax; y += yStep) {
+      for (let y = Math.ceil(state.ymin / yStep) * yStep; y <= state.ymax; y += yStep) {
         const [, v] = worldToCanvas(0, y);
         ctx.beginPath();
         wobbleLine(ctx, 0, v, rect.width, v, 1);
@@ -301,7 +392,8 @@
       }
 
       // Axes
-      ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--axes').trim();
+      const axesColor = getComputedStyle(document.documentElement).getPropertyValue('--axes').trim();
+      ctx.strokeStyle = axesColor;
       ctx.lineWidth = 2;
       ctx.beginPath();
       const [ux0, vy0] = worldToCanvas(state.xmin, 0);
@@ -314,18 +406,29 @@
       wobbleLine(ctx, ux2, vy2, ux3, vy3, 1.2);
       ctx.stroke();
 
-      // Tick labels
-      ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--muted').trim();
+      // Tick labels with background for readability
+      const panelColor = getComputedStyle(document.documentElement).getPropertyValue('--panel').trim();
+      const inkColor = getComputedStyle(document.documentElement).getPropertyValue('--ink').trim();
       ctx.font = "12px 'Comic Neue', 'Comic Sans MS', cursive";
       ctx.textAlign = 'center'; ctx.textBaseline = 'top';
-      for (let x = Math.ceil(state.xmin/xStep)*xStep; x <= state.xmax; x += xStep) {
+      for (let x = Math.ceil(state.xmin / xStep) * xStep; x <= state.xmax; x += xStep) {
         const [u, v] = worldToCanvas(x, 0);
-        ctx.fillText(formatNumber(x), u, v + 4);
+        const label = formatNumber(x);
+        ctx.fillStyle = panelColor;
+        const metrics = ctx.measureText(label);
+        ctx.fillRect(u - metrics.width / 2 - 2, v + 4 - 2, metrics.width + 4, 14);
+        ctx.fillStyle = inkColor;
+        ctx.fillText(label, u, v + 4);
       }
       ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
-      for (let y = Math.ceil(state.ymin/yStep)*yStep; y <= state.ymax; y += yStep) {
+      for (let y = Math.ceil(state.ymin / yStep) * yStep; y <= state.ymax; y += yStep) {
         const [u, v] = worldToCanvas(0, y);
-        ctx.fillText(formatNumber(y), u - 6, v);
+        const label = formatNumber(y);
+        const metrics = ctx.measureText(label);
+        ctx.fillStyle = panelColor;
+        ctx.fillRect(u - 6 - metrics.width - 2, v - 7, metrics.width + 4, 14);
+        ctx.fillStyle = inkColor;
+        ctx.fillText(label, u - 6, v);
       }
       ctx.restore();
     }
@@ -338,8 +441,10 @@
       const dv = rect.height / rows;
 
       ctx.save();
-      ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--field').trim();
-      ctx.lineWidth = 1.1;
+      const fieldColor = getComputedStyle(document.documentElement).getPropertyValue('--field').trim();
+      ctx.strokeStyle = fieldColor;
+      ctx.globalAlpha = 0.5;
+      ctx.lineWidth = 1.3;
       ctx.lineCap = 'round';
 
       const maxArrowLen = Math.min(du, dv) * 0.35;
@@ -349,8 +454,8 @@
           const u = i * du + du * 0.5;
           const v = j * dv + dv * 0.5;
           const [x, y] = canvasToWorld(u, v);
-          const {dx, dy} = SYSTEM.f(x, y);
-          
+          const { dx, dy } = SYSTEM.f(x, y);
+
           // Transform vector from world coordinates to canvas coordinates
           const canvas_dx = dx * (rect.width / W());
           const canvas_dy = -dy * (rect.height / H());  // Note: y is inverted
@@ -360,93 +465,29 @@
 
           // Draw arrow centered at (u,v) with wobble
           ctx.beginPath();
-          wobbleLine(ctx, u - sx*0.6, v - sy*0.6, u + sx*0.6, v + sy*0.6, 0.8);
+          wobbleLine(ctx, u - sx * 0.6, v - sy * 0.6, u + sx * 0.6, v + sy * 0.6, 0.8);
           ctx.stroke();
 
           // Arrowhead with wobble
           const angle = Math.atan2(sy, sx);
           const ah = 6;
-          const tailX = u + sx*0.6, tailY = v + sy*0.6;
+          const tailX = u + sx * 0.6, tailY = v + sy * 0.6;
           ctx.beginPath();
-          wobbleLine(ctx, tailX, tailY, tailX - ah*Math.cos(angle - Math.PI/6), tailY - ah*Math.sin(angle - Math.PI/6), 0.8);
+          wobbleLine(ctx, tailX, tailY, tailX - ah * Math.cos(angle - Math.PI / 6), tailY - ah * Math.sin(angle - Math.PI / 6), 0.8);
           ctx.stroke();
           ctx.beginPath();
-          wobbleLine(ctx, tailX, tailY, tailX - ah*Math.cos(angle + Math.PI/6), tailY - ah*Math.sin(angle + Math.PI/6), 0.8);
+          wobbleLine(ctx, tailX, tailY, tailX - ah * Math.cos(angle + Math.PI / 6), tailY - ah * Math.sin(angle + Math.PI / 6), 0.8);
           ctx.stroke();
         }
       }
-      ctx.restore();
-    }
-
-    function drawNullclines() {
-      ctx.save();
-      ctx.setLineDash([6,6]);
-      ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--nullcline');
-      ctx.lineWidth = 1.5;
-
-      // Draw dx/dt = 0 nullclines
-      if (SYSTEM.nullclines.dx_zero.type === 'vertical_lines') {
-        for (const x of SYSTEM.nullclines.dx_zero.values) {
-          const [u1, v1] = worldToCanvas(x, state.ymin);
-          const [u2, v2] = worldToCanvas(x, state.ymax);
-          ctx.beginPath();
-          ctx.moveTo(u1, v1);
-          ctx.lineTo(u2, v2);
-          ctx.stroke();
-        }
-      } else if (SYSTEM.nullclines.dx_zero.type === 'curve') {
-        // Draw dx/dt = 0 as a curve by sampling points
-        ctx.beginPath();
-        let started = false;
-        const steps = 500;
-        for (let i = 0; i <= steps; i++) {
-          const x = state.xmin + (state.xmax - state.xmin) * i / steps;
-          // For each x, find y where dx/dt ≈ 0 using Newton's method or sampling
-          // Simplified: sample multiple y values and find where dx is near zero
-          let bestY = null;
-          let minDx = Infinity;
-          const ySamples = 100;
-          for (let j = 0; j <= ySamples; j++) {
-            const y = state.ymin + (state.ymax - state.ymin) * j / ySamples;
-            const {dx} = SYSTEM.f(x, y);
-            if (Math.abs(dx) < minDx) {
-              minDx = Math.abs(dx);
-              bestY = y;
-            }
-          }
-          if (bestY !== null && minDx < 0.1) {
-            const [u, v] = worldToCanvas(x, bestY);
-            if (!started) {
-              ctx.moveTo(u, v);
-              started = true;
-            } else {
-              ctx.lineTo(u, v);
-            }
-          }
-        }
-        ctx.stroke();
-      }
-
-      // Draw dy/dt = 0 nullclines
-      if (SYSTEM.nullclines.dy_zero.type === 'horizontal_line') {
-        const y = SYSTEM.nullclines.dy_zero.value;
-        const [uh1, vh1] = worldToCanvas(state.xmin, y);
-        const [uh2, vh2] = worldToCanvas(state.xmax, y);
-        ctx.beginPath();
-        ctx.moveTo(uh1, vh1);
-        ctx.lineTo(uh2, vh2);
-        ctx.stroke();
-      }
-
-      ctx.setLineDash([]);
       ctx.restore();
     }
 
     function drawAnnotations() {
       ctx.save();
-      
+
       const panelColor = getComputedStyle(document.documentElement).getPropertyValue('--panel').trim();
-      
+
       // 1. Dashed line along y = -x (separatrix)
       ctx.setLineDash([8, 4]);
       ctx.strokeStyle = '#ff6600';
@@ -459,9 +500,9 @@
       wobbleLine(ctx, u1, v1, u2, v2, 1.5);
       ctx.stroke();
       ctx.setLineDash([]);
-      
+
       // Label separatrix with background (positioned at top-left)
-      ctx.font = 'bold 14px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial';
+      ctx.font = "bold 14px 'Comic Neue', 'Comic Sans MS', cursive";
       ctx.textAlign = 'left';
       ctx.textBaseline = 'top';
       const sepLabel = 'separatrix';
@@ -475,10 +516,10 @@
       ctx.globalAlpha = 1.0;
       ctx.fillStyle = '#ff6600';
       ctx.fillText(sepLabel, uLabel, vLabel);
-      
+
       // 2. Stable fixed points at (-1, 0) and (1, 0)
       ctx.fillStyle = '#00ff88';
-      ctx.font = 'bold 13px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial';
+      ctx.font = "bold 13px 'Comic Neue', 'Comic Sans MS', cursive";
       const stablePoints = [[-1, 0], [1, 0]];
       for (const [x, y] of stablePoints) {
         const [u, v] = worldToCanvas(x, y);
@@ -489,33 +530,33 @@
         ctx.arc(u, v, 6, 0, 2 * Math.PI);
         ctx.fill();
         ctx.shadowBlur = 0;
-        
+
         // Label below each point with background (3 lines)
         ctx.textAlign = 'center';
         ctx.textBaseline = 'top';
         const offset = 12;
         const lineHeight = 14;
         const labels = ['stable', 'fixed', 'point'];
-        
+
         // Calculate background size
         const maxWidth = Math.max(...labels.map(l => ctx.measureText(l).width));
         const bgWidth = maxWidth + 6;
         const bgHeight = lineHeight * 3 + 4;
         const bgX = u - bgWidth / 2;
         const bgY = v + offset;
-        
+
         ctx.fillStyle = panelColor;
         ctx.globalAlpha = 0.9;
         ctx.fillRect(bgX, bgY - 2, bgWidth, bgHeight);
         ctx.globalAlpha = 1.0;
         ctx.fillStyle = '#00ff88';
-        
+
         // Draw each line
         labels.forEach((label, i) => {
           ctx.fillText(label, u, v + offset + i * lineHeight);
         });
       }
-      
+
       // 3. Unstable fixed point at (0, 0) - draw a cross
       const [u0, v0] = worldToCanvas(0, 0);
       ctx.strokeStyle = '#ff6600';
@@ -530,7 +571,7 @@
       wobbleLine(ctx, u0 - crossSize, v0 + crossSize, u0 + crossSize, v0 - crossSize, 1);
       ctx.stroke();
       ctx.shadowBlur = 0;
-      
+
       // Label unstable fixed point with background (positioned below, 3 lines)
       ctx.fillStyle = '#ff6600';
       ctx.font = "bold 13px 'Comic Neue', 'Comic Sans MS', cursive";
@@ -539,43 +580,47 @@
       const unstableOffset = 12;
       const unstableLineHeight = 14;
       const unstableLabels = ['unstable', 'fixed', 'point'];
-      
+
       // Calculate background size
       const unstableMaxWidth = Math.max(...unstableLabels.map(l => ctx.measureText(l).width));
       const unstableBgWidth = unstableMaxWidth + 6;
       const unstableBgHeight = unstableLineHeight * 3 + 4;
       const unstableBgX = u0 - unstableBgWidth / 2;
       const unstableBgY = v0 + unstableOffset;
-      
+
       ctx.fillStyle = panelColor;
       ctx.globalAlpha = 0.9;
       ctx.fillRect(unstableBgX, unstableBgY - 2, unstableBgWidth, unstableBgHeight);
       ctx.globalAlpha = 1.0;
       ctx.fillStyle = '#ff6600';
-      
+
       // Draw each line
       unstableLabels.forEach((label, i) => {
         ctx.fillText(label, u0, v0 + unstableOffset + i * unstableLineHeight);
       });
-      
+
       ctx.restore();
     }
 
     function drawTrajectories() {
       ctx.save();
-      ctx.lineWidth = 2.0;
+      ctx.lineWidth = 2.5;
       ctx.lineJoin = 'round';
+      ctx.shadowBlur = 4;
       for (const tr of state.trajectories) {
         ctx.strokeStyle = tr.color;
+        ctx.shadowColor = tr.color;
         ctx.beginPath();
-        
+
+        const limit = Math.floor(tr.visibleCount || tr.pts.length);
+
         // Draw wobbly trajectory
-        for (let i = 0; i < tr.pts.length; i++) {
+        for (let i = 0; i < limit; i++) {
           const [u, v] = worldToCanvas(tr.pts[i].x, tr.pts[i].y);
           if (i === 0) {
             ctx.moveTo(u, v);
           } else {
-            const [prevU, prevV] = worldToCanvas(tr.pts[i-1].x, tr.pts[i-1].y);
+            const [prevU, prevV] = worldToCanvas(tr.pts[i - 1].x, tr.pts[i - 1].y);
             const steps = 2;
             for (let s = 1; s <= steps; s++) {
               const t = s / steps;
@@ -589,35 +634,36 @@
 
         // start marker
         const [u0, v0] = worldToCanvas(tr.pts[0].x, tr.pts[0].y);
-        ctx.fillStyle = tr.color; 
-        ctx.beginPath(); 
-        ctx.arc(u0, v0, 3.2, 0, 2*Math.PI); 
+        ctx.fillStyle = tr.color;
+        ctx.beginPath();
+        ctx.arc(u0, v0, 4, 0, 2 * Math.PI);
         ctx.fill();
 
-        // flow arrow at halfway point
-        if (tr.pts.length > 2) {
-          const midIdx = Math.floor(tr.pts.length / 2);
+        // flow arrow at halfway point (of the visible segment)
+        if (limit > 2) {
+          const midIdx = Math.floor(limit / 2);
           const prevIdx = Math.max(0, midIdx - 1);
           const nextIdx = Math.min(tr.pts.length - 1, midIdx + 1);
-          
+
           const [um, vm] = worldToCanvas(tr.pts[midIdx].x, tr.pts[midIdx].y);
           const [un, vn] = worldToCanvas(tr.pts[nextIdx].x, tr.pts[nextIdx].y);
-          
+
           const dx = un - um;
           const dy = vn - vm;
           const mag = Math.hypot(dx, dy) || 1e-9;
           const angle = Math.atan2(dy, dx);
-          
+
           // Draw arrowhead with wobble
           ctx.fillStyle = tr.color;
           ctx.strokeStyle = tr.color;
-          ctx.lineWidth = 1.8;
-          const arrowSize = 10;
+          ctx.shadowColor = tr.color;
+          ctx.lineWidth = 2.0;
+          const arrowSize = 12;
           ctx.beginPath();
-          wobbleLine(ctx, um, vm, um - arrowSize * Math.cos(angle - Math.PI/6), vm - arrowSize * Math.sin(angle - Math.PI/6), 0.8);
+          wobbleLine(ctx, um, vm, um - arrowSize * Math.cos(angle - Math.PI / 6), vm - arrowSize * Math.sin(angle - Math.PI / 6), 0.8);
           ctx.stroke();
           ctx.beginPath();
-          wobbleLine(ctx, um, vm, um - arrowSize * Math.cos(angle + Math.PI/6), vm - arrowSize * Math.sin(angle + Math.PI/6), 0.8);
+          wobbleLine(ctx, um, vm, um - arrowSize * Math.cos(angle + Math.PI / 6), vm - arrowSize * Math.sin(angle + Math.PI / 6), 0.8);
           ctx.stroke();
         }
       }
@@ -626,7 +672,7 @@
 
     function integrateTrajectory(x0, y0) {
       // If near an equilibrium, inform and do nothing
-      const sp0 = Math.hypot(SYSTEM.f(x0,y0).dx, SYSTEM.f(x0,y0).dy);
+      const sp0 = Math.hypot(SYSTEM.f(x0, y0).dx, SYSTEM.f(x0, y0).dy);
       if (sp0 < state.eps) {
         notify('That point is (numerically) stationary. Try a different start.');
         return;
@@ -634,28 +680,65 @@
 
       const dt = state.dt;
       const n = Math.max(1, Math.floor(state.nsteps));
-      const pts = [{x:x0, y:y0}];
+      const pts = [{ x: x0, y: y0 }];
 
       // forward in time only
       let x = x0, y = y0;
-      for (let i=0; i<n; i++) {
+      for (let i = 0; i < n; i++) {
         const step = rk4Step(x, y, dt);
         x = step.x; y = step.y;
-        const s = Math.hypot(SYSTEM.f(x,y).dx, SYSTEM.f(x,y).dy);
+        const s = Math.hypot(SYSTEM.f(x, y).dx, SYSTEM.f(x, y).dy);
         if (s < state.eps) break;
-        if (outOfBounds(x,y)) break;
-        pts.push({x,y});
+        if (outOfBounds(x, y)) break;
+        pts.push({ x, y });
       }
 
       const color = pickColor();
-      state.trajectories.push({ pts, color });
-      draw();
+      state.trajectories.push({
+        pts,
+        color,
+        visibleCount: 1,
+        finished: false
+      });
+      startAnimation();
     }
 
-    function outOfBounds(x,y) {
+    function startAnimation() {
+      if (!state.animating) {
+        state.animating = true;
+        requestAnimationFrame(stepAnimation);
+      }
+    }
+
+    function stepAnimation() {
+      let active = false;
+      const speed = 10; // Points per frame
+
+      for (const tr of state.trajectories) {
+        if (!tr.finished) {
+          tr.visibleCount += speed;
+          if (tr.visibleCount >= tr.pts.length) {
+            tr.visibleCount = tr.pts.length;
+            tr.finished = true;
+          } else {
+            active = true;
+          }
+        }
+      }
+
+      draw();
+
+      if (active) {
+        requestAnimationFrame(stepAnimation);
+      } else {
+        state.animating = false;
+      }
+    }
+
+    function outOfBounds(x, y) {
       const pad = 0.08;
-      return x < state.xmin - pad*W() || x > state.xmax + pad*W() || 
-             y < state.ymin - pad*H() || y > state.ymax + pad*H();
+      return x < state.xmin - pad * W() || x > state.xmax + pad * W() ||
+        y < state.ymin - pad * H() || y > state.ymax + pad * H();
     }
 
     // ---------- Interaction ----------
@@ -686,28 +769,23 @@
       draw();
     });
     canvas.addEventListener('pointerup', (ev) => {
-      state.pan.active = false; 
+      state.pan.active = false;
       canvas.releasePointerCapture(ev.pointerId);
     });
 
     // Recenter (double click)
     canvas.addEventListener('dblclick', () => {
-      state.xmin = -2; state.xmax = 2; state.ymin = -2; state.ymax = 2; 
+      state.xmin = -2; state.xmax = 2; state.ymin = -2; state.ymax = 2;
       draw();
     });
 
     // Button controls
-    document.getElementById('clearBtn').addEventListener('click', () => { 
-      state.trajectories.length = 0; 
-      draw(); 
+    document.getElementById('clearBtn').addEventListener('click', () => {
+      state.trajectories.length = 0;
+      draw();
     });
 
-    document.getElementById('downloadBtn').addEventListener('click', () => {
-      const a = document.createElement('a');
-      a.download = 'phase-portrait.png';
-      a.href = canvas.toDataURL('image/png');
-      a.click();
-    });
+
 
     // Utilities
     function niceStep(raw) {
@@ -717,31 +795,31 @@
       const s = snaps.find(v => n <= v) || 10;
       return s * pow10;
     }
-    function formatNumber(x) { 
-      const a = Math.abs(x); 
-      return a >= 1e4 || (a>0 && a < 1e-3) ? x.toExponential(1) : (+x.toFixed(3)).toString(); 
+    function formatNumber(x) {
+      const a = Math.abs(x);
+      return a >= 1e4 || (a > 0 && a < 1e-3) ? x.toExponential(1) : (+x.toFixed(3)).toString();
     }
 
     let colorIdx = 0;
     const paletteDark = [
-      'hsl(48 100% 70%)', 'hsl(190 100% 70%)', 'hsl(140 100% 70%)',
-      'hsl(300 85% 75%)', 'hsl(12 100% 70%)', 'hsl(220 100% 70%)', 'hsl(0 80% 72%)',
+      'hsl(48 100% 70%)', 'hsl(300 85% 75%)', 'hsl(12 100% 70%)',
+      'hsl(140 100% 70%)', 'hsl(340 100% 70%)', 'hsl(280 85% 75%)',
     ];
     const paletteLight = [
-      'hsl(210 50% 40%)', 'hsl(190 60% 35%)', 'hsl(140 50% 35%)',
-      'hsl(300 45% 40%)', 'hsl(12 70% 45%)', 'hsl(220 50% 40%)', 'hsl(0 60% 45%)',
+      'hsl(210 50% 40%)', 'hsl(300 45% 40%)', 'hsl(12 70% 45%)',
+      'hsl(140 50% 35%)', 'hsl(340 60% 45%)', 'hsl(280 45% 40%)',
     ];
-    function pickColor() { 
+    function pickColor() {
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
       const palette = isDark ? paletteDark : paletteLight;
-      const c = palette[colorIdx % palette.length]; 
-      colorIdx++; 
-      return c; 
+      const c = palette[colorIdx % palette.length];
+      colorIdx++;
+      return c;
     }
 
     function notify(msg) {
       const t = document.getElementById('toast');
-      t.textContent = msg; 
+      t.textContent = msg;
       t.classList.add('show');
       setTimeout(() => t.classList.remove('show'), 1500);
     }
@@ -772,7 +850,7 @@
           darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
         }
       }
-      
+
       document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
       if (canvas.width > 0) {  // Only redraw if canvas is initialized
         draw();
@@ -812,4 +890,5 @@
     setCanvasSize();  // This will also call draw()
   </script>
 </body>
+
 </html>
