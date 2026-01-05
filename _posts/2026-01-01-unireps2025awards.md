@@ -13,9 +13,9 @@ authors:
 bibliography: 2025-neurips-best-papers.bib
 
 ---
-The third edition of the UniReps Workshop at NeurIPS 2025 was a huge success! Building on the momentum from last year, we were thrilled to welcome over 1,000 participants from academia and industry for a day packed with engaging talks, lively discussions, and an exciting poster session. We received 150 submissions this year, including 30 fantastic proceedings papers that will soon be published in the workshop volume.  
+The third edition of the UniReps Workshop at NeurIPS 2025 was a huge success! Building on the momentum from last year, we were thrilled to welcome participants from academia and industry for a day packed with engaging talks, lively discussions, and an exciting poster session. We received 205 submissions this year, including 88 accepted extended abstracts, 15 conference-to-workshop posters, 7 blogposts, and 30 fantastic proceedings papers that will soon be published in the workshop volume.  
 
-We couldn’t have done it without all of you! A big thank you to the authors, our amazing program committee of over 300 members, the participants who made the event so special, and our sponsors for their incredible support.  
+We couldn’t have done it without all of you! A big thank you to the authors, our amazing program committee of 281 members who contributed 521 reviews, the participants who made the event so special, and our sponsors for their incredible support.  
 
 We were also proud to highlight some exceptional work through our awards. Here's a look at the winners and their inspiring contributions.
 
