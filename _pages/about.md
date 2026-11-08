@@ -15,7 +15,7 @@ pagination:
     before: 1 # The number of links before the current page
     after: 3 # The number of links after the current page
 ---
-🚨 <strong> Submission deadline extended to 31st October 2025 (AoE) </strong>
+<!--🚨 <strong> Submission deadline extended to 31st October 2025 (AoE) </strong> -->
 
 <div class="about-section">
 {% assign blog_name_size = site.blog_name | size %}
@@ -41,18 +41,18 @@ pagination:
 </ul>
 </p>
 
-<p>All submissions will undergo peer review, and accepted posts will be published on our website and promoted across social channels. You'll also get the opportunity to present your blogpost in a poster format during the workshop! </p>
+<p>All submissions will undergo peer review, and accepted posts will be published on our website. You'll also get the opportunity to present your blogpost in a poster format during the workshop, if eligible! </p>
 
 <p><a href="/blog/2024/guidelines">🔗 Learn how to submit your blogpost here</a></p>
 
-<strong>Important dates</strong>:
+<!--<strong>Important dates</strong>:
 <ul>
   <li>To showcase your blogpost during the poster session of UniReps at NeurIPS 2025, the submission deadline is: 
   <br>
   <strong><s style="color:#888;">15th October 2025 (AoE)</s></strong>
   <strong><s style="color:#888;">25th October 2025 (AoE)</s></strong>
   <strong style="color:#d97706;">31st October 2025 (AoE)</strong>
-</ul>
+</ul> -->
 
 <p>For additional questions, discussion, and updates, join our <a href="https://discord.gg/XdeamXWsFE">Discord community</a> 🟣!</p>
 
